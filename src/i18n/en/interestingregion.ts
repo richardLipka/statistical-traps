@@ -1,4 +1,4 @@
-const region = {
+const interestingregion = {
   intro: {
     heading: 'One period, fixed in advance',
     body1:
@@ -72,6 +72,8 @@ const region = {
     verdictStriking: 'Looks like a finding',
     body2:
       'The test answers exactly one question: how unusual is this change, for a period fixed in advance? Your period was not fixed in advance. It was the most striking of {{candidates}} stretches, and the p-value has no way of knowing that.',
+    runFirst:
+      'The correction below is the point of this stage: without it, the row above is the number that would be reported.',
     selection: {
       heading: 'What the search alone is worth',
       body: 'To judge the period honestly we simulate the entire procedure: generate a fresh record with no trend in it, test all {{candidates}} stretches, and keep the most striking one. Repeat {{replications}} times.',
@@ -153,4 +155,4 @@ const region = {
   },
 }
 
-export default region
+export default interestingregion

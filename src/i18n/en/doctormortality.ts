@@ -74,6 +74,8 @@ const doctormortality = {
     body2:
       'Or take the shortcut a league table is for, and go straight to the doctor who comes out worst. Somebody has to.',
     autoWorst: 'Show me the worst doctor',
+    autoWorstNote:
+      'That is the most extreme of the {{doctors}}, judged after accounting for each doctor’s own patients — which is not always the tallest column in a table of raw mortality.',
     reset: 'Clear the selection',
     selectFirst: 'Choose a doctor to take further.',
     action: 'Investigate this doctor properly',
@@ -86,6 +88,8 @@ const doctormortality = {
     adjustedPValue: 'p against their own patients',
     verdictNothing: 'Nothing to report',
     verdictStriking: 'Looks like a finding',
+    runFirst:
+      'Both corrections below are the point of this stage: without them, the row above is the number that would be reported.',
     raw: {
       heading: 'First look: mortality against the hospital rate',
       body: 'Each doctor’s deaths tested against the rate for the hospital as a whole, as though every patient were the same as every other.',

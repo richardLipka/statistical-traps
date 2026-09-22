@@ -30,7 +30,7 @@ const bestline = {
     aria: 'Bodový graf s {{count}} body a právě zobrazenými modely.',
     xLabel: 'x',
     yLabel: 'y',
-    legendPoint: 'Pozorování',
+    legendPoint: 'Datový bod',
     handleAria: 'Konec vaší přímky u {{side}}, aktuálně {{value}}. Posunete jej šipkami na klávesnici.',
     sideLeft: 'levého okraje',
     sideRight: 'pravého okraje',
@@ -85,6 +85,8 @@ const bestline = {
     verdictStriking: 'Vypadá to jako objev',
     body2:
       'F-test si účtuje každý parametr, takže samotná pružnost ho neoklame. Oklame ho to, že jsme vyzkoušeli {{count}} modelů a uvedli ten, který vyšel nejlépe.',
+    runFirst:
+      'Oprava níže je smyslem tohoto kroku: bez ní je číslo v řádku výše tím, co by se uvedlo.',
     selection: {
       heading: 'Jakou hodnotu má samotné hledání',
       body: 'Abychom zvolený model posoudili poctivě, nasimulujeme celý postup: vygenerovat nový vzorek čistého šumu, proložit každý stupeň od 1 do {{maxDegree}} a ponechat si nejmenší p-hodnotu. A to {{replications}}krát.',
@@ -167,7 +169,7 @@ const bestline = {
     },
     nextHeading: 'Kam to vede dál',
     nextBody:
-      'Zatím hledání probíhalo vždy v jedné věci: nejprve v poloze, potom v modelu. Další scénář pustí hledání do podskupin dat, kde je mnohem těžší si vůbec všimnout, že nějaké hledání proběhlo.',
+      'Hledání zatím probíhalo vždy jen v jedné věci: nejprve v poloze, potom v modelu. Další scénář pustí hledání do úseků záznamu sbíraného v čase, kde data sama vypadají strukturovaně a je mnohem těžší si vůbec všimnout, že nějaké hledání proběhlo.',
   },
 }
 

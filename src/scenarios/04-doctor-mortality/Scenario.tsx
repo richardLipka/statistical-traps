@@ -68,6 +68,7 @@ export default function DoctorMortalityScenario() {
     seed: HOSPITAL_DEFAULTS.seed,
   })
   const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null)
+  const [usedSearch, setUsedSearch] = useState(false)
   const [selectionSearches, setSelectionSearches] = useState<SelectionSearchResult[] | null>(null)
   const [selectionProgress, setSelectionProgress] = useState<number | null>(null)
   const [freshIndex, setFreshIndex] = useState(0)
@@ -149,13 +150,15 @@ export default function DoctorMortalityScenario() {
     (partial: Partial<HospitalParams>) => {
       setParams((previous) => ({ ...previous, ...partial }))
       setSelectedDoctor(null)
+      setUsedSearch(false)
       invalidateResults()
     },
     [invalidateResults],
   )
 
-  const chooseDoctor = useCallback((index: number) => {
+  const chooseDoctor = useCallback((index: number, fromSearch = false) => {
     setSelectedDoctor(index)
+    setUsedSearch(fromSearch)
     setReplication(null)
   }, [])
 
@@ -203,6 +206,7 @@ export default function DoctorMortalityScenario() {
       seed: HOSPITAL_DEFAULTS.seed,
     })
     setSelectedDoctor(null)
+    setUsedSearch(false)
     setStage('introduction')
     setReached(['introduction'])
   }, [invalidateResults])
@@ -408,16 +412,27 @@ export default function DoctorMortalityScenario() {
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="secondary"
-                  onClick={() => chooseDoctor(worstByAdjusted(results))}
+                  onClick={() => chooseDoctor(worstByAdjusted(results), true)}
                 >
                   {t('observation.autoWorst')}
                 </Button>
                 {selectedDoctor !== null ? (
-                  <Button variant="ghost" onClick={() => setSelectedDoctor(null)}>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      setSelectedDoctor(null)
+                      setUsedSearch(false)
+                    }}
+                  >
                     {t('observation.reset')}
                   </Button>
                 ) : null}
               </div>
+              {usedSearch ? (
+                <p className="text-sm text-slate-700">
+                  {t('observation.autoWorstNote', { doctors: params.doctorCount })}
+                </p>
+              ) : null}
               <div>
                 <Button onClick={() => goTo('analysis')} disabled={selectedDoctor === null}>
                   {t('observation.action')}
@@ -433,6 +448,9 @@ export default function DoctorMortalityScenario() {
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('analysis.heading')}</h2>
               <p className="text-slate-700">{t('analysis.body1')}</p>
+              {selection === null ? (
+                <p className="text-sm font-medium text-posthoc">{t('analysis.runFirst')}</p>
+              ) : null}
 
               <Card title={t('analysis.raw.heading')} description={t('analysis.raw.body')}>
                 <ResultTable

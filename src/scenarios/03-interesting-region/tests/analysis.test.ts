@@ -35,6 +35,14 @@ describe('testing one stretch of the record', () => {
     const result = evaluateWindow(series, declared)
     expect(result.pValue).toBeGreaterThan(ALPHA)
   })
+
+  it('finds nothing in the stretch the user has not moved yet', () => {
+    // The observation stage contrasts an arbitrary window with a chosen one,
+    // so the window it opens on must not already look like a finding.
+    const start = Math.round(periodCount * 0.05)
+    const end = Math.round(periodCount * 0.3)
+    expect(evaluateWindow(series, { start, end }).pValue).toBeGreaterThan(0.2)
+  })
 })
 
 describe('searching for the most striking stretch', () => {

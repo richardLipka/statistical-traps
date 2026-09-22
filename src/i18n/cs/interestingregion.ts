@@ -1,4 +1,4 @@
-const region = {
+const interestingregion = {
   intro: {
     heading: 'Období určené předem',
     body1:
@@ -72,6 +72,8 @@ const region = {
     verdictStriking: 'Vypadá to jako nález',
     body2:
       'Test odpovídá přesně na jednu otázku: jak neobvyklá je tato změna pro období určené předem? Vaše období předem určeno nebylo. Bylo nejnápadnější z {{candidates}} úseků a p-hodnota o tom nemá jak vědět.',
+    runFirst:
+      'Oprava níže je smyslem tohoto kroku: bez ní je číslo v řádku výše tím, co by se uvedlo.',
     selection: {
       heading: 'Co samo o sobě znamená hledání',
       body: 'Abychom období posoudili poctivě, simulujeme celý postup: vytvoříme nový záznam bez jakéhokoli trendu, otestujeme všech {{candidates}} úseků a ponecháme ten nejnápadnější. A to {{replications}}krát.',
@@ -153,4 +155,4 @@ const region = {
   },
 }
 
-export default region
+export default interestingregion

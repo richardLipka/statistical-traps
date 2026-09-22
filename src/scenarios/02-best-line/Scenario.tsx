@@ -495,6 +495,9 @@ export default function BestLineScenario() {
                 />
               </Card>
               <p className="text-slate-700">{t('analysis.body2', { count: maxDegree })}</p>
+              {selection === null ? (
+                <p className="text-sm font-medium text-posthoc">{t('analysis.runFirst')}</p>
+              ) : null}
 
               <Card
                 title={t('analysis.selection.heading')}

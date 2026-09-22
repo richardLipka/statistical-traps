@@ -30,7 +30,7 @@ const bestline = {
     aria: 'Scatter plot of {{count}} points with the models currently shown.',
     xLabel: 'x',
     yLabel: 'y',
-    legendPoint: 'Observation',
+    legendPoint: 'Data point',
     handleAria: 'End of your line at {{side}}, currently {{value}}. Move it with the arrow keys.',
     sideLeft: 'the left edge',
     sideRight: 'the right edge',
@@ -85,6 +85,8 @@ const bestline = {
     verdictStriking: 'Looks like a finding',
     body2:
       'The F-test already charges for every parameter, so flexibility alone does not fool it. What fools it is that we tried {{count}} models and reported the one that came out best.',
+    runFirst:
+      'The correction below is the point of this stage: without it, the row above is the number that would be reported.',
     selection: {
       heading: 'What the search alone is worth',
       body: 'To judge the chosen model honestly we simulate the entire procedure: draw a fresh sample of pure noise, fit every degree from 1 to {{maxDegree}}, keep the smallest p-value. Repeat {{replications}} times.',
@@ -167,7 +169,7 @@ const bestline = {
     },
     nextHeading: 'Where this goes next',
     nextBody:
-      'So far the search has been over one thing at a time: a position, then a model. The next scenario lets the search run over subgroups of the data, where it is much harder to notice that a search happened at all.',
+      'So far the search has been over one thing at a time: a position, then a model. The next scenario lets it run over stretches of a record collected through time, where the data themselves look structured and it is much harder to notice that a search happened at all.',
   },
 }
 

@@ -53,10 +53,17 @@ import {
 const SELECTION_REPLICATIONS = 300
 const VALIDATION_REPLICATIONS = 200
 const HISTOGRAM_BINS = 22
-/** Where the user's own window starts before they move it. */
+/**
+ * Where the user's own window starts before they move it.
+ *
+ * Deliberately an unremarkable stretch. The stage teaches the contrast
+ * between a window nobody chose and a window chosen for looking extreme, so
+ * the starting one must not already look like a finding - a test asserts
+ * that it does not on the default record.
+ */
 function startingWindow(periodCount: number): Window {
   return clampWindow(
-    { start: Math.round(periodCount * 0.15), end: Math.round(periodCount * 0.35) },
+    { start: Math.round(periodCount * 0.05), end: Math.round(periodCount * 0.3) },
     periodCount,
   )
 }
@@ -495,6 +502,9 @@ export default function InterestingRegionScenario() {
               <p className="text-slate-700">
                 {t('analysis.body2', { candidates: formatInteger(scan.candidates, locale) })}
               </p>
+              {selection === null ? (
+                <p className="text-sm font-medium text-posthoc">{t('analysis.runFirst')}</p>
+              ) : null}
 
               <Card
                 title={t('analysis.selection.heading')}

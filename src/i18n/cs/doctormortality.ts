@@ -74,6 +74,8 @@ const doctormortality = {
     body2:
       'Nebo použijte zkratku, kvůli které tabulky vznikají, a jděte rovnou na lékaře, který vyšel nejhůř. Někdo takový být musí.',
     autoWorst: 'Ukaž nejhoršího lékaře',
+    autoWorstNote:
+      'To je nejkrajnější ze {{doctors}} lékařů, posuzováno až po zohlednění vlastních pacientů každého z nich — což není vždy nejvyšší sloupec v tabulce hrubé úmrtnosti.',
     reset: 'Zrušit výběr',
     selectFirst: 'Vyberte lékaře, se kterým budeme pokračovat.',
     action: 'Prošetřit tohoto lékaře pořádně',
@@ -86,6 +88,8 @@ const doctormortality = {
     adjustedPValue: 'p proti vlastním pacientům',
     verdictNothing: 'Nic k hlášení',
     verdictStriking: 'Vypadá to jako nález',
+    runFirst:
+      'Obě opravy níže jsou smyslem tohoto kroku: bez nich je číslo v řádku výše tím, co by se uvedlo.',
     raw: {
       heading: 'První pohled: úmrtnost proti úmrtnosti nemocnice',
       body: 'Úmrtí každého lékaře testovaná proti míře pro celou nemocnici, jako by byl každý pacient stejný jako každý jiný.',

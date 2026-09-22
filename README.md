@@ -4,6 +4,8 @@
 
 An interactive educational simulation about how easily an apparently meaningful pattern can be found in random data — and why finding a pattern is not the same as showing that it is real.
 
+**[Open the application →](https://richardlipka.github.io/statistical-traps/)**
+
 Built for teaching scientific methodology, statistics, data analysis, and the limits of automated pattern discovery, including AI/ML systems.
 
 The recurring structure of every scenario:

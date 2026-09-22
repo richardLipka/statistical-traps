@@ -570,11 +570,17 @@ Scenario 02       The Best Line — complete (hand-drawn line, least-squares fit
                   search over model flexibility with R² and F-test per degree,
                   Monte Carlo correction for the search, out-of-sample
                   validation and the fit-against-prediction curve)
+  ↓
+Scenario 03       Find the Interesting Region — complete (random walk with no
+                  drift, exact z-test of a window with known sigma, user-dragged
+                  window plus an exhaustive scan of all 6 786 of them, Monte
+                  Carlo correction for the scan, validation on independent
+                  records with both windows frozen)
 ```
 
-Next step: Scenario 03 — Find the Interesting Region, when explicitly requested.
+Next step: Scenario 04 — The Doctor With Unusually High Mortality, when explicitly requested.
 
-Do not implement Scenario 03 or later until explicitly requested.
+Do not implement Scenario 04 or later until explicitly requested.
 
 Conventions established by the foundation, to be reused rather than reinvented:
 
@@ -583,8 +589,9 @@ Conventions established by the foundation, to be reused rather than reinvented:
 * Visual language (`src/index.css`, `src/components/ui/tone.ts`): **preset** = fixed before the data, **posthoc** = chosen after seeing the data, **fresh** = new independent data. Reuse these tones in every scenario.
 * Seeding: derive independent data sets with `deriveSeed`, and keep separate seed roles so that exploration data is never reused for validation.
 * Long simulations run through `runChunked` so the interface stays responsive.
-* Both scenarios follow the same arc, and a third should too: a pre-registered analysis, a search the user performs themselves, the identical test applied to both, a Monte Carlo correction that simulates the whole search, a gallery of what that search finds in data with no effect, and finally independent data.
-* Statistics already available: seeded RNG, binomial and F distributions, exact binomial and overall F tests, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
+* Every scenario follows the same arc, and the next one should too: a pre-registered analysis, a search the user performs themselves, the identical test applied to both, a Monte Carlo correction that simulates the whole search, a gallery of what that search finds in data with no effect, and finally independent data.
+* A scenario may change the generator, but the null must stay exactly true: the point being taught is what a search does to a valid test, so the test must be valid before the search. Scenario 03 tests the independent steps of a random walk, not its correlated levels, for exactly this reason - a statistic that was already invalid would teach a different lesson.
+* Statistics already available: seeded RNG, binomial, F and normal distributions (including the regularized incomplete gamma and beta functions), exact binomial, overall F and known-sigma z tests, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
 * Charts already available: `visualization/Histogram` (labelled columns, one highlighted) and `visualization/LineChart` (multi-series).
 * Report no statistic rather than an invalid one when a test's assumptions do not hold.
 
@@ -636,8 +643,8 @@ statistical-traps/
     |   +-- FlowDiagram.tsx
     |
     +-- i18n/
-    |   +-- cs/             common.ts, dartboard.ts
-    |   +-- en/             common.ts, dartboard.ts
+    |   +-- cs/             common.ts, dartboard.ts, bestline.ts, region.ts
+    |   +-- en/             common.ts, dartboard.ts, bestline.ts, region.ts
     |   +-- index.ts        i18next setup, language detection and persistence
     |   +-- resources.ts    languages, namespaces, resource map
     |   +-- keys.ts         keys built from registry data
@@ -646,23 +653,20 @@ statistical-traps/
     +-- scenarios/
     |   +-- types.ts        lifecycle stages and the scenario contract
     |   +-- registry.ts     the only file that knows which scenarios exist
-    |   +-- 01-dartboard/
-    |       +-- Scenario.tsx
-    |       +-- model.ts
-    |       +-- simulation.ts
-    |       +-- analysis.ts
-    |       +-- components/
-    |       +-- tests/
+    |   +-- 01-dartboard/    Scenario.tsx, model.ts, simulation.ts,
+    |   +-- 02-best-line/    analysis.ts, components/, tests/
+    |   +-- 03-interesting-region/
     |
     +-- statistics/
     |   +-- random/rng.ts
-    |   +-- distributions/binomial.ts
-    |   +-- hypothesis/binomialTest.ts
+    |   +-- distributions/   binomial.ts, gamma.ts, fDistribution.ts, normal.ts
+    |   +-- hypothesis/      binomialTest.ts, fTest.ts, zTest.ts
+    |   +-- regression/      leastSquares.ts, goodnessOfFit.ts
     |   +-- monteCarlo.ts
     |   +-- tests/
     |
     +-- utils/              geometry, format, cn, chunked
-    +-- visualization/      Histogram
+    +-- visualization/      Histogram, LineChart
     +-- test/               Vitest setup
     +-- index.css           Tailwind import and semantic colour tokens
     +-- main.tsx

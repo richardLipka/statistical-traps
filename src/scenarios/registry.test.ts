@@ -47,6 +47,7 @@ describe('scenario registry', () => {
     expect(scenarios.filter((scenario) => scenario.status === 'available').map((s) => s.id)).toEqual([
       '01-dartboard',
       '02-best-line',
+      '03-interesting-region',
     ])
   })
 

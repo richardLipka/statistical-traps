@@ -8,6 +8,8 @@ import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
+import csRegion from '@/i18n/cs/region'
+import enRegion from '@/i18n/en/region'
 
 async function setLanguage(language: 'cs' | 'en') {
   await act(async () => {
@@ -43,8 +45,8 @@ describe('application shell', () => {
   it('lists the planned scenarios as not yet implemented', async () => {
     await setLanguage('en')
     render(<App />)
-    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(5)
-    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(2)
+    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(4)
+    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(3)
   })
 
   it('shows a notice for a scenario that is only planned', async () => {
@@ -161,5 +163,68 @@ describe('best line scenario', () => {
     expect(
       screen.getByRole('heading', { level: 2, name: enBestline.analysis.heading }),
     ).toBeDefined()
+  })
+})
+
+describe('interesting region scenario', () => {
+  it('walks through the lifecycle in both languages', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/03-interesting-region'
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: enRegion.intro.heading })).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.intro.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enRegion.experiment.heading }),
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.experiment.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enRegion.observation.heading }),
+    ).toBeDefined()
+
+    await setLanguage('cs')
+    expect(
+      screen.getByRole('heading', { level: 2, name: csRegion.observation.heading }),
+    ).toBeDefined()
+  })
+
+  it('turns an unremarkable record into a finding once the search is allowed', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/03-interesting-region'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.intro.action }))
+    // The stretch fixed in advance finds nothing.
+    expect(screen.getAllByText(enRegion.analysis.verdictNothing).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enRegion.observation.autoBest }))
+    expect(screen.getAllByText(enRegion.analysis.verdictStriking).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.observation.action }))
+    expect(screen.getByRole('heading', { level: 2, name: enRegion.analysis.heading })).toBeDefined()
+    // Both verdicts stand side by side under the identical test.
+    expect(screen.getAllByText(enRegion.analysis.verdictNothing).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(enRegion.analysis.verdictStriking).length).toBeGreaterThan(0)
+  })
+
+  it('validates on a new record, whichever way the stage is reached', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/03-interesting-region'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enRegion.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enRegion.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enRegion.observation.autoBest }))
+    fireEvent.click(screen.getByRole('button', { name: enRegion.observation.action }))
+    fireEvent.click(screen.getByRole('button', { name: enRegion.analysis.action }))
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: enRegion.validation.heading }),
+    ).toBeDefined()
+    // The legend must say that what is on screen is a new, independent record.
+    expect(screen.getAllByText(enRegion.validation.freshData).length).toBeGreaterThan(0)
   })
 })

@@ -113,7 +113,7 @@ const common = {
     '03-interesting-region': {
       title: 'Find the Interesting Region',
       summary:
-        'No real difference between the categories. Search enough regions of the data and one of them will look unusual anyway.',
+        'A record with no trend in it anywhere. Search enough stretches of it and one of them will look like something happened.',
     },
     '04-doctor-mortality': {
       title: 'The Doctor With Unusually High Mortality',

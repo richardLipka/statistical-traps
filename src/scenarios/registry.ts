@@ -1,5 +1,6 @@
 import DartboardScenario from '@/scenarios/01-dartboard/Scenario'
 import BestLineScenario from '@/scenarios/02-best-line/Scenario'
+import InterestingRegionScenario from '@/scenarios/03-interesting-region/Scenario'
 import type { ScenarioDefinition } from '@/scenarios/types'
 
 /**
@@ -35,7 +36,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
   {
     id: '03-interesting-region',
     order: 3,
-    status: 'planned',
+    status: 'available',
     titleKey: 'scenarios.03-interesting-region.title',
     summaryKey: 'scenarios.03-interesting-region.summary',
     conceptKeys: [
@@ -44,7 +45,9 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'falseDiscoveries',
       'selection',
     ],
+    namespace: 'region',
     docs: 'docs/scenarios/03-interesting-region.md',
+    component: InterestingRegionScenario,
   },
   {
     id: '04-doctor-mortality',

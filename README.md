@@ -26,13 +26,13 @@ This is **not** an argument against statistics, data mining or machine learning.
 
 ## Status
 
-**Early version.** The foundation and the first two scenarios are finished and tested; the remaining scenarios are planned and listed in the application as not yet implemented. Content, wording and defaults may still change.
+**Early version.** The foundation and the first three scenarios are finished and tested; the remaining scenarios are planned and listed in the application as not yet implemented. Content, wording and defaults may still change.
 
 | # | Scenario | State |
 | --- | --- | --- |
 | 01 | Kreslení terče kolem šipek / Drawing the Target Around the Darts | **implemented** |
 | 02 | Najdi nejlepší přímku / Find the Best Line | **implemented** |
-| 03 | Najdi zajímavou oblast / Find the Interesting Region | planned |
+| 03 | Najdi zajímavou oblast / Find the Interesting Region | **implemented** |
 | 04 | Lékař s neobvykle vysokou úmrtností / The Doctor With Unusually High Mortality | planned |
 | 05 | Zázračný lék / The Miracle Drug | planned |
 | 06 | Záhadná korelace / The Mysterious Correlation | planned |

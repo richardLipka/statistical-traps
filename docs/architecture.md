@@ -47,7 +47,7 @@ Every scenario follows the same conceptual lifecycle, defined once in `src/scena
 INTRODUCTION → EXPERIMENT → OBSERVATION → ANALYSIS → VALIDATION → CONCLUSION
 ```
 
-A scenario may render these as steps, panels or tabs; both scenarios so far use steps with a `StepIndicator`. Later stages stay locked until reached, so the surprising result is met before its explanation.
+A scenario may render these as steps, panels or tabs; every scenario so far uses steps with a `StepIndicator`. Later stages stay locked until reached, so the surprising result is met before its explanation.
 
 A registry entry is:
 
@@ -74,8 +74,10 @@ Planned scenarios are listed on the overview and get an honest "not implemented 
 - `distributions/gamma.ts` — `logGamma` and `logBeta`, shared by the other distributions.
 - `distributions/binomial.ts` — log-space pmf and upper tail.
 - `distributions/fDistribution.ts` — regularized incomplete beta (continued fraction) and the F upper tail.
+- `distributions/normal.ts` — `erf`, `erfc` and the normal tails, built on the regularized incomplete gamma function in `gamma.ts`. The two-sided tail is computed as `erfc(|z|/√2)` rather than from the distribution function: a searched-for result lands far enough into the tail that `2·(1 - Φ(|z|))` would have no significant digits left.
 - `hypothesis/binomialTest.ts` — one-sided exact test, returning the observed count, the null probability, the expectation and the p-value.
 - `hypothesis/fTest.ts` — overall F-test of a regression, which discounts every fitted parameter.
+- `hypothesis/zTest.ts` — two-sided test of a sum for a known standard deviation. Exact rather than asymptotic, because the simulation chooses the standard deviation.
 - `regression/leastSquares.ts` — Householder QR least squares and polynomial fitting. Not the normal equations: a degree-9 Vandermonde matrix is badly conditioned, and squaring it would leave a reported R² at the mercy of rounding error.
 - `regression/goodnessOfFit.ts` — R² (negative out of sample when a model predicts worse than the mean), RMSE, correlation.
 - `monteCarlo.ts` — empirical p-values with the `(1 + count) / (1 + replications)` correction, in both directions (large values extreme, or small ones as for p-values), integer and continuous histograms, mean, share.
@@ -116,11 +118,13 @@ What is covered today:
 - scenario 01 model, data-generating process, and analysis — including that the exhaustive search beats 400 random placements and a 150×150 grid search;
 - the F distribution against tabulated critical values, and least squares against exactly solvable fits (a straight line, a quadratic, an interpolating degree-9 polynomial);
 - scenario 02 model, data-generating process, and analysis — including that R² rises with flexibility while the p-value does not, that the search finds "significance" in noise far more often than 5%, and that the chosen model predicts new data worse than a flat line;
+- scenario 03 model, data-generating process, and analysis — including that the scan really does return the most extreme window of all 6,786 (checked against a brute-force pass), that a record with no drift ends above its start about half the time, and that the search finds "significance" in over 90% of records with nothing in them
 - the pedagogical claims themselves: searching inflates the statistic, the adjusted p-value is far larger than the naive one, every one of the best simulated searches would be reported as significant, and the advantage disappears on independent data;
 - that validation always runs on fresh data, whichever way the user reaches the stage;
-- registry consistency (unique ids, known concept keys, documentation paths, one implemented scenario);
+- registry consistency (unique ids, known concept keys, documentation paths, which scenarios are implemented);
 - localization parity;
-- an application-level walkthrough of the scenario in both languages.
+- the normal distribution and the z-test against tabulated values, including tail accuracy where `1 - erf` has run out of digits;
+- application-level walkthroughs of every implemented scenario in both languages.
 
 ## Commands
 

@@ -113,7 +113,7 @@ const common = {
     '03-interesting-region': {
       title: 'Najdi zajímavou oblast',
       summary:
-        'Mezi kategoriemi není žádný skutečný rozdíl. Projděte dost oblastí dat a jedna z nich bude přesto vypadat neobvykle.',
+        'Záznam, ve kterém nikde není žádný trend. Projděte dost jeho úseků a jeden z nich bude vypadat, jako by se něco stalo.',
     },
     '04-doctor-mortality': {
       title: 'Lékař s neobvykle vysokou úmrtností',

@@ -76,9 +76,11 @@ Planned scenarios are listed on the overview and get an honest "not implemented 
 - `distributions/gamma.ts` — `logGamma` and `logBeta`, shared by the other distributions.
 - `distributions/binomial.ts` — log-space pmf and upper tail.
 - `distributions/fDistribution.ts` — regularized incomplete beta (continued fraction) and the F upper tail.
+- `distributions/poissonBinomial.ts` — the number of successes among independent trials that each have their own probability, by convolution. This is "expected deaths" once the individuals differ, and a binomial distribution is the wrong answer to it.
 - `distributions/normal.ts` — `erf`, `erfc` and the normal tails, built on the regularized incomplete gamma function in `gamma.ts`. The two-sided tail is computed as `erfc(|z|/√2)` rather than from the distribution function: a searched-for result lands far enough into the tail that `2·(1 - Φ(|z|))` would have no significant digits left.
 - `hypothesis/binomialTest.ts` — one-sided exact test, returning the observed count, the null probability, the expectation and the p-value.
 - `hypothesis/fTest.ts` — overall F-test of a regression, which discounts every fitted parameter.
+- `hypothesis/riskAdjustedTest.ts` — observed events against what these particular individuals' own risks predicted, with an exact Poisson-binomial p-value.
 - `hypothesis/zTest.ts` — two-sided test of a sum for a known standard deviation. Exact rather than asymptotic, because the simulation chooses the standard deviation.
 - `regression/leastSquares.ts` — Householder QR least squares and polynomial fitting. Not the normal equations: a degree-9 Vandermonde matrix is badly conditioned, and squaring it would leave a reported R² at the mercy of rounding error.
 - `regression/goodnessOfFit.ts` — R² (negative out of sample when a model predicts worse than the mean), RMSE, correlation.
@@ -126,6 +128,8 @@ What is covered today:
 - registry consistency (unique ids, known concept keys, documentation paths, which scenarios are implemented);
 - localization parity;
 - the normal distribution and the z-test against tabulated values, including tail accuracy where `1 - erf` has run out of digits;
+- the Poisson-binomial distribution against an exhaustive enumeration of every outcome, and against the binomial when every risk is equal;
+- scenario 04 model, data-generating process, and analysis — including that doctors differ in case mix but not in skill, that the search flags somebody in most hospitals where no doctor differs, and that the flagged doctor returns to a ratio of 1 on later years;
 - application-level walkthroughs of every implemented scenario in both languages.
 
 ## Commands

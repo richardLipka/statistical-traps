@@ -1,6 +1,7 @@
 import DartboardScenario from '@/scenarios/01-dartboard/Scenario'
 import BestLineScenario from '@/scenarios/02-best-line/Scenario'
 import InterestingRegionScenario from '@/scenarios/03-interesting-region/Scenario'
+import DoctorMortalityScenario from '@/scenarios/04-doctor-mortality/Scenario'
 import type { ScenarioDefinition } from '@/scenarios/types'
 
 /**
@@ -52,7 +53,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
   {
     id: '04-doctor-mortality',
     order: 4,
-    status: 'planned',
+    status: 'available',
     titleKey: 'scenarios.04-doctor-mortality.title',
     summaryKey: 'scenarios.04-doctor-mortality.summary',
     conceptKeys: [
@@ -62,7 +63,9 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'riskAdjustment',
       'investigationVersusProof',
     ],
+    namespace: 'doctormortality',
     docs: 'docs/scenarios/04-doctor-mortality.md',
+    component: DoctorMortalityScenario,
   },
   {
     id: '05-miracle-drug',

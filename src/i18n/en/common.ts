@@ -118,7 +118,7 @@ const common = {
     '04-doctor-mortality': {
       title: 'The Doctor With Unusually High Mortality',
       summary:
-        'A simulated hospital where every doctor carries the same underlying risk. One of them still ends up with a strikingly high number of deaths.',
+        'A simulated hospital where no doctor is better or worse than any other. Their patients differ, and one doctor still ends up with a strikingly high number of deaths.',
     },
     '05-miracle-drug': {
       title: 'The Miracle Drug',

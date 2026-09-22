@@ -1,16 +1,18 @@
 import csBestline from '@/i18n/cs/bestline'
 import csCommon from '@/i18n/cs/common'
+import csDoctorMortality from '@/i18n/cs/doctormortality'
 import csDartboard from '@/i18n/cs/dartboard'
 import csInterestingRegion from '@/i18n/cs/interestingregion'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
+import enDoctorMortality from '@/i18n/en/doctormortality'
 import enDartboard from '@/i18n/en/dartboard'
 import enInterestingRegion from '@/i18n/en/interestingregion'
 
 export const LANGUAGES = ['cs', 'en'] as const
 export type Language = (typeof LANGUAGES)[number]
 
-export const NAMESPACES = ['common', 'dartboard', 'bestline', 'interestingregion'] as const
+export const NAMESPACES = ['common', 'dartboard', 'bestline', 'interestingregion', 'doctormortality'] as const
 export type Namespace = (typeof NAMESPACES)[number]
 
 export const DEFAULT_NAMESPACE = 'common' satisfies Namespace
@@ -27,12 +29,14 @@ export const resources = {
     dartboard: csDartboard,
     bestline: csBestline,
     interestingregion: csInterestingRegion,
+    doctormortality: csDoctorMortality,
   },
   en: {
     common: enCommon,
     dartboard: enDartboard,
     bestline: enBestline,
     interestingregion: enInterestingRegion,
+    doctormortality: enDoctorMortality,
   },
 } as const
 

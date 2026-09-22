@@ -49,6 +49,7 @@ describe('scenario registry', () => {
       '01-dartboard',
       '02-best-line',
       '03-interesting-region',
+      '04-doctor-mortality',
     ])
   })
 

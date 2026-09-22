@@ -118,7 +118,7 @@ const common = {
     '04-doctor-mortality': {
       title: 'Lékař s neobvykle vysokou úmrtností',
       summary:
-        'Simulovaná nemocnice, kde mají všichni lékaři stejné základní riziko. Jeden z nich přesto skončí s nápadně vysokým počtem úmrtí.',
+        'Simulovaná nemocnice, kde žádný lékař není lepší ani horší než ostatní. Jejich pacienti se ale liší a jeden lékař stejně skončí s nápadně vysokým počtem úmrtí.',
     },
     '05-miracle-drug': {
       title: 'Zázračný lék',

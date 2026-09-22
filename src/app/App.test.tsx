@@ -8,6 +8,8 @@ import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
+import csDoctor from '@/i18n/cs/doctormortality'
+import enDoctor from '@/i18n/en/doctormortality'
 import csRegion from '@/i18n/cs/interestingregion'
 import enRegion from '@/i18n/en/interestingregion'
 
@@ -45,8 +47,8 @@ describe('application shell', () => {
   it('lists the planned scenarios as not yet implemented', async () => {
     await setLanguage('en')
     render(<App />)
-    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(4)
-    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(3)
+    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(3)
+    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(4)
   })
 
   it('shows a notice for a scenario that is only planned', async () => {
@@ -226,5 +228,72 @@ describe('interesting region scenario', () => {
     ).toBeDefined()
     // The legend must say that what is on screen is a new, independent record.
     expect(screen.getAllByText(enRegion.validation.freshData).length).toBeGreaterThan(0)
+  })
+})
+
+describe('doctor mortality scenario', () => {
+  it('walks through the lifecycle in both languages', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/04-doctor-mortality'
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: enDoctor.intro.heading })).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.intro.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDoctor.experiment.heading }),
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.experiment.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDoctor.observation.heading }),
+    ).toBeDefined()
+
+    await setLanguage('cs')
+    expect(
+      screen.getByRole('heading', { level: 2, name: csDoctor.observation.heading }),
+    ).toBeDefined()
+  })
+
+  it('will not go on to the analysis until a doctor has been chosen', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/04-doctor-mortality'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.experiment.action }))
+
+    const advance = screen.getByRole('button', { name: enDoctor.observation.action })
+    expect(advance.hasAttribute('disabled')).toBe(true)
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.observation.autoWorst }))
+    expect(
+      screen.getByRole('button', { name: enDoctor.observation.action }).hasAttribute('disabled'),
+    ).toBe(false)
+    expect(screen.getAllByText(enDoctor.analysis.verdictStriking).length).toBeGreaterThan(0)
+  })
+
+  it('separates case mix from the search, and validates on a later year', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/04-doctor-mortality'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.observation.autoWorst }))
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.observation.action }))
+
+    // Both corrections are offered, in order, on the analysis stage.
+    expect(screen.getByText(enDoctor.analysis.adjustment.heading)).toBeDefined()
+    expect(screen.getByText(enDoctor.analysis.selection.heading)).toBeDefined()
+    // The doctor named in advance still has nothing to report.
+    expect(screen.getAllByText(enDoctor.analysis.verdictNothing).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: enDoctor.analysis.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDoctor.validation.heading }),
+    ).toBeDefined()
+    // The legend must say that what is on screen is a new, independent year.
+    expect(screen.getAllByText(enDoctor.validation.freshYear).length).toBeGreaterThan(0)
   })
 })

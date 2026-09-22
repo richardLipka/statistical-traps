@@ -45,7 +45,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'falseDiscoveries',
       'selection',
     ],
-    namespace: 'region',
+    namespace: 'interestingregion',
     docs: 'docs/scenarios/03-interesting-region.md',
     component: InterestingRegionScenario,
   },

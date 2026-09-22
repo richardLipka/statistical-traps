@@ -30,6 +30,7 @@ export const PRE_REGISTERED_DEGREE = 1
 /** The model that claims nothing at all: a flat line at the mean. */
 export const FLAT_DEGREE = 0
 
+/** Significance threshold used for illustration only; it is not a truth criterion. */
 export const ALPHA = 0.05
 
 /**

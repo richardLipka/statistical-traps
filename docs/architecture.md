@@ -58,7 +58,9 @@ A registry entry is:
   status: 'available',         // or 'planned'
   titleKey, summaryKey,        // keys in the common namespace
   conceptKeys: [...],          // keys in common.concepts
-  namespace: 'dartboard',      // the scenario's own i18n namespace
+  namespace: 'dartboard',      // the scenario's own i18n namespace:
+                               // the id without its number and hyphens,
+                               // which a registry test enforces
   docs: 'docs/scenarios/01-dartboard.md',
   component: DartboardScenario // omitted for planned scenarios
 }

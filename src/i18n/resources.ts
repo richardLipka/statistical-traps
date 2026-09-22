@@ -1,16 +1,16 @@
 import csBestline from '@/i18n/cs/bestline'
 import csCommon from '@/i18n/cs/common'
 import csDartboard from '@/i18n/cs/dartboard'
-import csRegion from '@/i18n/cs/region'
+import csInterestingRegion from '@/i18n/cs/interestingregion'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
-import enRegion from '@/i18n/en/region'
+import enInterestingRegion from '@/i18n/en/interestingregion'
 
 export const LANGUAGES = ['cs', 'en'] as const
 export type Language = (typeof LANGUAGES)[number]
 
-export const NAMESPACES = ['common', 'dartboard', 'bestline', 'region'] as const
+export const NAMESPACES = ['common', 'dartboard', 'bestline', 'interestingregion'] as const
 export type Namespace = (typeof NAMESPACES)[number]
 
 export const DEFAULT_NAMESPACE = 'common' satisfies Namespace
@@ -26,13 +26,13 @@ export const resources = {
     common: csCommon,
     dartboard: csDartboard,
     bestline: csBestline,
-    region: csRegion,
+    interestingregion: csInterestingRegion,
   },
   en: {
     common: enCommon,
     dartboard: enDartboard,
     bestline: enBestline,
-    region: enRegion,
+    interestingregion: enInterestingRegion,
   },
 } as const
 

@@ -20,6 +20,7 @@ export const REGION_DEFAULTS = {
   seed: 300_009,
 } as const
 
+/** Significance threshold used for illustration only; it is not a truth criterion. */
 export const ALPHA = 0.05
 
 /**

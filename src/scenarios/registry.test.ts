@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import enCommon from '@/i18n/en/common'
+import { NAMESPACES } from '@/i18n/resources'
 import { findScenario, scenarios } from '@/scenarios/registry'
 
 describe('scenario registry', () => {
@@ -49,6 +50,16 @@ describe('scenario registry', () => {
       '02-best-line',
       '03-interesting-region',
     ])
+  })
+
+  it('names every namespace after its scenario id', () => {
+    // 01-dartboard -> dartboard, 02-best-line -> bestline.
+    for (const scenario of scenarios) {
+      if (scenario.namespace === undefined) continue
+      const expected = scenario.id.replace(/^\d+-/, '').replace(/-/g, '')
+      expect(scenario.namespace, scenario.id).toBe(expected)
+      expect(NAMESPACES, scenario.id).toContain(scenario.namespace)
+    }
   })
 
   it('finds scenarios by id', () => {

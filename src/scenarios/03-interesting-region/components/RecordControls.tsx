@@ -17,7 +17,7 @@ export interface RecordControlsProps {
 }
 
 export function RecordControls({ params, onChange, onNewSeed }: RecordControlsProps) {
-  const { t } = useTranslation('region')
+  const { t } = useTranslation('interestingregion')
   const { i18n } = useTranslation()
   const locale = i18n.language
 

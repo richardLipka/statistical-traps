@@ -53,13 +53,6 @@ import {
 const SELECTION_REPLICATIONS = 300
 const VALIDATION_REPLICATIONS = 200
 const HISTOGRAM_BINS = 22
-const CONCEPT_KEYS = [
-  'multipleComparisons',
-  'researcherDegreesOfFreedom',
-  'falseDiscoveries',
-  'selection',
-] as const
-
 /** Where the user's own window starts before they move it. */
 function startingWindow(periodCount: number): Window {
   return clampWindow(
@@ -69,7 +62,7 @@ function startingWindow(periodCount: number): Window {
 }
 
 export default function InterestingRegionScenario() {
-  const { t } = useTranslation('region')
+  const { t } = useTranslation('interestingregion')
   const { t: tc, i18n } = useTranslation('common')
   const locale = i18n.language
 
@@ -259,7 +252,12 @@ export default function InterestingRegionScenario() {
     <ScenarioShell
       title={tc('scenarios.03-interesting-region.title')}
       summary={tc('scenarios.03-interesting-region.summary')}
-      conceptKeys={CONCEPT_KEYS}
+      conceptKeys={[
+        'multipleComparisons',
+        'researcherDegreesOfFreedom',
+        'falseDiscoveries',
+        'selection',
+      ]}
       stages={SCENARIO_STAGES}
       current={stage}
       reached={reached}

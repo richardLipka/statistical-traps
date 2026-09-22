@@ -1,7 +1,7 @@
 import type bestline from '@/i18n/en/bestline'
 import type common from '@/i18n/en/common'
 import type dartboard from '@/i18n/en/dartboard'
-import type region from '@/i18n/en/region'
+import type interestingregion from '@/i18n/en/interestingregion'
 
 /**
  * Makes translation keys type-checked: a typo in t('...') fails the build.
@@ -14,7 +14,7 @@ declare module 'i18next' {
       common: typeof common
       dartboard: typeof dartboard
       bestline: typeof bestline
-      region: typeof region
+      interestingregion: typeof interestingregion
     }
   }
 }

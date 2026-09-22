@@ -21,7 +21,7 @@ export interface SearchGalleryProps {
  * all, and every highlighted stretch would be reported as a finding.
  */
 export function SearchGallery({ searches, periodCount, baseSeed }: SearchGalleryProps) {
-  const { t } = useTranslation('region')
+  const { t } = useTranslation('interestingregion')
   const { i18n } = useTranslation()
   const locale = i18n.language
 

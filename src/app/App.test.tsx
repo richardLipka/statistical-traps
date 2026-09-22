@@ -8,8 +8,8 @@ import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
-import csRegion from '@/i18n/cs/region'
-import enRegion from '@/i18n/en/region'
+import csRegion from '@/i18n/cs/interestingregion'
+import enRegion from '@/i18n/en/interestingregion'
 
 async function setLanguage(language: 'cs' | 'en') {
   await act(async () => {

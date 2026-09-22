@@ -91,7 +91,27 @@ Examples of text that must be localized:
 
 When adding a new feature, Czech and English localization must be added in the same change.
 
+How this is implemented:
+
+* i18next + react-i18next, with one namespace per scenario (`common`, `dartboard`, ...).
+* Resources are TypeScript modules in `src/i18n/cs/` and `src/i18n/en/`.
+* Keys are type-checked against the English resources (`src/i18n/i18next.d.ts`), so a typo fails the build.
+* `src/i18n/i18n.test.ts` enforces parity: identical key sets, no empty strings, identical interpolation placeholders.
+* Keys assembled at runtime from registry data go through `src/i18n/keys.ts`.
+* Numbers are formatted with `src/utils/format.ts` (`Intl.NumberFormat` + the active language). Never use `toFixed` for user-facing numbers: Czech uses a decimal comma. p-values are floored at `< 0.001` rather than rounded to zero.
+* Switching the language must never reload the page or reset scenario state.
+
 ## 4. Architecture
+
+### Technology
+
+* Vite, React, TypeScript, Tailwind CSS, i18next / react-i18next, Vitest.
+* No backend, no database, no router library: routing is a small hash router (`src/app/useHashRoute.ts`), which keeps the build a static site openable from any path.
+* Visualizations are hand-written SVG. Do not add a charting library unless a scenario genuinely needs one.
+* Imports use the `@/` alias for `src/`.
+* Do not introduce further dependencies when the existing stack can solve the problem.
+
+### Layout
 
 The project is organized around independent educational scenarios.
 
@@ -99,14 +119,17 @@ Generic application infrastructure:
 
 ```text
 src/
-  app/
-  components/
-  i18n/
-  scenarios/
-  statistics/
-  visualization/
-  utils/
+  app/            shell, routing, home page, scenario page
+  components/     generic UI shared by scenarios (ui/ holds the primitives)
+  i18n/           cs/ and en/ resources, one namespace per scenario
+  scenarios/      types.ts, registry.ts, one directory per scenario
+  statistics/     seeded RNG, distributions, hypothesis tests, Monte Carlo
+  utils/          geometry, formatting, class names, chunked execution
+  visualization/  reusable SVG charts
+  test/           Vitest setup
 ```
+
+Tests are colocated with the code they cover: `src/**/tests/*.test.ts` for a module group, or `*.test.ts` next to a single module.
 
 Scenario-specific code belongs inside:
 
@@ -297,6 +320,26 @@ Main concepts:
 * replication
 * prediction versus explanation
 
+### 07 — What Does This Mean for AI?
+
+**Czech — Co z toho plyne pro AI?**
+
+Závěrečný syntetizující modul navazující na šest předchozích scénářů. Odlišuje objevování vzorů, predikci, generování hypotéz, testování hypotéz, kauzální inferenci a generalizaci. Schopnost nacházet vzory není totéž co schopnost určit, které vzory jsou skutečné.
+
+**English — What Does This Mean for AI?**
+
+A closing synthesis module building on the six preceding scenarios. It separates pattern discovery, prediction, hypothesis generation, hypothesis testing, causal inference and generalization. The ability to find patterns is not the same as the ability to establish which patterns are real.
+
+Main concepts:
+
+* pattern discovery
+* hypothesis generation
+* generalization
+* causal inference
+* independent replication
+
+See section 9 for what this module must and must not say about AI.
+
 ## 9. AI interpretation
 
 The project must distinguish between:
@@ -425,7 +468,10 @@ docs/scenarios/
   04-doctor-mortality.md
   05-miracle-drug.md
   06-mysterious-correlation.md
+  07-ai-synthesis.md
 ```
+
+Documents for scenarios that are not implemented yet exist as placeholders holding the Czech and English descriptions plus the section headings. The remaining sections are written together with the scenario.
 
 Each document must contain:
 
@@ -510,15 +556,37 @@ If a requirement is ambiguous and could affect statistical correctness, stop and
 
 ## 19. Current development state
 
-The project starts with:
+Completed:
 
 ```text
-Foundation
+Foundation        application shell, routing, localization, scenario registry,
+                  shared components, statistics layer, tests, documentation
   ↓
-Scenario 01 — The Dartboard
+Scenario 01       The Dartboard — complete (six-stage lifecycle, exhaustive
+                  post-hoc search, Monte Carlo correction for the search,
+                  independent replication)
+  ↓
+Scenario 02       The Best Line — complete (hand-drawn line, least-squares fit,
+                  search over model flexibility with R² and F-test per degree,
+                  Monte Carlo correction for the search, out-of-sample
+                  validation and the fit-against-prediction curve)
 ```
 
-Do not implement Scenario 02 or later until explicitly requested.
+Next step: Scenario 03 — Find the Interesting Region, when explicitly requested.
+
+Do not implement Scenario 03 or later until explicitly requested.
+
+Conventions established by the foundation, to be reused rather than reinvented:
+
+* Lifecycle stages come from `src/scenarios/types.ts`; later stages stay locked until reached.
+* Shared components: `ScenarioShell`, `StepIndicator`, `ExplanationPanel`, `ReplicationPanel`, `ResultTable`, `FlowDiagram`, `ui/*`, `visualization/Histogram`.
+* Visual language (`src/index.css`, `src/components/ui/tone.ts`): **preset** = fixed before the data, **posthoc** = chosen after seeing the data, **fresh** = new independent data. Reuse these tones in every scenario.
+* Seeding: derive independent data sets with `deriveSeed`, and keep separate seed roles so that exploration data is never reused for validation.
+* Long simulations run through `runChunked` so the interface stays responsive.
+* Both scenarios follow the same arc, and a third should too: a pre-registered analysis, a search the user performs themselves, the identical test applied to both, a Monte Carlo correction that simulates the whole search, a gallery of what that search finds in data with no effect, and finally independent data.
+* Statistics already available: seeded RNG, binomial and F distributions, exact binomial and overall F tests, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
+* Charts already available: `visualization/Histogram` (labelled columns, one highlighted) and `visualization/LineChart` (multi-series).
+* Report no statistic rather than an invalid one when a test's assumptions do not hold.
 
 After completing a development step, report:
 
@@ -532,53 +600,70 @@ After completing a development step, report:
 
 Then stop.
 
-## 20. Suggested project structure
+## 20. Project structure
 
 ```text
 statistical-traps/
-│
-├── CLAUDE.md
-├── README.md
-├── package.json
-├── vite.config.ts
-│
-├── docs/
-│   ├── architecture.md
-│   └── scenarios/
-│       ├── 01-dartboard.md
-│       ├── 02-best-line.md
-│       ├── 03-interesting-region.md
-│       ├── 04-doctor-mortality.md
-│       ├── 05-miracle-drug.md
-│       └── 06-mysterious-correlation.md
-│
-├── src/
-│   ├── app/
-│   ├── components/
-│   │   ├── ScenarioShell/
-│   │   ├── StepIndicator/
-│   │   ├── ExplanationPanel/
-│   │   ├── ReplicationPanel/
-│   │   └── ...
-│   │
-│   ├── i18n/
-│   │   ├── cs/
-│   │   └── en/
-│   │
-│   ├── statistics/
-│   │   ├── distributions/
-│   │   ├── hypothesis/
-│   │   └── multipleTesting/
-│   │
-│   ├── scenarios/
-│   │   ├── 01-dartboard/
-│   │   ├── 02-best-line/
-│   │   ├── 03-interesting-region/
-│   │   ├── 04-doctor-mortality/
-│   │   ├── 05-miracle-drug/
-│   │   └── 06-mysterious-correlation/
-│   │
-│   └── main.tsx
-│
-└── tests/
+|
++-- CLAUDE.md
++-- README.md
++-- package.json
++-- vite.config.ts          Vite + Tailwind + Vitest configuration
++-- tsconfig*.json
+|
++-- docs/
+|   +-- architecture.md
+|   +-- scenarios/
+|       +-- 01-dartboard.md
+|       +-- 02-best-line.md
+|       +-- 03-interesting-region.md
+|       +-- 04-doctor-mortality.md
+|       +-- 05-miracle-drug.md
+|       +-- 06-mysterious-correlation.md
+|       +-- 07-ai-synthesis.md
+|
++-- src/
+    +-- app/                App, routes, useHashRoute, HomePage, ScenarioPage
+    +-- components/
+    |   +-- ui/             Button, Card, Badge, StatTile, SliderControl, tone
+    |   +-- AppHeader.tsx
+    |   +-- LanguageSwitcher.tsx
+    |   +-- ScenarioShell.tsx
+    |   +-- StepIndicator.tsx
+    |   +-- ExplanationPanel.tsx
+    |   +-- ReplicationPanel.tsx
+    |   +-- ResultTable.tsx
+    |   +-- FlowDiagram.tsx
+    |
+    +-- i18n/
+    |   +-- cs/             common.ts, dartboard.ts
+    |   +-- en/             common.ts, dartboard.ts
+    |   +-- index.ts        i18next setup, language detection and persistence
+    |   +-- resources.ts    languages, namespaces, resource map
+    |   +-- keys.ts         keys built from registry data
+    |   +-- i18next.d.ts    type-checked translation keys
+    |
+    +-- scenarios/
+    |   +-- types.ts        lifecycle stages and the scenario contract
+    |   +-- registry.ts     the only file that knows which scenarios exist
+    |   +-- 01-dartboard/
+    |       +-- Scenario.tsx
+    |       +-- model.ts
+    |       +-- simulation.ts
+    |       +-- analysis.ts
+    |       +-- components/
+    |       +-- tests/
+    |
+    +-- statistics/
+    |   +-- random/rng.ts
+    |   +-- distributions/binomial.ts
+    |   +-- hypothesis/binomialTest.ts
+    |   +-- monteCarlo.ts
+    |   +-- tests/
+    |
+    +-- utils/              geometry, format, cn, chunked
+    +-- visualization/      Histogram
+    +-- test/               Vitest setup
+    +-- index.css           Tailwind import and semantic colour tokens
+    +-- main.tsx
 ```

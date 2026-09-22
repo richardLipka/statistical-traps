@@ -1,0 +1,112 @@
+import DartboardScenario from '@/scenarios/01-dartboard/Scenario'
+import BestLineScenario from '@/scenarios/02-best-line/Scenario'
+import type { ScenarioDefinition } from '@/scenarios/types'
+
+/**
+ * The single place that knows which scenarios exist.
+ *
+ * Adding a scenario means: create its directory, implement its component,
+ * add its localization namespace, write its documentation, and add one entry
+ * here. Nothing else in the application needs to change.
+ */
+export const scenarios: readonly ScenarioDefinition[] = [
+  {
+    id: '01-dartboard',
+    order: 1,
+    status: 'available',
+    titleKey: 'scenarios.01-dartboard.title',
+    summaryKey: 'scenarios.01-dartboard.summary',
+    conceptKeys: ['postHocHypothesis', 'exploratoryAnalysis', 'confirmation', 'replication'],
+    namespace: 'dartboard',
+    docs: 'docs/scenarios/01-dartboard.md',
+    component: DartboardScenario,
+  },
+  {
+    id: '02-best-line',
+    order: 2,
+    status: 'available',
+    titleKey: 'scenarios.02-best-line.title',
+    summaryKey: 'scenarios.02-best-line.summary',
+    conceptKeys: ['overfitting', 'modelSelection', 'trainingData', 'testData', 'generalization'],
+    namespace: 'bestline',
+    docs: 'docs/scenarios/02-best-line.md',
+    component: BestLineScenario,
+  },
+  {
+    id: '03-interesting-region',
+    order: 3,
+    status: 'planned',
+    titleKey: 'scenarios.03-interesting-region.title',
+    summaryKey: 'scenarios.03-interesting-region.summary',
+    conceptKeys: [
+      'multipleComparisons',
+      'researcherDegreesOfFreedom',
+      'falseDiscoveries',
+      'selection',
+    ],
+    docs: 'docs/scenarios/03-interesting-region.md',
+  },
+  {
+    id: '04-doctor-mortality',
+    order: 4,
+    status: 'planned',
+    titleKey: 'scenarios.04-doctor-mortality.title',
+    summaryKey: 'scenarios.04-doctor-mortality.summary',
+    conceptKeys: [
+      'multipleComparisons',
+      'extremeValues',
+      'confounding',
+      'riskAdjustment',
+      'investigationVersusProof',
+    ],
+    docs: 'docs/scenarios/04-doctor-mortality.md',
+  },
+  {
+    id: '05-miracle-drug',
+    order: 5,
+    status: 'planned',
+    titleKey: 'scenarios.05-miracle-drug.title',
+    summaryKey: 'scenarios.05-miracle-drug.summary',
+    conceptKeys: [
+      'multipleTesting',
+      'falsePositives',
+      'independentReplication',
+      'pValueInterpretation',
+    ],
+    docs: 'docs/scenarios/05-miracle-drug.md',
+  },
+  {
+    id: '06-mysterious-correlation',
+    order: 6,
+    status: 'planned',
+    titleKey: 'scenarios.06-mysterious-correlation.title',
+    summaryKey: 'scenarios.06-mysterious-correlation.summary',
+    conceptKeys: [
+      'dataMining',
+      'correlation',
+      'multipleComparisons',
+      'replication',
+      'predictionVersusExplanation',
+    ],
+    docs: 'docs/scenarios/06-mysterious-correlation.md',
+  },
+  {
+    id: '07-ai-synthesis',
+    order: 7,
+    status: 'planned',
+    titleKey: 'scenarios.07-ai-synthesis.title',
+    summaryKey: 'scenarios.07-ai-synthesis.summary',
+    conceptKeys: [
+      'patternDiscovery',
+      'hypothesisGeneration',
+      'generalization',
+      'causalInference',
+      'independentReplication',
+    ],
+    docs: 'docs/scenarios/07-ai-synthesis.md',
+  },
+]
+
+export function findScenario(id: string): ScenarioDefinition | undefined {
+  return scenarios.find((scenario) => scenario.id === id)
+}

@@ -52,6 +52,7 @@ describe('scenario registry', () => {
       '04-doctor-mortality',
       '05-miracle-drug',
       '06-mysterious-correlation',
+      '07-ai-synthesis',
     ])
   })
 

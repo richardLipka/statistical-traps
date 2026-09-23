@@ -2,52 +2,52 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/Badge'
 import { fitPolynomial, predictPolynomial } from '@/statistics/regression/leastSquares'
-import { formatNumber, formatPValueRelation } from '@/utils/format'
-import { ALPHA, variableNumber } from '@/scenarios/06-mysterious-correlation/model'
-import {
-  pairPoints,
-  selectionNullDataset,
-  type SelectionSearchResult,
-} from '@/scenarios/06-mysterious-correlation/analysis'
 import { ScatterPlot } from '@/visualization/ScatterPlot'
+import { formatNumber, formatPValueRelation } from '@/utils/format'
+import { ALPHA, featureNumber } from '@/scenarios/07-ai-synthesis/model'
+import {
+  candidatePoints,
+  selectionNullStudy,
+  type SelectionSearchResult,
+} from '@/scenarios/07-ai-synthesis/analysis'
 
 export interface SearchGalleryProps {
   searches: readonly SelectionSearchResult[]
-  variableCount: number
-  observationCount: number
+  candidateCount: number
+  rowCount: number
   baseSeed: number
 }
 
 /**
- * The strongest relationship each of the most impressive simulated sweeps
- * found, drawn on the data it was found in.
+ * The best candidate each of the most impressive simulated searches found,
+ * in worlds where no feature is connected to the outcome at all.
  *
- * Every table below is one where every variable is independent of every
- * other, and every plot is the best pair the sweep could find in it.
+ * These are what a correctly performed search returns when there is nothing
+ * to return, and they are indistinguishable from the real thing on the page.
  */
 export function SearchGallery({
   searches,
-  variableCount,
-  observationCount,
+  candidateCount,
+  rowCount,
   baseSeed,
 }: SearchGalleryProps) {
-  const { t } = useTranslation('mysteriouscorrelation')
+  const { t } = useTranslation('aisynthesis')
   const { i18n } = useTranslation()
   const locale = i18n.language
 
   const items = useMemo(
     () =>
       searches.map((search) => {
-        const dataset = selectionNullDataset({
-          variableCount,
-          observationCount,
+        const study = selectionNullStudy({
+          candidateCount,
+          rowCount,
           baseSeed,
           index: search.index,
         })
-        const points = pairPoints(dataset, search.pair)
+        const points = candidatePoints(study, search.candidate)
         return { search, points, line: fitPolynomial(points, 1) }
       }),
-    [searches, variableCount, observationCount, baseSeed],
+    [searches, candidateCount, rowCount, baseSeed],
   )
 
   if (items.length === 0) return null
@@ -61,8 +61,7 @@ export function SearchGallery({
             predict={(x) => predictPolynomial(line, x)}
             ariaLabel={t('analysis.selection.gallery.plotAria', {
               index: search.index + 1,
-              a: variableNumber(search.pair.a),
-              b: variableNumber(search.pair.b),
+              feature: featureNumber(search.candidate),
             })}
             compact
           />
@@ -70,10 +69,7 @@ export function SearchGallery({
             {t('analysis.selection.gallery.caption', { index: search.index + 1 })}
           </p>
           <p className="text-xs font-medium text-slate-800 tabular-nums">
-            {t('pairs.label', {
-              a: variableNumber(search.pair.a),
-              b: variableNumber(search.pair.b),
-            })}
+            {t('features.label', { feature: featureNumber(search.candidate) })}
           </p>
           <p className="text-xs font-medium whitespace-nowrap text-posthoc tabular-nums">
             {t('analysis.selection.gallery.itemStats', {

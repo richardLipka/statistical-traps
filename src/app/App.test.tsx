@@ -8,6 +8,8 @@ import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
+import csAi from '@/i18n/cs/aisynthesis'
+import enAi from '@/i18n/en/aisynthesis'
 import csSweep from '@/i18n/cs/mysteriouscorrelation'
 import enSweep from '@/i18n/en/mysteriouscorrelation'
 import csDrug from '@/i18n/cs/miracledrug'
@@ -49,18 +51,18 @@ describe('application shell', () => {
     expect(document.documentElement.lang).toBe('cs')
   })
 
-  it('lists the planned scenarios as not yet implemented', async () => {
+  it('lists every scenario as implemented, now that the sequence is finished', async () => {
     await setLanguage('en')
     render(<App />)
-    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(1)
-    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(6)
+    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(7)
+    expect(screen.queryAllByText(enCommon.status.planned)).toHaveLength(0)
   })
 
-  it('shows a notice for a scenario that is only planned', async () => {
+  it('shows a notice for an address that is not a scenario', async () => {
     await setLanguage('en')
-    window.location.hash = '#/scenario/07-ai-synthesis'
+    window.location.hash = '#/scenario/08-not-a-scenario'
     render(<App />)
-    expect(screen.getByText(enCommon.scenario.planned.body)).toBeDefined()
+    expect(screen.getByText(enCommon.scenario.notFound.body)).toBeDefined()
   })
 })
 
@@ -466,5 +468,73 @@ describe('mysterious correlation scenario', () => {
       screen.getByRole('heading', { level: 2, name: enSweep.validation.heading }),
     ).toBeDefined()
     expect(screen.getAllByText(enSweep.validation.freshBatch).length).toBeGreaterThan(0)
+  })
+})
+
+describe('ai synthesis scenario', () => {
+  it('walks through the lifecycle in both languages', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/07-ai-synthesis'
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: enAi.intro.heading })).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enAi.intro.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enAi.experiment.heading }),
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enAi.experiment.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enAi.observation.heading }),
+    ).toBeDefined()
+
+    await setLanguage('cs')
+    expect(
+      screen.getByRole('heading', { level: 2, name: csAi.observation.heading }),
+    ).toBeDefined()
+  })
+
+  it('keeps which finalist is real hidden until the data decide it', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/07-ai-synthesis'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enAi.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enAi.experiment.action }))
+
+    // Nothing on the observation stage may say which is which.
+    expect(screen.queryByText(enAi.features.connected)).toBeNull()
+    expect(screen.queryByText(enAi.features.unconnected)).toBeNull()
+
+    // And a guess is required before going on.
+    const advance = screen.getByRole('button', { name: enAi.observation.action })
+    expect(advance.hasAttribute('disabled')).toBe(true)
+    fireEvent.click(screen.getAllByRole('button', { name: /^Feature \d+$/ })[0])
+    expect(
+      screen.getByRole('button', { name: enAi.observation.action }).hasAttribute('disabled'),
+    ).toBe(false)
+  })
+
+  it('reveals the answer only at the validation stage', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/07-ai-synthesis'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enAi.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enAi.experiment.action }))
+    fireEvent.click(screen.getAllByRole('button', { name: /^Feature \d+$/ })[0])
+    fireEvent.click(screen.getByRole('button', { name: enAi.observation.action }))
+
+    // The analysis stage prices the search and still says nothing.
+    expect(screen.getByText(enAi.analysis.selection.heading)).toBeDefined()
+    expect(screen.queryByText(enAi.features.connected)).toBeNull()
+
+    fireEvent.click(screen.getByRole('button', { name: enAi.analysis.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enAi.validation.heading }),
+    ).toBeDefined()
+    expect(screen.getAllByText(enAi.features.connected).length).toBeGreaterThan(0)
+    expect(screen.getByText(enAi.validation.intervention.heading)).toBeDefined()
   })
 })

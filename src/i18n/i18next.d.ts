@@ -2,6 +2,7 @@ import type bestline from '@/i18n/en/bestline'
 import type common from '@/i18n/en/common'
 import type doctormortality from '@/i18n/en/doctormortality'
 import type miracledrug from '@/i18n/en/miracledrug'
+import type aisynthesis from '@/i18n/en/aisynthesis'
 import type mysteriouscorrelation from '@/i18n/en/mysteriouscorrelation'
 import type dartboard from '@/i18n/en/dartboard'
 import type interestingregion from '@/i18n/en/interestingregion'
@@ -21,6 +22,7 @@ declare module 'i18next' {
       doctormortality: typeof doctormortality
       miracledrug: typeof miracledrug
       mysteriouscorrelation: typeof mysteriouscorrelation
+      aisynthesis: typeof aisynthesis
     }
   }
 }

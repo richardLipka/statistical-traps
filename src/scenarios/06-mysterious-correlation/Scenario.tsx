@@ -11,7 +11,7 @@ import { StatTile } from '@/components/ui/StatTile'
 import { binIndexOf, binValues } from '@/statistics/monteCarlo'
 import { randomSeed } from '@/statistics/random/rng'
 import { criticalCorrelation } from '@/statistics/hypothesis/correlationTest'
-import { fitPolynomial } from '@/statistics/regression/leastSquares'
+import { fitPolynomial, predictPolynomial } from '@/statistics/regression/leastSquares'
 import { Histogram } from '@/visualization/Histogram'
 import { SCENARIO_STAGES, type ScenarioStage } from '@/scenarios/types'
 import { runChunked } from '@/utils/chunked'
@@ -47,7 +47,7 @@ import {
 } from '@/scenarios/06-mysterious-correlation/analysis'
 import { CorrelationMatrix } from '@/scenarios/06-mysterious-correlation/components/CorrelationMatrix'
 import { DiscoveryList } from '@/scenarios/06-mysterious-correlation/components/DiscoveryList'
-import { PairPlot } from '@/scenarios/06-mysterious-correlation/components/PairPlot'
+import { ScatterPlot } from '@/visualization/ScatterPlot'
 import { SearchGallery } from '@/scenarios/06-mysterious-correlation/components/SearchGallery'
 import {
   DatasetControls,
@@ -292,10 +292,10 @@ export default function MysteriousCorrelationScenario() {
                   pairs: sweep.tested,
                 })}
               />
-              <PairPlot
+              <ScatterPlot
                 points={shownPoints}
-                line={frozenLine}
-                tone={showsChosen ? 'posthoc' : 'preset'}
+                predict={(x) => predictPolynomial(frozenLine, x)}
+                lineTone={showsChosen ? 'posthoc' : 'preset'}
                 pointTone={showsFresh ? 'fresh' : 'neutral'}
                 ariaLabel={t('plot.pairAria', {
                   a: variableNumber(shownPair.a),

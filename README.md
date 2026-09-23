@@ -26,7 +26,7 @@ This is **not** an argument against statistics, data mining or machine learning.
 
 ## Status
 
-**Early version.** The foundation and the first six scenarios are finished and tested; the remaining scenarios are planned and listed in the application as not yet implemented. Content, wording and defaults may still change.
+**All seven scenarios are implemented, tested and documented.** Content, wording and defaults may still change, and the application is still described as an early version: it has not been used with a class yet.
 
 | # | Scenario | State |
 | --- | --- | --- |
@@ -36,9 +36,9 @@ This is **not** an argument against statistics, data mining or machine learning.
 | 04 | Lékař s neobvykle vysokou úmrtností / The Doctor With Unusually High Mortality | **implemented** |
 | 05 | Zázračný lék / The Miracle Drug | **implemented** |
 | 06 | Záhadná korelace / The Mysterious Correlation | **implemented** |
-| 07 | Co z toho plyne pro AI? / What Does This Mean for AI? | planned |
+| 07 | Co z toho plyne pro AI? / What Does This Mean for AI? | **implemented** |
 
-Scenarios are implemented one at a time, each tested and documented before the next begins.
+Scenarios were implemented one at a time, each tested and documented before the next began.
 
 ## Running it
 

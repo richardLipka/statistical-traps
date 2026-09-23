@@ -102,7 +102,7 @@ Switching languages is instantaneous: no reload, no lost scenario state. `<html 
 
 ## Visualization
 
-`src/visualization/` holds the reusable charts: `Histogram` (labelled columns with one bar optionally singled out) and `LineChart` (small multi-series chart). Neither knows anything about a scenario; each scenario maps its own values to labels and colours. Both, and the scenario-specific plots, break a curve where it leaves the visible range instead of flattening it against the edge - a clipped line would claim something untrue about the model.
+`src/visualization/` holds the reusable charts: `Histogram` (labelled columns with one bar optionally singled out), `LineChart` (small multi-series chart) and `ScatterPlot` (two measurements against each other, with an optional fitted line passed as a function so the chart never learns about the regression module). Neither knows anything about a scenario; each scenario maps its own values to labels and colours. Both, and the scenario-specific plots, break a curve where it leaves the visible range instead of flattening it against the edge - a clipped line would claim something untrue about the model.
 
 ## Visual language
 
@@ -135,11 +135,12 @@ What is covered today:
 - the Poisson-binomial distribution against an exhaustive enumeration of every outcome, and against the binomial when every risk is equal;
 - the t distribution against tabulated critical values, Welch's test against a worked example, and Holm against Bonferroni;
 - the correlation test against its own t statistic and the false discovery rate against a worked example, including that it is never more severe than the family-wise corrections;
+- scenario 07 simulation and analysis — including that exactly one feature is connected to the outcome and through a cause that is not in the table, that intervening severs that link and leaves the outcome untouched, that the two finalists are indistinguishable in the data they were found in, and that only fresh cases separate them;
 - scenario 06 model, data-generating process, and analysis — including that the columns really are independent, that the p-values of the whole sweep are flat, that nothing survives at a 5% false discovery rate, and that the discovered pair predicts new rows worse than the mean does;
 - scenario 05 model, data-generating process, and analysis — including that both arms are generated identically, that the outcomes correlate as designed while staying marginally standard normal, and that the simulated correction comes out milder than Bonferroni;
 - scenario 04 model, data-generating process, and analysis — including that doctors differ in case mix but not in skill, that the search flags somebody in most hospitals where no doctor differs, and that the flagged doctor returns to a ratio of 1 on later years;
 - number formatting, including that a value which rounds to zero never prints as a negative zero;
-- application-level walkthroughs of every implemented scenario in both languages;
+- application-level walkthroughs of every implemented scenario in both languages, including that scenario 07 never reveals which finalist is real before the validation stage;
 - that no interpolation placeholder reaches the screen unfilled, including in the panels that only appear once a simulation has finished.
 
 ## Commands

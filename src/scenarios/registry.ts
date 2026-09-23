@@ -3,6 +3,7 @@ import BestLineScenario from '@/scenarios/02-best-line/Scenario'
 import InterestingRegionScenario from '@/scenarios/03-interesting-region/Scenario'
 import DoctorMortalityScenario from '@/scenarios/04-doctor-mortality/Scenario'
 import MiracleDrugScenario from '@/scenarios/05-miracle-drug/Scenario'
+import AiSynthesisScenario from '@/scenarios/07-ai-synthesis/Scenario'
 import MysteriousCorrelationScenario from '@/scenarios/06-mysterious-correlation/Scenario'
 import type { ScenarioDefinition } from '@/scenarios/types'
 
@@ -105,7 +106,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
   {
     id: '07-ai-synthesis',
     order: 7,
-    status: 'planned',
+    status: 'available',
     titleKey: 'scenarios.07-ai-synthesis.title',
     summaryKey: 'scenarios.07-ai-synthesis.summary',
     conceptKeys: [
@@ -115,7 +116,9 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'causalInference',
       'independentReplication',
     ],
+    namespace: 'aisynthesis',
     docs: 'docs/scenarios/07-ai-synthesis.md',
+    component: AiSynthesisScenario,
   },
 ]
 

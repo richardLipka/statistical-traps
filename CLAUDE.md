@@ -594,11 +594,21 @@ Scenario 06       The Mysterious Correlation — complete (60 independent column
                   every pair's p-value as the centrepiece, Benjamini-Hochberg
                   beside a Monte Carlo of the sweep, then new rows where the
                   frozen line predicts worse than the mean)
+  ↓
+Scenario 07       What Does This Mean for AI? — complete (two finalists the
+                  training data cannot tell apart, one of them genuinely
+                  connected to the outcome through an unmeasured cause; the user
+                  commits to a guess, the search correction rejects both, fresh
+                  cases separate them, and an intervention shows the real one
+                  predicts without causing)
 ```
 
-Next step: Scenario 07 — What Does This Mean for AI?, when explicitly requested.
+The sequence is finished. Every scenario in section 7 is implemented, tested and
+documented, and the registry contains no planned entries.
 
-Do not implement Scenario 07 until explicitly requested. Section 9 governs what it may say.
+Work from here is revision rather than extension: wording, defaults, accessibility,
+classroom use. Treat a request for an eighth scenario as a request to extend
+section 7 first.
 
 Conventions established by the foundation, to be reused rather than reinvented:
 
@@ -609,6 +619,8 @@ Conventions established by the foundation, to be reused rather than reinvented:
 * Long simulations run through `runChunked` so the interface stays responsive.
 * Every scenario follows the same arc, and the next one should too: a pre-registered analysis, a search the user performs themselves, the identical test applied to both, a Monte Carlo correction that simulates the whole search, a gallery of what that search finds in data with no effect, and finally independent data.
 * The structure of what was searched decides which correction fits. Scenario 05 correlates its outcomes, which makes Bonferroni too severe; scenario 06 keeps its columns independent, which makes Bonferroni right and the p-value histogram exactly flat. Say which case a scenario is in rather than implying one rule.
+* Correcting for a search says "this data set has not established it", not "it is false". Scenario 07 exists partly to stop the first six leaving the impression that anything found by searching is noise: it rejects a real finding with the same correction that rejects a spurious one, and says so in the interface.
+* Prediction and causation come apart, and only scenario 07 reaches that rung. Where a scenario can perform an intervention it should say plainly that this is possible because the world is simulated, and that collected data need an experiment instead.
 * At the scale where a search is automated, the most useful thing to show is the distribution of every result rather than the winner. Under no effect p-values are uniform, so a flat histogram is what "nothing is there" looks like, and a reader can apply that diagnostic to somebody else's analysis without re-running it.
 * Where a textbook correction exists, show it beside the simulated one rather than instead of it. Scenario 05 puts Bonferroni and Holm next to a Monte Carlo of the search and explains why they disagree: the outcomes are correlated, so Bonferroni charges for more independent chances than the search had. "Multiply by the number of tests" is a safe default, not the right answer.
 * A scenario may correct a result more than once. Scenario 04 separates confounding (removed by risk adjustment) from selection (removed only by simulating the search), because "we adjusted for that" is routinely offered as though it answered both.
@@ -616,11 +628,12 @@ Conventions established by the foundation, to be reused rather than reinvented:
 * Scenarios about people use numbered, generated individuals, and state in the introduction that nobody in them is real.
 * A scenario may change the generator, but the null must stay exactly true: the point being taught is what a search does to a valid test, so the test must be valid before the search. Scenario 03 tests the independent steps of a random walk, not its correlated levels, for exactly this reason - a statistic that was already invalid would teach a different lesson.
 * Statistics already available: seeded RNG, binomial, Poisson-binomial, F, t and normal distributions (including the regularized incomplete gamma and beta functions), exact binomial, Poisson-binomial risk-adjusted, overall F, Welch two-sample t, correlation and known-sigma z tests, Bonferroni, Holm and Benjamini-Hochberg adjustments, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
-* Charts already available: `visualization/Histogram` (labelled columns, one highlighted) and `visualization/LineChart` (multi-series).
+* Charts already available: `visualization/Histogram` (labelled columns, one highlighted), `visualization/LineChart` (multi-series) and `visualization/ScatterPlot` (two measurements with an optional fitted line, passed as a function so the chart stays independent of the regression module).
 * Report no statistic rather than an invalid one when a test's assumptions do not hold.
 * The localization parity test cannot catch a value a component forgets to pass to `t()`: both languages are equally wrong and the placeholder renders as text. `src/i18n/index.ts` records these through i18next's `missingInterpolationHandler`, and an application test asserts the list is empty after walking a scenario through the panels that only appear once a simulation has run. Check any new scenario the same way.
 * A Monte Carlo histogram is binned on the statistic whose labels can be told apart, not necessarily on the p-value: scenarios 03 and 06 bin on |z| and |r| because the winning p-values all round to the same text. The correction is identical as long as the two order identically, which holds when every replication has the same sample size.
-* The bundle is a single chunk and passed 500 kB at five scenarios. If it keeps growing, load scenario components lazily from the registry rather than trimming content.
+* The bundle is a single chunk and reached 612 kB (171 kB gzipped) with all seven scenarios. Loading scenario components lazily from the registry is the contained fix if it needs one.
+* Nothing in the registry is `planned` any more, so the "not implemented yet" page has no route pointing at it. It is still reachable if an eighth entry is added, but no test covers it - the application test that used to was repointed at the not-found route.
 
 After completing a development step, report:
 
@@ -673,7 +686,7 @@ statistical-traps/
     |   +-- cs/             one module per namespace, named after the scenario id
     |   +-- en/             without its number and hyphens (dartboard, bestline,
     |   |                   interestingregion, doctormortality, miracledrug,
-    |   |                   mysteriouscorrelation)
+    |   |                   mysteriouscorrelation, aisynthesis)
     |   +-- index.ts        i18next setup, language detection and persistence
     |   +-- resources.ts    languages, namespaces, resource map
     |   +-- keys.ts         keys built from registry data
@@ -688,6 +701,7 @@ statistical-traps/
     |   +-- 04-doctor-mortality/
     |   +-- 05-miracle-drug/
     |   +-- 06-mysterious-correlation/
+    |   +-- 07-ai-synthesis/
     |
     +-- statistics/
     |   +-- random/rng.ts
@@ -701,7 +715,7 @@ statistical-traps/
     |   +-- tests/
     |
     +-- utils/              geometry, format, cn, chunked
-    +-- visualization/      Histogram, LineChart
+    +-- visualization/      Histogram, LineChart, ScatterPlot
     +-- test/               Vitest setup
     +-- index.css           Tailwind import and semantic colour tokens
     +-- main.tsx

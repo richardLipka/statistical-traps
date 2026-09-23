@@ -2,6 +2,7 @@ import csBestline from '@/i18n/cs/bestline'
 import csCommon from '@/i18n/cs/common'
 import csDoctorMortality from '@/i18n/cs/doctormortality'
 import csMiracleDrug from '@/i18n/cs/miracledrug'
+import csAiSynthesis from '@/i18n/cs/aisynthesis'
 import csMysteriousCorrelation from '@/i18n/cs/mysteriouscorrelation'
 import csDartboard from '@/i18n/cs/dartboard'
 import csInterestingRegion from '@/i18n/cs/interestingregion'
@@ -9,6 +10,7 @@ import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDoctorMortality from '@/i18n/en/doctormortality'
 import enMiracleDrug from '@/i18n/en/miracledrug'
+import enAiSynthesis from '@/i18n/en/aisynthesis'
 import enMysteriousCorrelation from '@/i18n/en/mysteriouscorrelation'
 import enDartboard from '@/i18n/en/dartboard'
 import enInterestingRegion from '@/i18n/en/interestingregion'
@@ -16,7 +18,7 @@ import enInterestingRegion from '@/i18n/en/interestingregion'
 export const LANGUAGES = ['cs', 'en'] as const
 export type Language = (typeof LANGUAGES)[number]
 
-export const NAMESPACES = ['common', 'dartboard', 'bestline', 'interestingregion', 'doctormortality', 'miracledrug', 'mysteriouscorrelation'] as const
+export const NAMESPACES = ['common', 'dartboard', 'bestline', 'interestingregion', 'doctormortality', 'miracledrug', 'mysteriouscorrelation', 'aisynthesis'] as const
 export type Namespace = (typeof NAMESPACES)[number]
 
 export const DEFAULT_NAMESPACE = 'common' satisfies Namespace
@@ -36,6 +38,7 @@ export const resources = {
     doctormortality: csDoctorMortality,
     miracledrug: csMiracleDrug,
     mysteriouscorrelation: csMysteriousCorrelation,
+    aisynthesis: csAiSynthesis,
   },
   en: {
     common: enCommon,
@@ -45,6 +48,7 @@ export const resources = {
     doctormortality: enDoctorMortality,
     miracledrug: enMiracleDrug,
     mysteriouscorrelation: enMysteriousCorrelation,
+    aisynthesis: enAiSynthesis,
   },
 } as const
 

@@ -308,6 +308,19 @@ export default function MiracleDrugScenario() {
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('intro.heading')}</h2>
               <p className="text-slate-700">{t('intro.body1')}</p>
+              <Card title={t('intro.goalHeading')} tone="preset">
+                <p className="text-sm text-slate-700">
+                  {t('intro.goalBody', { outcomes: params.outcomeCount })}
+                </p>
+                <ol className="mt-3 space-y-1.5 text-sm text-slate-700">
+                  {([1, 2, 3] as const).map((step) => (
+                    <li key={step} className="flex gap-2">
+                      <span className="font-semibold tabular-nums text-slate-500">{step}.</span>
+                      <span>{t(`intro.goalStep${step}`)}</span>
+                    </li>
+                  ))}
+                </ol>
+              </Card>
               <p className="text-slate-700">{t('intro.body2')}</p>
               <blockquote className="border-l-4 border-preset bg-preset-soft/50 px-4 py-3 text-slate-800 italic">
                 {t('intro.question', { outcome: outcomeNumber(PRIMARY_OUTCOME) })}
@@ -353,6 +366,10 @@ export default function MiracleDrugScenario() {
                   />
                 </dl>
               </Card>
+              <ExplanationPanel title={t('experiment.numbersTitle')}>
+                <p>{t('experiment.numbersBody1')}</p>
+                <p>{t('experiment.numbersBody2')}</p>
+              </ExplanationPanel>
               <TrialControls
                 params={params}
                 onChange={updateParams}

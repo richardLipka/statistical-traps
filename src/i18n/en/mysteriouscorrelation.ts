@@ -2,9 +2,18 @@ const mysteriouscorrelation = {
   intro: {
     heading: 'One relationship, named before the data arrive',
     body1:
-      'A table of measurements: one row per case, one column per variable. Every column is generated independently of every other one — no shared cause, no chain of influence, no lurking third variable. The true correlation between every pair is exactly zero.',
+      'A table of measurements: one row per case, one column per variable. Every column is generated independently of every other one — no shared cause, no chain of influence, no lurking third variable. Take any two columns and one tells you nothing whatsoever about the other.',
     body2:
       'Before the data are collected we name one pair to look at, because somebody had a reason to expect a relationship there. That is one test, and it will answer honestly.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That sweeping a table for everything now costs a few milliseconds — and that the number of pairs grows so fast that even in data where nothing is related, dozens of them come back "significant". And above all: that you can see this, if you look at the distribution of all the results instead of at the best one.',
+    goalStep1:
+      'Test one pair we named for ourselves in advance. It finds nothing.',
+    goalStep2:
+      'Then let the tool test every pair in the table and take the strongest. That one looks like a finding.',
+    goalStep3:
+      'Then look at every p-value at once, and test the finding on new rows. Nothing of it survives.',
     question:
       'Are variable {{a}} and variable {{b}} related more strongly than chance allows?',
     body3:
@@ -19,9 +28,14 @@ const mysteriouscorrelation = {
   experiment: {
     heading: 'The table, and the pair we asked about',
     body1:
-      'The square shows every pair of variables at once, shaded by how strongly they correlate — stronger colour means stronger correlation, and the two directions have their own colours. It is a field of noise, which is exactly what it should be.',
+      'The triangle at the top is a map of every pair at once: each cell is one pair of variables, and how strongly it is shaded says how closely that pair moves together. Red means they rise together, blue that one rises as the other falls. It is a field of noise, which is exactly what it should be.',
     body2:
-      'The pair named in advance is marked, and plotted underneath. Its correlation is near zero and its test finds nothing, which is correct.',
+      'The pair named in advance is outlined in the map and plotted underneath, one dot per case. The dots lie around no line at all, the correlation is near zero, and the test finds nothing — which is correct.',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'The correlation r says how tightly the dots lie around a single straight line. Zero is a shapeless cloud, plus one a perfect rise, minus one a perfect fall. 0.02 is a cloud; −0.57 is a visibly stretched cluster that the eye finishes into a line by itself.',
+    numbersBody2:
+      'The p-value answers: if those two variables were unrelated, how often would their correlation come out at least this strong anyway? With a few dozen rows, a correlation of only about 0.3 already reaches 0.05 — which is why that bar is so low, and why so many of thousands of pairs clear it.',
     action: 'Now let the analyst loose',
   },
   controls: {
@@ -36,10 +50,10 @@ const mysteriouscorrelation = {
   plot: {
     notCollected: 'The data have not been collected yet.',
     matrixAria:
-      'Correlation between every pair of {{variables}} variables: {{pairs}} shaded cells.',
+      'Map of the correlation between every pair of {{variables}} variables: {{pairs}} shaded cells.',
     pairAria: 'Variable {{a}} plotted against variable {{b}}, with the line fitted to them.',
     legendRow: 'One case',
-    legendMatrix: 'Square: every pair · plot: the selected pair',
+    legendMatrix: 'Map: every pair · plot: the selected pair',
   },
   pairs: {
     label: 'Variables {{a}} and {{b}}',
@@ -53,8 +67,8 @@ const mysteriouscorrelation = {
     rows: '{{rows}} rows each',
     pairs: 'Pairs tested',
     pairsHint: 'every combination of two',
-    threshold: 'Bar to clear',
-    thresholdHint: 'the |r| that reaches 0.05 here',
+    threshold: 'Significance bar',
+    thresholdHint: 'from this correlation up, the test reports a finding',
     correlation: 'Correlation r',
     t: 't',
     pValue: 'p-value as usually reported',
@@ -97,7 +111,7 @@ const mysteriouscorrelation = {
       histogramY: 'Number of pairs',
       flat: 'That histogram is the scenario in one picture. When nothing is related to anything, p-values are spread evenly between 0 and 1 — so the bar at the left is not a cluster of discoveries, it is the left-hand end of a flat distribution. A table with something real in it looks different: a spike at the left that the rest of the range cannot account for.',
       corrections:
-        'The formal corrections agree. Bonferroni puts the strongest pair at {{bonferroni}}, and the false discovery rate would have to be set as high as {{fdr}} before anything in this table counted as a discovery at all.',
+        'The formal corrections agree. Bonferroni puts the strongest pair at p {{bonferroni}}, and the false discovery rate would have to be set as high as {{fdr}} before anything in this table counted as a discovery at all.',
     },
     selection: {
       heading: 'Correction 2: simulate the sweep',
@@ -114,7 +128,7 @@ const mysteriouscorrelation = {
       meanSignificant:
         'On average the sweep calls {{average}} of the {{pairs}} pairs significant in a table where every variable is independent of every other. That number is not a bug in the sweep; it is what the threshold promises.',
       conclusion:
-        'The same result read two ways: {{naive}} for a pair named in advance, {{adjusted}} for a pair found by sweeping. The rows of data are the same rows.',
+        'The same result read two ways: p {{naive}} for a pair named in advance, p {{adjusted}} for a pair found by sweeping. The rows of data are the same rows.',
       gallery: {
         heading: 'The five strongest relationships those simulations produced',
         body: 'Every table below has independent columns and nothing else. In each, the plot is the strongest pair its sweep could find, and every one of them would look like a discovery.',

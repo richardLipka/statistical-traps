@@ -89,7 +89,7 @@ const interestingregion = {
       shareSignificant:
         'In {{share}} of the simulated records the search found a period below 0.05 — in data with no trend at all. Search enough stretches and a striking one is not a lucky find but a certainty.',
       conclusion:
-        'The same result read two ways: {{naive}} as the number would normally be reported, {{adjusted}} once the search that produced it is counted. Nothing about the data changed between those two numbers.',
+        'The same result read two ways: p {{naive}} as the number would normally be reported, p {{adjusted}} once the search that produced it is counted. Nothing about the data changed between those two numbers.',
       gallery: {
         heading: 'The five most striking periods those simulations found',
         body: 'Every record below is a machine with no trend, and every highlighted stretch is the most striking period in it. Each one would be reported with the numbers shown underneath.',

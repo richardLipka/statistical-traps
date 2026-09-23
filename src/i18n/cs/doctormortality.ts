@@ -4,13 +4,22 @@ const doctormortality = {
     body1:
       'Simulovaná nemocnice. Každý lékař rok léčí své pacienty a na konci spočítáme, kolik z nich zemřelo. Pacienti se od sebe liší: každý má vlastní riziko a některým lékařům chodí těžší pacienti než jiným, což je skutečný a naprosto běžný rozdíl mezi jednou praxí a druhou.',
     body2:
-      'Lékaři se neliší. V generátoru není žádný člen pro dovednost, péči ani pozornost — každý lékař v této nemocnici je přesně tak dobrý jako každý jiný a skutečný vliv kteréhokoli z nich na jeho pacienty je nulový.',
+      'Lékaři se neliší. Když jsme data vytvářeli, nezadali jsme žádnému z nich lepší ani horší dovednost, péči ani pozornost — každý lékař v této nemocnici je přesně tak dobrý jako každý jiný a skutečný vliv kteréhokoli z nich na jeho pacienty je nulový.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že když porovnáte {{doctors}} lékařů a vyberete toho nejhoršího, jeho nápadný výsledek neznamená nic — a že za tím stojí dvě různé věci, které se snadno pletou dohromady: jeho pacienti byli těžší, a vybírali jsme z mnoha lidí toho nejkrajnějšího.',
+    goalStep1:
+      'Necháme proběhnout rok a otestujeme lékaře, kterého jsme určili předem. Nic nenajde.',
+    goalStep2:
+      'Pak si z tabulky vybereme toho, kdo dopadl nejhůř, a otestujeme ho úplně stejným testem. Ten už jako nález vypadá.',
+    goalStep3:
+      'Nakonec ten nález dvakrát opravíme a oba lékaře budeme sledovat do dalších let. Nezbude z něj nic.',
     question:
       'Ztratil lékař č. {{doctor}}, kterého letos čeká pravidelný audit, víc pacientů, než předpovídala jejich vlastní rizika?',
     body3:
       'Tohoto lékaře určujeme teď, ještě než rok proběhne, takže nic z výsledku nemohlo tuto volbu ovlivnit. Všechno překvapivé, co bude následovat, pochází z toho, co uděláme až potom, co jsou čísla na stole.',
     trueProcess:
-      'Každý lékař dostane skladbu pacientů, losovanou jednou. Každý pacient z ní dostane vlastní riziko a umírá nezávisle právě s touto pravděpodobností. Žádný člen nikde nezávisí na tom, který lékař ho léčí: skutečný vliv každého lékaře je nulový.',
+      'Každý lékař dostane skladbu pacientů, losovanou jednou. Každý pacient z ní dostane vlastní riziko — číslo mezi 0 a 1 — a s touto pravděpodobností nezávisle umírá. Do toho čísla nikde nevstupuje, který lékař ho léčí: skutečný vliv každého lékaře je nulový.',
     fictionHeading: 'Nikdo zde není skutečný',
     fictionBody:
       'Nemocnice, lékaři i pacienti vznikají ve vašem prohlížeči ze semínka. Nejde o žádnou skutečnou instituci, lékaře, pacienta ani studii a nepoužívá se ani nenaznačuje žádná reálná statistika úmrtnosti. Ze stejného důvodu mají lékaři čísla, a ne jména.',
@@ -22,7 +31,12 @@ const doctormortality = {
       'Tady je ten rok. Každý sloupec je jeden lékař a jeho výška je podíl jeho pacientů, kteří zemřeli; čárkovaná čára je nemocnice jako celek. Sloupce se hodně liší, a přesně tak vypadá počítání několika desítek vzácných událostí na lékaře.',
     body2:
       'Auditovaný lékař je vyznačen. Jeho výsledek se porovnává s tím, co se čekalo od jeho vlastních pacientů, a nenachází nic — jak má být, protože tam nic není.',
-    action: 'Teď se podívejte na celou tabulku',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'P-hodnota odpovídá na jedinou otázku: kdyby tento lékař byl úplně průměrný, jak často by mu i tak vyšlo aspoň tolik úmrtí jako letos? Hodnota 0,85 znamená „takhle nebo hůř to dopadne v 85 % let, na tom není nic zvláštního“. Hodnota 0,009 znamená „takhle by to dopadlo asi v jednom roce ze sta“ — a právě tím se výsledky začnou označovat za nález. Hranice 0,05 je jen dohoda, ne důkaz.',
+    numbersBody2:
+      'Očekávaná úmrtí nejsou průměr nemocnice. Je to součet rizik konkrétních pacientů tohoto lékaře: když má šedesát pacientů s rizikem kolem 15 %, čeká se u nich zhruba devět úmrtí. Porovnávat jeho úmrtí s tímto číslem je poctivější než s průměrem celé nemocnice, protože někomu chodí těžší pacienti než jinému.',
+    action: 'Teď prohledejte celou tabulku',
   },
   controls: {
     heading: 'Nastavení experimentu',
@@ -83,7 +97,7 @@ const doctormortality = {
   analysis: {
     heading: 'Dvě opravy, jedna po druhé',
     body1:
-      'První porovnání je to, ke kterému tabulka svádí: úmrtí tohoto lékaře proti celkové úmrtnosti nemocnice. Je to nesprávné porovnání, a to z důvodu, který se statistikou vůbec nesouvisí; jeho náprava má dva oddělené kroky.',
+      'První porovnání je to, ke kterému tabulka svádí: úmrtí tohoto lékaře proti celkové úmrtnosti nemocnice. Je špatně hned ze dvou nezávislých důvodů. Zaprvé jeho pacienti nebyli stejní jako pacienti ostatních. Zadruhé jsme si ho vybrali až potom, co jsme viděli čísla. Každý z těch důvodů se napravuje jinak, a proto jsou opravy dvě.',
     rawPValue: 'p proti úmrtnosti nemocnice',
     adjustedPValue: 'p proti vlastním pacientům',
     verdictNothing: 'Nic k hlášení',
@@ -93,14 +107,14 @@ const doctormortality = {
     raw: {
       heading: 'První pohled: úmrtnost proti úmrtnosti nemocnice',
       body: 'Úmrtí každého lékaře testovaná proti míře pro celou nemocnici, jako by byl každý pacient stejný jako každý jiný.',
-      caption: 'Přesný binomický test proti úmrtnosti nemocnice {{rate}}.',
+      caption: 'Test porovnává úmrtí každého lékaře s úmrtností celé nemocnice, tedy {{rate}}.',
     },
     adjustment: {
       heading: 'Oprava 1: pacienti nebyli stejní',
       body: 'Každý pacient nese vlastní riziko, takže číslem k porovnání není průměr nemocnice, ale součet rizik vlastních pacientů tohoto lékaře — úmrtí, která se od těchto konkrétních lidí čekala.',
       caption:
-        'Přesný test proti jednotlivým rizikům (Poissonovsko-binomické nulové rozdělení), ne proti průměrné míře.',
-      note: 'Riziková adjustace výsledkem pohne, protože část přebytku nikdy nebyla o lékaři: byla o tom, koho léčil. Zbývá {{p}} — pořád dost málo na to, aby většina lidí pokračovala dál.',
+        'Test porovnává úmrtí s riziky jednotlivých pacientů, ne s průměrnou úmrtností nemocnice.',
+      note: 'Riziková adjustace výsledkem pohne, protože část přebytku nikdy nebyla o lékaři: byla o tom, koho léčil. Zbývá p {{p}} — pořád dost málo na to, aby většina lidí pokračovala dál.',
       limit:
         'Všimněte si, kolik jsme tu darovali. Adjustace používá skutečné riziko každého pacienta, které simulace zná a žádný reálný rizikový model nikdy nezná. Tohle je riziková adjustace ve své teoreticky nejlepší podobě — a pořád to nestačí.',
     },
@@ -119,7 +133,7 @@ const doctormortality = {
       shareSignificant:
         'V {{share}} simulovaných let vyšel některý lékař významně na hladině 0,05 — a to v nemocnici, kde žádný lékař není lepší ani horší než ostatní. Při {{doctors}} lékařích není to, že někdo je nejhorší, nález. Je to aritmetika.',
       conclusion:
-        'Tentýž výsledek přečtený dvěma způsoby: {{naive}} pro lékaře určeného předem, {{adjusted}} pro lékaře nalezeného hledáním. Úmrtí jsou přitom táž úmrtí.',
+        'Tentýž výsledek přečtený dvěma způsoby: p {{naive}} pro lékaře určeného předem, p {{adjusted}} pro lékaře nalezeného hledáním. Úmrtí jsou přitom táž úmrtí.',
       gallery: {
         heading: 'Pět nejznepokojivějších lékařů, které tyto simulace vytvořily',
         body: 'Každá nemocnice níže je taková, kde jsou lékaři totožní. V každé z nich je vyznačený lékař tím nejhorším, jakého daný rok náhodou vytvořil, a každý by se uváděl s čísly pod ním.',

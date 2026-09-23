@@ -2,9 +2,18 @@ const mysteriouscorrelation = {
   intro: {
     heading: 'Jeden vztah, pojmenovaný dřív, než data dorazí',
     body1:
-      'Tabulka měření: jeden řádek na případ, jeden sloupec na proměnnou. Každý sloupec vzniká nezávisle na všech ostatních — žádná společná příčina, žádný řetězec vlivů, žádná skrytá třetí proměnná. Skutečná korelace mezi každou dvojicí je přesně nulová.',
+      'Tabulka měření: jeden řádek na případ, jeden sloupec na proměnnou. Každý sloupec vzniká nezávisle na všech ostatních — žádná společná příčina, žádný řetězec vlivů, žádná skrytá třetí proměnná. Když si vezmete kteroukoli dvojici sloupců, nedozvíte se z jednoho o druhém vůbec nic.',
     body2:
       'Ještě před sběrem dat pojmenujeme jednu dvojici, na kterou se podíváme, protože někdo měl důvod tam vztah čekat. To je jeden test a ten odpoví poctivě.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že prohledat tabulku „na všechno“ je dnes otázka pár milisekund — a že počet dvojic roste tak rychle, že i v datech, kde spolu nic nesouvisí, jich vždycky několik desítek projde jako „významné“. A hlavně: že to jde poznat, když se místo na nejlepší nález podíváte na rozdělení všech výsledků.',
+    goalStep1:
+      'Otestujeme jednu dvojici, kterou jsme si pojmenovali předem. Nic nenajde.',
+    goalStep2:
+      'Pak necháme nástroj otestovat všechny dvojice, které v tabulce jsou, a vybereme tu nejsilnější. Ta už jako nález vypadá.',
+    goalStep3:
+      'Nakonec se podíváme na všechny p-hodnoty najednou a nález otestujeme na nových řádcích. Nezbude z něj nic.',
     question:
       'Souvisí spolu proměnná {{a}} a proměnná {{b}} silněji, než dovoluje náhoda?',
     body3:
@@ -19,9 +28,14 @@ const mysteriouscorrelation = {
   experiment: {
     heading: 'Tabulka a dvojice, na kterou jsme se ptali',
     body1:
-      'Čtverec ukazuje všechny dvojice proměnných najednou, odstínem podle toho, jak silně spolu korelují — sytější barva znamená silnější korelaci a oba směry mají vlastní barvu. Je to pole šumu, což je přesně to, co to má být.',
+      'Trojúhelník nahoře je mapa všech dvojic naráz: každé políčko je jedna dvojice proměnných a jeho sytost říká, jak silně spolu ta dvojice souvisí. Červená znamená, že spolu rostou, modrá že jedna roste, když druhá klesá. Je to pole šumu, což je přesně to, co to má být.',
     body2:
-      'Předem určená dvojice je vyznačena a vykreslena níže. Její korelace je blízko nule a její test nenachází nic, což je správně.',
+      'Předem určená dvojice je v mapě orámovaná a pod mapou vykreslená jako graf: každý bod je jeden případ. Body neleží kolem žádné čáry, korelace je blízko nule a test nenachází nic — což je správně.',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'Korelace r říká, jak těsně body leží kolem jedné přímky. Nula znamená beztvarý mrak, plus jedna dokonalý vzestup, minus jedna dokonalý pokles. Hodnota 0,02 je mrak; hodnota −0,57 už je viditelně protáhlý shluk, ze kterého oko samo dokreslí čáru.',
+    numbersBody2:
+      'P-hodnota odpovídá na otázku: kdyby ty dvě proměnné spolu nesouvisely vůbec, jak často by jejich korelace i tak vyšla aspoň takhle silná? Při čtyřech desítkách řádků stačí k hodnotě 0,05 korelace kolem 0,3 — proto je ta laťka tak nízko a proto ji při tisících dvojic tolik z nich přeskočí.',
     action: 'Teď pusťte nástroj na data',
   },
   controls: {
@@ -36,10 +50,10 @@ const mysteriouscorrelation = {
   plot: {
     notCollected: 'Data ještě nebyla sebrána.',
     matrixAria:
-      'Korelace mezi každou dvojicí z {{variables}} proměnných: {{pairs}} odstíněných políček.',
+      'Mapa korelací mezi každou dvojicí z {{variables}} proměnných: {{pairs}} odstíněných políček.',
     pairAria: 'Proměnná {{a}} vynesená proti proměnné {{b}}, s proloženou přímkou.',
     legendRow: 'Jeden případ',
-    legendMatrix: 'Čtverec: všechny dvojice · graf: vybraná dvojice',
+    legendMatrix: 'Mapa: všechny dvojice · graf: vybraná dvojice',
   },
   pairs: {
     label: 'Proměnné {{a}} a {{b}}',
@@ -53,8 +67,8 @@ const mysteriouscorrelation = {
     rows: 'po {{rows}} řádcích',
     pairs: 'Testovaných dvojic',
     pairsHint: 'každá kombinace dvou',
-    threshold: 'Laťka',
-    thresholdHint: 'hodnota |r|, která tu dosáhne 0,05',
+    threshold: 'Laťka významnosti',
+    thresholdHint: 'od této korelace výš už test hlásí nález',
     correlation: 'Korelace r',
     t: 't',
     pValue: 'p-hodnota, jak se běžně uvádí',
@@ -97,7 +111,7 @@ const mysteriouscorrelation = {
       histogramY: 'Počet dvojic',
       flat: 'Tenhle histogram je celý scénář v jednom obrázku. Když spolu nic nesouvisí, jsou p-hodnoty rozprostřené rovnoměrně mezi 0 a 1 — takže sloupec vlevo není shluk nálezů, je to levý konec plochého rozdělení. Tabulka, ve které něco skutečného je, vypadá jinak: má vlevo špičku, kterou zbytek rozsahu nevysvětlí.',
       corrections:
-        'Formální opravy říkají totéž. Bonferroni dává nejsilnější dvojici {{bonferroni}} a míru falešných objevů by bylo nutné nastavit až na {{fdr}}, než by se v této tabulce cokoli počítalo za objev.',
+        'Formální opravy říkají totéž. Bonferroni dává nejsilnější dvojici p {{bonferroni}} a míru falešných objevů by bylo nutné nastavit až na {{fdr}}, než by se v této tabulce cokoli počítalo za objev.',
     },
     selection: {
       heading: 'Oprava 2: simulovat prohledání',
@@ -114,7 +128,7 @@ const mysteriouscorrelation = {
       meanSignificant:
         'V průměru označí prohledání za významných {{average}} z {{pairs}} dvojic v tabulce, kde je každá proměnná nezávislá na všech ostatních. To číslo není chyba prohledání; je to přesně to, co hranice slibuje.',
       conclusion:
-        'Tentýž výsledek přečtený dvěma způsoby: {{naive}} pro dvojici určenou předem, {{adjusted}} pro dvojici nalezenou prohledáním. Řádky dat jsou přitom tytéž řádky.',
+        'Tentýž výsledek přečtený dvěma způsoby: p {{naive}} pro dvojici určenou předem, p {{adjusted}} pro dvojici nalezenou prohledáním. Řádky dat jsou přitom tytéž řádky.',
       gallery: {
         heading: 'Pět nejsilnějších vztahů, které tyto simulace vytvořily',
         body: 'Každá tabulka níže má nezávislé sloupce a nic jiného. V každé je vykreslena nejsilnější dvojice, jakou její prohledání našlo, a každá z nich by vypadala jako objev.',

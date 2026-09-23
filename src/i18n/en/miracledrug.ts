@@ -5,6 +5,15 @@ const miracledrug = {
       'A simulated trial. Patients are split into two arms, one given the treatment and one not, and every patient is measured on a whole panel of outcomes at the end. The measurements are not independent of each other: a patient who is doing well tends to score well on several of them at once, exactly as measurements on the same person do.',
     body2:
       'The treatment does nothing. Both arms are drawn from the same distribution, and no term anywhere depends on which arm a patient is in, so the true effect on every outcome in the panel is exactly zero.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That a test at the 5% level is meant to be wrong about one time in twenty — so if you measure {{outcomes}} outcomes on a treatment that does nothing and report the best one, you get a "finding" purely because you measured {{outcomes}} things. And that the report of that finding gives no sign of it.',
+    goalStep1:
+      'Run the trial and test the outcome we registered in advance. It finds nothing.',
+    goalStep2:
+      'Then look at all the others and pick the one that came out best. That one looks like a finding.',
+    goalStep3:
+      'Then correct it twice over, and run the whole trial again on new patients. Nothing of it survives.',
     question:
       'On outcome {{outcome}}, the one this trial is registered on, does the treated arm differ from the untreated arm by more than chance allows?',
     body3:
@@ -19,10 +28,15 @@ const miracledrug = {
   experiment: {
     heading: 'The results are in',
     body1:
-      'Each row is one outcome: the dot is the difference between the arms, and the bar around it is the range the trial cannot tell that difference apart from. The vertical line is zero — no difference at all.',
+      'Each row is one outcome. The dot is the difference between the treated and untreated arms; the bar around it shows how imprecisely that difference is measured — with sixty patients an arm, the imprecision is large. The vertical line is zero, meaning no difference at all.',
     body2:
       'The registered outcome is marked. Its interval comfortably contains zero and its test finds nothing, which is correct, because there is nothing to find.',
-    action: 'Now look at the rest of the panel',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'A p-value answers one question: if the treatment did nothing, how often would this outcome show a difference at least this large anyway? 0.765 means "a difference like this turns up in three quarters of trials by chance alone". 0.004 means "a difference like this turns up by chance in about four trials in a thousand" — which is where numbers start being called findings. The 0.05 threshold is a convention, not a proof.',
+    numbersBody2:
+      'The letter t is that same difference expressed as a multiple of its own imprecision: a t near zero is a difference drowned in noise, a t near three is one that stands out of it. The p-value is computed from it, so the two numbers say the same thing twice.',
+    action: 'Now look at the others',
   },
   controls: {
     heading: 'Experiment settings',
@@ -37,7 +51,7 @@ const miracledrug = {
     aria: 'Difference between the arms on each of {{count}} outcomes, with confidence intervals.',
     outcomeAria: 'Outcome {{outcome}}, difference {{difference}}. Select to inspect.',
     legendOutcome: 'One outcome',
-    legendInterval: 'Dot: difference · bar: 95% interval',
+    legendInterval: 'Dot: difference · bar: how imprecise it is',
   },
   outcomes: {
     primary: 'Outcome {{outcome}}, registered in advance',
@@ -63,7 +77,7 @@ const miracledrug = {
     clickHint:
       'Every outcome is tested exactly as the registered one was — the same two-sample test, the same patients, the same trial. The only thing that changes is which result we decided to talk about.',
     body2:
-      '{{count}} of the {{outcomes}} outcomes came out below 0.05 on their own. In a trial of something that does nothing, that is not a surprise waiting to be explained; it is the arithmetic of measuring a lot of things at once.',
+      '{{count}} of the {{outcomes}} outcomes came out below 0.05 on their own. In a trial of something that does nothing, that is not a surprise waiting to be explained: with twenty tests at the 5% level, one is wrong on average every time. Here more than one did — and how often a trial looks like this is something we are about to measure.',
     autoBest: 'Show me the outcome that worked',
     reset: 'Clear the selection',
     autoBestNote:
@@ -76,7 +90,7 @@ const miracledrug = {
     body1:
       'Both rows below were tested identically: the same two-sample test on the same patients from the same trial. The only difference is whether the outcome was named before the trial or picked out of its results afterwards.',
     naivePValue: 'p-value as usually reported',
-    naiveHint: 'Two-sample t-test of treated against untreated, on that outcome alone.',
+    naiveHint: 'The test compares the treated and untreated arms, on this one outcome alone.',
     verdictNothing: 'Nothing to report',
     verdictStriking: 'Looks like a finding',
     runFirst:
@@ -101,13 +115,13 @@ const miracledrug = {
       marker: 'Your outcome',
       adjusted: 'p-value adjusted for the search',
       adjustedHint:
-        'Monte Carlo p-value: how often a trial of a treatment that does nothing produces a best outcome at least as impressive as {{pValue}}.',
+        'Simulated p-value: how often a trial of a treatment that does nothing produces a best outcome at least as impressive as {{pValue}}.',
       shareSignificant:
         'In {{share}} of the simulated trials at least one outcome came out below 0.05, and on average {{average}} of the {{outcomes}} did — in trials where the treatment does nothing whatsoever.',
       versusBonferroni:
-        'Notice that the simulated correction ({{simulated}}) is milder than Bonferroni ({{bonferroni}}). Bonferroni charges for {{outcomes}} independent chances; these outcomes correlate at about {{correlation}}, so the search had fewer genuinely separate chances than that. Simulating the actual procedure prices it correctly instead of guessing.',
+        'Notice that the simulated correction (p {{simulated}}) is milder than Bonferroni (p {{bonferroni}}). Bonferroni charges for {{outcomes}} independent chances; these outcomes correlate at about {{correlation}}, so the search had fewer genuinely separate chances than that. Simulating the actual procedure prices it correctly instead of guessing.',
       conclusion:
-        'The same result read two ways: {{naive}} for an outcome registered in advance, {{adjusted}} for an outcome found by looking. The patients are the same patients.',
+        'The same result read two ways: p {{naive}} for an outcome registered in advance, p {{adjusted}} for an outcome found by looking. The patients are the same patients.',
       gallery: {
         heading: 'The five most impressive results those simulations produced',
         body: 'Every trial below is a trial of a treatment that does nothing at all. In each one, the marked row is the outcome that happened to come out best, and each would have been perfectly publishable on its own.',

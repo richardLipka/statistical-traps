@@ -89,7 +89,7 @@ const interestingregion = {
       shareSignificant:
         'V {{share}} simulovaných záznamů našlo hledání období pod hranicí 0,05 — a to v datech, kde žádný trend není. Při dostatečném počtu prohledaných úseků není nápadný nález šťastnou náhodou, ale jistotou.',
       conclusion:
-        'Tentýž výsledek přečtený dvěma způsoby: {{naive}}, jak by se číslo běžně uvedlo, a {{adjusted}}, jakmile započítáme hledání, které jej vytvořilo. Na datech se mezi těmi dvěma čísly nezměnilo nic.',
+        'Tentýž výsledek přečtený dvěma způsoby: p {{naive}}, jak by se číslo běžně uvedlo, a p {{adjusted}}, jakmile započítáme hledání, které jej vytvořilo. Na datech se mezi těmi dvěma čísly nezměnilo nic.',
       gallery: {
         heading: 'Pět nejnápadnějších období z těchto simulací',
         body: 'Každý záznam níže pochází ze stroje bez trendu a každý zvýrazněný úsek je v něm tím nejnápadnějším obdobím. Každý z nich by se uváděl s čísly pod ním.',

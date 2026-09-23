@@ -2,9 +2,9 @@
 
 **Zázračný lék**
 
-Simulovaná studie se 120 pacienty ve dvou ramenech a baterií 20 výsledků měřených u každého z nich. Léčba nedělá nic: obě ramena vznikají ze stejného rozdělení a skutečný účinek na každý výsledek je přesně nulový. Měření navíc nejsou navzájem nezávislá — pacient, kterému se daří, má dobré skóre v několika z nich najednou.
+Simulovaná studie se 120 pacienty ve dvou skupinách a sadou 20 ukazatelů měřených u každého z nich. Léčba nedělá nic: obě skupiny vznikají stejným postupem a skutečný účinek na každý ukazatel je přesně nulový. Měření navíc nejsou navzájem nezávislá — pacientovi, kterému se daří, vyjde dobře několik ukazatelů najednou.
 
-Ještě před zařazením prvního pacienta se studie registruje na jeden výsledek. Ten nenajde nic. Pak se uživatel podívá na zbytek baterie a najde výsledek, který „vyšel“. Scénář jej opravuje dvakrát: nejprve učebnicově (Bonferroni a Holm), potom simulací celého hledání — která vyjde mírněji, protože výsledky spolu korelují a hledání tedy nemělo dvacet nezávislých šancí. Nová studie pak ukáže, co z nálezu zbylo.
+Ještě před zařazením prvního pacienta se studie registruje na jeden ukazatel. Ten nenajde nic. Pak se uživatel podívá na ostatní a najde ukazatel, který „vyšel“. Scénář jej opravuje dvakrát: nejprve učebnicově (Bonferroni a Holm), potom simulací celého hledání — která vyjde mírněji, protože ukazatele spolu souvisejí a hledání tedy nemělo dvacet nezávislých šancí. Nová studie pak ukáže, co z nálezu zbylo.
 
 Hlavní pojmy: mnohonásobné testování, falešně pozitivní výsledky, nezávislá replikace, interpretace p-hodnot.
 

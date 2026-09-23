@@ -4,13 +4,22 @@ const doctormortality = {
     body1:
       'A simulated hospital. Every doctor treats their own patients for a year, and at the end of it we count how many of those patients died. The patients differ from one another: each carries their own risk, and some doctors are sent sicker patients than others, which is a real and ordinary difference between one practice and the next.',
     body2:
-      'The doctors do not differ. There is no term in the generator for skill, care or attention — every doctor in this hospital is exactly as good as every other, and the true effect of any of them on their patients is zero.',
+      'The doctors do not differ. When we built the data we gave none of them better or worse skill, care or attention — every doctor in this hospital is exactly as good as every other, and the true effect of any of them on their patients is zero.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That when you compare {{doctors}} doctors and pick out the worst one, their striking result means nothing — and that two separate things are behind it, which are easily run together: their patients were sicker, and we chose the most extreme of many people.',
+    goalStep1:
+      'Run a year and test the doctor we named in advance. It finds nothing.',
+    goalStep2:
+      'Then pick the one who came out worst and test them with exactly the same test. That one looks like a finding.',
+    goalStep3:
+      'Then correct that finding twice over, and follow both doctors into later years. Nothing of it survives.',
     question:
       'Did doctor {{doctor}}, who is due for the routine audit this year, lose more patients than their patients’ own risks predicted?',
     body3:
       'That doctor is named now, before the year runs, so nothing about the outcome can have influenced the choice. Everything surprising that follows comes from what we do after the numbers are in.',
     trueProcess:
-      'Each doctor is given a case mix, drawn once. Each patient gets their own risk from that case mix, and dies independently with exactly that probability. No term anywhere depends on which doctor is treating them: the true effect of every doctor is zero.',
+      'Each doctor is given a case mix, drawn once. Each patient gets their own risk from it — a number between 0 and 1 — and dies independently with exactly that probability. Which doctor is treating them enters that number nowhere: the true effect of every doctor is zero.',
     fictionHeading: 'Nobody here is real',
     fictionBody:
       'The hospital, the doctors and the patients are generated in your browser from a seed. No real institution, clinician, patient or study is involved, and no real mortality statistic is used or implied. The doctors are numbered rather than named for the same reason.',
@@ -22,7 +31,12 @@ const doctormortality = {
       'Here is the year. Each column is one doctor and its height is the share of their patients who died; the dashed line is the hospital as a whole. The columns vary a great deal, which is what counting a few dozen rare events per doctor looks like.',
     body2:
       'The audited doctor is marked. Their result is compared with what their own patients were expected to produce, and it finds nothing — as it should, because there is nothing there.',
-    action: 'Now look at the whole league table',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'A p-value answers one question: if this doctor were entirely average, how often would they end up with at least this many deaths anyway? 0.85 means "this or worse happens in 85% of years, there is nothing unusual here". 0.009 means "this would happen in about one year in a hundred" — which is where results start being called findings. The 0.05 threshold is a convention, not a proof.',
+    numbersBody2:
+      'Expected deaths are not the hospital average. They are the sum of the risks of this doctor’s own patients: sixty patients carrying about 15% risk each are expected to produce roughly nine deaths. Comparing their deaths against that is fairer than comparing them against the whole hospital, because some doctors are sent sicker patients than others.',
+    action: 'Now search the whole table',
   },
   controls: {
     heading: 'Experiment settings',
@@ -83,7 +97,7 @@ const doctormortality = {
   analysis: {
     heading: 'Two corrections, one after the other',
     body1:
-      'The first comparison is the one a league table invites: this doctor’s deaths against the hospital’s overall rate. It is the wrong comparison for a reason that has nothing to do with statistics, and correcting it takes two separate steps.',
+      'The first comparison is the one a league table invites: this doctor’s deaths against the hospital’s overall rate. It is wrong for two independent reasons. First, their patients were not the same as everyone else’s. Second, we picked them out after seeing the numbers. Each reason is fixed differently, which is why there are two corrections.',
     rawPValue: 'p against the hospital rate',
     adjustedPValue: 'p against their own patients',
     verdictNothing: 'Nothing to report',
@@ -93,14 +107,14 @@ const doctormortality = {
     raw: {
       heading: 'First look: mortality against the hospital rate',
       body: 'Each doctor’s deaths tested against the rate for the hospital as a whole, as though every patient were the same as every other.',
-      caption: 'Exact binomial test against the hospital rate of {{rate}}.',
+      caption: 'The test compares each doctor’s deaths against the mortality of the whole hospital, which is {{rate}}.',
     },
     adjustment: {
       heading: 'Correction 1: the patients were not the same',
       body: 'Every patient carries their own risk, so the number to compare against is not the hospital average but the sum of this doctor’s own patients’ risks — the deaths those particular people were expected to have.',
       caption:
-        'Exact test against the individual risks (a Poisson-binomial null), not against an average rate.',
-      note: 'Risk adjustment moves the result, because part of the excess was never about the doctor: it was about who they were treating. What is left is {{p}} — still small enough that most people would keep going.',
+        'The test compares the deaths against the risks of the individual patients, not against the hospital’s average mortality.',
+      note: 'Risk adjustment moves the result, because part of the excess was never about the doctor: it was about who they were treating. What is left is p {{p}} — still small enough that most people would keep going.',
       limit:
         'Note how much has been granted here. The adjustment uses each patient’s true risk, which the simulation knows and no real risk model ever does. This is risk adjustment at its theoretical best, and it is still not enough.',
     },
@@ -119,7 +133,7 @@ const doctormortality = {
       shareSignificant:
         'In {{share}} of the simulated years, some doctor came out significant at 0.05 — in a hospital where no doctor is any better or worse than any other. With {{doctors}} doctors, having a worst one is not a finding. It is arithmetic.',
       conclusion:
-        'The same result read two ways: {{naive}} for a doctor named in advance, {{adjusted}} for a doctor found by looking. The deaths are the same deaths.',
+        'The same result read two ways: p {{naive}} for a doctor named in advance, p {{adjusted}} for a doctor found by looking. The deaths are the same deaths.',
       gallery: {
         heading: 'The five most alarming doctors those simulations produced',
         body: 'Every hospital below is one where the doctors are identical. In each one, the marked doctor is the worst that year’s numbers happened to produce, and each would have been reported with the figures shown underneath.',

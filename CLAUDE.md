@@ -582,11 +582,17 @@ Scenario 04       The Doctor With Unusually High Mortality — complete (simulat
                   exact Poisson-binomial risk adjustment, then a Monte Carlo
                   correction for the search across all doctors, then later years
                   with both doctors frozen)
+  ↓
+Scenario 05       The Miracle Drug — complete (two-arm trial of a treatment with
+                  no effect, 20 correlated outcomes, Welch t-test per outcome,
+                  Bonferroni and Holm beside a Monte Carlo of the search that
+                  comes out milder because the outcomes are correlated, then a
+                  replication trial with both outcomes frozen)
 ```
 
-Next step: Scenario 05 — The Miracle Drug, when explicitly requested.
+Next step: Scenario 06 — The Mysterious Correlation, when explicitly requested.
 
-Do not implement Scenario 05 or later until explicitly requested.
+Do not implement Scenario 06 or later until explicitly requested.
 
 Conventions established by the foundation, to be reused rather than reinvented:
 
@@ -596,13 +602,16 @@ Conventions established by the foundation, to be reused rather than reinvented:
 * Seeding: derive independent data sets with `deriveSeed`, and keep separate seed roles so that exploration data is never reused for validation.
 * Long simulations run through `runChunked` so the interface stays responsive.
 * Every scenario follows the same arc, and the next one should too: a pre-registered analysis, a search the user performs themselves, the identical test applied to both, a Monte Carlo correction that simulates the whole search, a gallery of what that search finds in data with no effect, and finally independent data.
+* Where a textbook correction exists, show it beside the simulated one rather than instead of it. Scenario 05 puts Bonferroni and Holm next to a Monte Carlo of the search and explains why they disagree: the outcomes are correlated, so Bonferroni charges for more independent chances than the search had. "Multiply by the number of tests" is a safe default, not the right answer.
 * A scenario may correct a result more than once. Scenario 04 separates confounding (removed by risk adjustment) from selection (removed only by simulating the search), because "we adjusted for that" is routinely offered as though it answered both.
 * When a scenario grants an analysis an advantage it would not have in reality - scenario 04 risk-adjusts with each patient's true risk - say so in the interface, not only in the documentation. The point survives better when the trap cannot be blamed on a weak analysis.
 * Scenarios about people use numbered, generated individuals, and state in the introduction that nobody in them is real.
 * A scenario may change the generator, but the null must stay exactly true: the point being taught is what a search does to a valid test, so the test must be valid before the search. Scenario 03 tests the independent steps of a random walk, not its correlated levels, for exactly this reason - a statistic that was already invalid would teach a different lesson.
-* Statistics already available: seeded RNG, binomial, Poisson-binomial, F and normal distributions (including the regularized incomplete gamma and beta functions), exact binomial, Poisson-binomial risk-adjusted, overall F and known-sigma z tests, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
+* Statistics already available: seeded RNG, binomial, Poisson-binomial, F, t and normal distributions (including the regularized incomplete gamma and beta functions), exact binomial, Poisson-binomial risk-adjusted, overall F, Welch two-sample t and known-sigma z tests, Bonferroni and Holm adjustments, least squares (Householder QR) and polynomial fitting, R²/RMSE/correlation, Monte Carlo p-values in both directions, integer and continuous histograms.
 * Charts already available: `visualization/Histogram` (labelled columns, one highlighted) and `visualization/LineChart` (multi-series).
 * Report no statistic rather than an invalid one when a test's assumptions do not hold.
+* The localization parity test cannot catch a value a component forgets to pass to `t()`: both languages are equally wrong and the placeholder renders as text. `src/i18n/index.ts` records these through i18next's `missingInterpolationHandler`, and an application test asserts the list is empty after walking a scenario through the panels that only appear once a simulation has run. Check any new scenario the same way.
+* The bundle is a single chunk and passed 500 kB at five scenarios. If it keeps growing, load scenario components lazily from the registry rather than trimming content.
 
 After completing a development step, report:
 
@@ -654,7 +663,7 @@ statistical-traps/
     +-- i18n/
     |   +-- cs/             one module per namespace, named after the scenario id
     |   +-- en/             without its number and hyphens (dartboard, bestline,
-    |   |                   interestingregion, doctormortality)
+    |   |                   interestingregion, doctormortality, miracledrug)
     |   +-- index.ts        i18next setup, language detection and persistence
     |   +-- resources.ts    languages, namespaces, resource map
     |   +-- keys.ts         keys built from registry data
@@ -667,13 +676,14 @@ statistical-traps/
     |   +-- 02-best-line/    analysis.ts, components/, tests/
     |   +-- 03-interesting-region/
     |   +-- 04-doctor-mortality/
+    |   +-- 05-miracle-drug/
     |
     +-- statistics/
     |   +-- random/rng.ts
     |   +-- distributions/   binomial.ts, poissonBinomial.ts, gamma.ts,
-    |   |                    fDistribution.ts, normal.ts
+    |   |                    fDistribution.ts, normal.ts, studentT.ts
     |   +-- hypothesis/      binomialTest.ts, riskAdjustedTest.ts, fTest.ts,
-    |                        zTest.ts
+    |                        zTest.ts, tTest.ts, multiplicity.ts
     |   +-- regression/      leastSquares.ts, goodnessOfFit.ts
     |   +-- monteCarlo.ts
     |   +-- tests/

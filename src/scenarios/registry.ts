@@ -2,6 +2,7 @@ import DartboardScenario from '@/scenarios/01-dartboard/Scenario'
 import BestLineScenario from '@/scenarios/02-best-line/Scenario'
 import InterestingRegionScenario from '@/scenarios/03-interesting-region/Scenario'
 import DoctorMortalityScenario from '@/scenarios/04-doctor-mortality/Scenario'
+import MiracleDrugScenario from '@/scenarios/05-miracle-drug/Scenario'
 import type { ScenarioDefinition } from '@/scenarios/types'
 
 /**
@@ -70,7 +71,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
   {
     id: '05-miracle-drug',
     order: 5,
-    status: 'planned',
+    status: 'available',
     titleKey: 'scenarios.05-miracle-drug.title',
     summaryKey: 'scenarios.05-miracle-drug.summary',
     conceptKeys: [
@@ -79,7 +80,9 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'independentReplication',
       'pValueInterpretation',
     ],
+    namespace: 'miracledrug',
     docs: 'docs/scenarios/05-miracle-drug.md',
+    component: MiracleDrugScenario,
   },
   {
     id: '06-mysterious-correlation',

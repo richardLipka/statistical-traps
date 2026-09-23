@@ -50,6 +50,7 @@ describe('scenario registry', () => {
       '02-best-line',
       '03-interesting-region',
       '04-doctor-mortality',
+      '05-miracle-drug',
     ])
   })
 

@@ -1,13 +1,15 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import App from '@/app/App'
-import i18n from '@/i18n'
+import i18n, { missingInterpolations } from '@/i18n'
 import csCommon from '@/i18n/cs/common'
 import csDartboard from '@/i18n/cs/dartboard'
 import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
+import csDrug from '@/i18n/cs/miracledrug'
+import enDrug from '@/i18n/en/miracledrug'
 import csDoctor from '@/i18n/cs/doctormortality'
 import enDoctor from '@/i18n/en/doctormortality'
 import csRegion from '@/i18n/cs/interestingregion'
@@ -21,6 +23,7 @@ async function setLanguage(language: 'cs' | 'en') {
 
 beforeEach(() => {
   window.location.hash = '#/'
+  missingInterpolations.length = 0
 })
 
 afterEach(async () => {
@@ -47,13 +50,13 @@ describe('application shell', () => {
   it('lists the planned scenarios as not yet implemented', async () => {
     await setLanguage('en')
     render(<App />)
-    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(3)
-    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(4)
+    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(2)
+    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(5)
   })
 
   it('shows a notice for a scenario that is only planned', async () => {
     await setLanguage('en')
-    window.location.hash = '#/scenario/05-miracle-drug'
+    window.location.hash = '#/scenario/06-mysterious-correlation'
     render(<App />)
     expect(screen.getByText(enCommon.scenario.planned.body)).toBeDefined()
   })
@@ -296,4 +299,97 @@ describe('doctor mortality scenario', () => {
     // The legend must say that what is on screen is a new, independent year.
     expect(screen.getAllByText(enDoctor.validation.freshYear).length).toBeGreaterThan(0)
   })
+})
+
+describe('miracle drug scenario', () => {
+  it('walks through the lifecycle in both languages', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/05-miracle-drug'
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: enDrug.intro.heading })).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.intro.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDrug.experiment.heading }),
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.experiment.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDrug.observation.heading }),
+    ).toBeDefined()
+
+    await setLanguage('cs')
+    expect(
+      screen.getByRole('heading', { level: 2, name: csDrug.observation.heading }),
+    ).toBeDefined()
+  })
+
+  it('will not go on to the analysis until an outcome has been chosen', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/05-miracle-drug'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.experiment.action }))
+
+    const advance = screen.getByRole('button', { name: enDrug.observation.action })
+    expect(advance.hasAttribute('disabled')).toBe(true)
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.observation.autoBest }))
+    expect(
+      screen.getByRole('button', { name: enDrug.observation.action }).hasAttribute('disabled'),
+    ).toBe(false)
+    expect(screen.getAllByText(enDrug.analysis.verdictStriking).length).toBeGreaterThan(0)
+  })
+
+  it('offers both corrections, and validates in a new trial', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/05-miracle-drug'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.observation.autoBest }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.observation.action }))
+
+    expect(screen.getByText(enDrug.analysis.textbook.heading)).toBeDefined()
+    expect(screen.getByText(enDrug.analysis.selection.heading)).toBeDefined()
+    // The registered outcome still has nothing to report.
+    expect(screen.getAllByText(enDrug.analysis.verdictNothing).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.analysis.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enDrug.validation.heading }),
+    ).toBeDefined()
+    // The legend must say that what is on screen is a new, independent trial.
+    expect(screen.getAllByText(enDrug.validation.freshTrial).length).toBeGreaterThan(0)
+  })
+})
+
+describe('rendered text', () => {
+  it('leaves no interpolation placeholder unfilled, including behind the simulations', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/05-miracle-drug'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.observation.autoBest }))
+    fireEvent.click(screen.getByRole('button', { name: enDrug.observation.action }))
+
+    // The panels that only appear once a simulation has finished are exactly
+    // where a forgotten value survives review.
+    fireEvent.click(screen.getByRole('button', { name: /Simulate the search/ }))
+    await waitFor(
+      () => expect(screen.getByText(enDrug.analysis.selection.adjusted)).toBeDefined(),
+      { timeout: 10_000 },
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: enDrug.analysis.action }))
+    fireEvent.click(screen.getByRole('button', { name: /Run 200 trials/ }))
+
+    expect(missingInterpolations).toEqual([])
+    expect(document.body.textContent ?? '').not.toContain('{{')
+  }, 20_000)
 })

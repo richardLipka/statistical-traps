@@ -26,6 +26,16 @@ export function detectInitialLanguage(): Language {
   return preferred.startsWith('cs') || preferred.startsWith('sk') ? 'cs' : FALLBACK_LANGUAGE
 }
 
+/**
+ * Interpolation values a component forgot to pass.
+ *
+ * A translation says {{count}} and the component renders without supplying
+ * it: the parity test cannot see this, because both languages are equally
+ * wrong, and the string still renders - with the placeholder showing. Tests
+ * read this list and fail on anything in it.
+ */
+export const missingInterpolations: string[] = []
+
 void i18n.use(initReactI18next).init({
   resources,
   lng: detectInitialLanguage(),
@@ -35,6 +45,10 @@ void i18n.use(initReactI18next).init({
   interpolation: {
     // React already escapes everything it renders.
     escapeValue: false,
+  },
+  missingInterpolationHandler: (text: string, value: unknown) => {
+    missingInterpolations.push(`${String(value)} in "${text.slice(0, 60)}"`)
+    return ''
   },
 })
 

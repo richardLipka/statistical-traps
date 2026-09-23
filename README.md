@@ -26,7 +26,7 @@ This is **not** an argument against statistics, data mining or machine learning.
 
 ## Status
 
-**Early version.** The foundation and the first four scenarios are finished and tested; the remaining scenarios are planned and listed in the application as not yet implemented. Content, wording and defaults may still change.
+**Early version.** The foundation and the first five scenarios are finished and tested; the remaining scenarios are planned and listed in the application as not yet implemented. Content, wording and defaults may still change.
 
 | # | Scenario | State |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ This is **not** an argument against statistics, data mining or machine learning.
 | 02 | Najdi nejlepší přímku / Find the Best Line | **implemented** |
 | 03 | Najdi zajímavou oblast / Find the Interesting Region | **implemented** |
 | 04 | Lékař s neobvykle vysokou úmrtností / The Doctor With Unusually High Mortality | **implemented** |
-| 05 | Zázračný lék / The Miracle Drug | planned |
+| 05 | Zázračný lék / The Miracle Drug | **implemented** |
 | 06 | Záhadná korelace / The Mysterious Correlation | planned |
 | 07 | Co z toho plyne pro AI? / What Does This Mean for AI? | planned |
 

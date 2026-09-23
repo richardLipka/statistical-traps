@@ -2,7 +2,7 @@ const aisynthesis = {
   intro: {
     heading: 'Systém dostane otázku, co předpovídá výsledek',
     body1:
-      'Tabulka případů: jeden výsledek, který se má předpovědět, a několik stovek kandidátských příznaků, ze kterých se předpovídat dá. Tabulku dostane systém, který každého kandidáta ohodnotí a vrátí ty, co fungují nejlépe. Udělá to správně — není tu žádná chyba k nalezení ani naivní přešlap v metodě.',
+      'Tabulka případů: jeden výsledek, který se má předpovědět, a celá řada kandidátských příznaků, ze kterých se předpovídat dá. Tabulku dostane systém, který každého kandidáta ohodnotí a vrátí ty, co fungují nejlépe. Udělá to správně — není tu žádná chyba k nalezení ani naivní přešlap v metodě.',
     goalHeading: 'Co má tento pokus ukázat',
     goalBody:
       'Že tenhle pokus dopadne jinak než šest předchozích: hledání tentokrát najde i něco skutečného. A přesto z dat, ve kterých hledalo, nejde poznat, který z nálezů to je — a i když se to nakonec pozná, pořád z toho neplyne, že se podle něj dá jednat.',
@@ -98,7 +98,7 @@ const aisynthesis = {
   analysis: {
     heading: 'Co tato data mohou a nemohou říct',
     body1:
-      'Oba finalisté jsou významní, oba byli vybráni z několika stovek a oba byli nalezeni týmž správně provedeným hledáním. První věcí je ocenit to hledání — a potom si všimnout, co nám jeho ocenění neřekne.',
+      'Oba finalisté jsou významní, oba byli vybráni z dlouhého seznamu a oba byli nalezeni týmž správně provedeným hledáním. První věcí je ocenit to hledání — a potom si všimnout, co nám jeho ocenění neřekne.',
     naivePValue: 'p, jak se uvádí',
     verdictNothing: 'Nic k hlášení',
     verdictStriking: 'Vypadá to jako nález',

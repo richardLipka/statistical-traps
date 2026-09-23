@@ -2,7 +2,7 @@ const aisynthesis = {
   intro: {
     heading: 'A system is asked what predicts the outcome',
     body1:
-      'A table of cases: one outcome to predict, and a few hundred candidate features to predict it from. The table is handed to a system that will score every candidate and return the ones that work best. It will do this correctly — there is no bug to find here, and no naive mistake in the method.',
+      'A table of cases: one outcome to predict, and a long list of candidate features to predict it from. The table is handed to a system that will score every candidate and return the ones that work best. It will do this correctly — there is no bug to find here, and no naive mistake in the method.',
     goalHeading: 'What this experiment is meant to show',
     goalBody:
       'That this one ends differently from the six before it: this time the search does find something real. And yet the data it searched cannot tell you which of the findings that is — and once you do find out, it still does not follow that you can act on it.',
@@ -98,7 +98,7 @@ const aisynthesis = {
   analysis: {
     heading: 'What this data set can and cannot say',
     body1:
-      'Both finalists are significant, both were selected out of a few hundred, and both were found by the same correctly executed search. The first thing to do is price that search — and then to notice what pricing it does not tell us.',
+      'Both finalists are significant, both were selected out of a long list, and both were found by the same correctly executed search. The first thing to do is price that search — and then to notice what pricing it does not tell us.',
     naivePValue: 'p as reported',
     verdictNothing: 'Nothing to report',
     verdictStriking: 'Looks like a finding',

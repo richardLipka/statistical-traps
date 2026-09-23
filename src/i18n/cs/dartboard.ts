@@ -2,13 +2,23 @@ const dartboard = {
   intro: {
     heading: 'Terč určený předem',
     body1:
-      'Stroj hází šipky na čtvercovou desku zcela náhodně. Každá poloha je stejně pravděpodobná: žádné míření, žádná dovednost, žádné oblíbené místo. Víme to jistě, protože generátor jsme napsali sami — skutečný efekt je zde přesně nulový.',
+      'Stroj hází šipky na čtvercovou desku zcela náhodně. Každá poloha je stejně pravděpodobná: žádné míření, žádná dovednost, žádné oblíbené místo. Víme to jistě, protože generátor jsme napsali sami — žádné místo na desce není pro stroj lepší než kterékoli jiné.',
     body2:
       'Ještě před prvním hodem si stanovíme jeden terč: modrý kruh uprostřed. Spolu s ním stanovíme i otázku, kterou o něm budeme klást.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že stačí nakreslit terč až potom, co šipky dopadnou, a z naprosto náhodných hodů se stane „nález“. Stroj přitom nemíří — my jen změníme otázku, a to až ve chvíli, kdy už známe odpověď.',
+    goalStep1:
+      'Stroj hodí šipky a my otestujeme modrý terč, který jsme určili předem. Nic nenajde.',
+    goalStep2:
+      'Pak si červeným kruhem sami najdeme místo, kde je šipek nejvíc, a použijeme na něj úplně stejný test. Ten už jako nález vypadá.',
+    goalStep3:
+      'Nakonec spočítáme, co takové hledání umí v čistě náhodných datech, a necháme stroj hodit znovu. Nezbude z toho nic.',
     question: 'Zasahuje stroj tento kruh častěji, než lze vysvětlit pouhou náhodou?',
     body3:
       'Nic z toho, co bude následovat, nemůže změnit pravdu o stroji. Mění se jen způsob, jakým se na jeho výsledky díváme.',
-    trueProcess: 'Rovnoměrně náhodná poloha po celé desce. Skutečný efekt = 0.',
+    trueProcess:
+      'Poloha každé šipky se losuje rovnoměrně po celé desce, nezávisle na všech ostatních. Žádné místo není zvýhodněné: skutečný vliv čehokoli na desce je přesně nulový.',
     action: 'Hodit šipky',
   },
   experiment: {
@@ -17,6 +27,11 @@ const dartboard = {
       'V těchto šipkách není žádný vzor. Modrý kruh jich několik zachytí, zhruba tolik, kolik odpovídá jeho ploše — někdy o něco více, někdy o něco méně.',
     body2:
       'Zkuste změnit nastavení a sledujte, jak počet kolísá. Právě z tohoto kolísání je postavena každá past v této aplikaci.',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'Kruh zabírá {{share}} plochy desky, takže při náhodných hodech do něj padne zhruba tentýž podíl šipek — z {{darts}} hodů tedy asi {{expected}}. Tomu se říká očekávaný počet zásahů. Skutečný počet kolem něj kolísá nahoru a dolů, a celý zbytek scénáře stojí na tom, jak velké to kolísání je.',
+    numbersBody2:
+      'Až se za chvíli objeví p-hodnota, bude odpovídat na jedinou otázku: kdyby stroj házel úplně náhodně, jak často by do tohoto kruhu trefil aspoň tolik šipek jako teď? Hodnota 0,9 znamená „tohle nebo lepší se stane v devíti případech z deseti, nic zvláštního“. Hodnota 0,001 znamená „tohle by se stalo asi jednou z tisíce“ — a takové výsledky se začnou označovat za nález. Hranice 0,05 je jen dohoda, ne důkaz.',
     action: 'Teď zkuste najít vzor',
   },
   controls: {
@@ -71,8 +86,8 @@ const dartboard = {
       'Oba kruhy mají stejnou plochu, takže při čisté náhodě je pravděpodobnost jejich zásahu totožná: {{probability}}. U obou se teď zeptáme na stejnou věc: jak pravděpodobné je, že pouhá náhoda vytvoří alespoň tolik zásahů?',
     naivePValue: 'p-hodnota, jak se běžně uvádí',
     naiveHint: 'Jednostranný exaktní binomický test.',
-    verdictNothing: 'Není co hlásit',
-    verdictStriking: 'Vypadá to jako objev',
+    verdictNothing: 'Nic k hlášení',
+    verdictStriking: 'Vypadá to jako nález',
     body2:
       'Test neví, jak byl kruh zvolen. Odpovídá na otázku, kterou dostal, a odpovídá na ni správně — pro červený kruh je to však špatná otázka.',
     selection: {

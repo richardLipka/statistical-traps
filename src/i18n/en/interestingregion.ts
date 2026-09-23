@@ -5,11 +5,20 @@ const interestingregion = {
       'A machine records one value per period. Each period the value moves up or down by an independent random amount — a coin flip with a size, drawn fresh every time and owing nothing to what came before. There is no trend, no cycle, no turning point and no interesting period, because we wrote the generator and put none of those things in it.',
     body2:
       'What the machine shows is not the steps but the running total, and that is the whole difficulty. Each value carries the entire history of the ones before it, so the record climbs, stalls and reverses. It looks like something is happening to it.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That a record whose every number is drawn independently of the last still looks as though it has periods of rise and collapse. And that picking the most striking stretch out of it gives you a "finding" — simply because there are several thousand stretches to choose from.',
+    goalStep1:
+      'Run the machine and test the stretch we fixed in advance. It finds nothing.',
+    goalStep2:
+      'Then mark the stretch that looks most striking to us, and apply the same test to it. That one looks like a finding.',
+    goalStep3:
+      'Then measure what such a search can do in a record with no trend, and run the machine again. Nothing of it survives.',
     question: 'Did the value change over the middle third of the record by more than chance allows?',
     body3:
       'The middle third is fixed now, before the machine is switched on, so nothing about the data can have influenced the choice. That is the only thing that makes the question answerable.',
     trueProcess:
-      'Each period: an independent step drawn from a normal distribution with mean 0 and standard deviation {{sd}}. The chart shows the running total of those steps. True trend: none, anywhere in the record.',
+      'Each period the value moves by an independently drawn step: zero on average, typically about {{sd}} in size, as often up as down. The chart shows the running total of those steps. True trend: none, anywhere in the record.',
     action: 'Start the machine',
   },
   experiment: {
@@ -18,6 +27,11 @@ const interestingregion = {
       'Here is one complete record. The stretch fixed in advance is marked, and the test asks the obvious question about it: is the change across those periods larger than independent steps would plausibly produce?',
     body2:
       'It is not. Change the length of the record or the seed and watch the answer stay uninteresting — there is nothing in the machine for it to find.',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'The change across a stretch is simply the difference between its two ends — how far the value rose or fell in total. On its own it says nothing: a longer stretch accumulates more steps, so even a purely random change tends to be larger.',
+    numbersBody2:
+      'That is what z is for. It expresses the change as a multiple of the random wobble a stretch that long is expected to produce: a z near zero is an ordinary stretch, a z near three is one that stands out of the noise. The p-value then says how often a z that large would turn up for a stretch fixed in advance — and 0.05 is a convention, not a proof.',
     action: 'Now look for an interesting period',
   },
   controls: {

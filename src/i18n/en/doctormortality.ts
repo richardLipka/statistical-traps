@@ -35,7 +35,7 @@ const doctormortality = {
     numbersBody1:
       'A p-value answers one question: if this doctor were entirely average, how often would they end up with at least this many deaths anyway? 0.85 means "this or worse happens in 85% of years, there is nothing unusual here". 0.009 means "this would happen in about one year in a hundred" — which is where results start being called findings. The 0.05 threshold is a convention, not a proof.',
     numbersBody2:
-      'Expected deaths are not the hospital average. They are the sum of the risks of this doctor’s own patients: sixty patients carrying about 15% risk each are expected to produce roughly nine deaths. Comparing their deaths against that is fairer than comparing them against the whole hospital, because some doctors are sent sicker patients than others.',
+      'Expected deaths are not the hospital average. They are the sum of the risks of this doctor’s own patients: every hundred patients carrying about 15% risk each are expected to produce about fifteen deaths. Comparing their deaths against that is fairer than comparing them against the whole hospital, because some doctors are sent sicker patients than others.',
     action: 'Now search the whole table',
   },
   controls: {

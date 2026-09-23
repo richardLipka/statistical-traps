@@ -35,7 +35,7 @@ const doctormortality = {
     numbersBody1:
       'P-hodnota odpovídá na jedinou otázku: kdyby tento lékař byl úplně průměrný, jak často by mu i tak vyšlo aspoň tolik úmrtí jako letos? Hodnota 0,85 znamená „takhle nebo hůř to dopadne v 85 % let, na tom není nic zvláštního“. Hodnota 0,009 znamená „takhle by to dopadlo asi v jednom roce ze sta“ — a právě tím se výsledky začnou označovat za nález. Hranice 0,05 je jen dohoda, ne důkaz.',
     numbersBody2:
-      'Očekávaná úmrtí nejsou průměr nemocnice. Je to součet rizik konkrétních pacientů tohoto lékaře: když má šedesát pacientů s rizikem kolem 15 %, čeká se u nich zhruba devět úmrtí. Porovnávat jeho úmrtí s tímto číslem je poctivější než s průměrem celé nemocnice, protože někomu chodí těžší pacienti než jinému.',
+      'Očekávaná úmrtí nejsou průměr nemocnice. Je to součet rizik konkrétních pacientů tohoto lékaře: na každých sto pacientů s rizikem kolem 15 % se čeká patnáct úmrtí. Porovnávat jeho úmrtí s tímto číslem je poctivější než s průměrem celé nemocnice, protože někomu chodí těžší pacienti než jinému.',
     action: 'Teď prohledejte celou tabulku',
   },
   controls: {

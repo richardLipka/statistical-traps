@@ -4,11 +4,21 @@ const bestline = {
     body1:
       'A machine produces pairs of numbers. The two coordinates are drawn independently: y is pure noise that has nothing whatsoever to do with x. As in the first scenario, we know this because we wrote the generator — the true relationship is none at all.',
     body2:
-      'Before seeing a single point we commit to one analysis: fit one straight line through the sample and ask whether it explains more than a flat line does.',
+      'Before seeing a single point we commit to one analysis: fit one straight line through the sample and ask whether it follows the points so much better than an ordinary flat line that chance alone can no longer account for it.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That "how well a model fits the data" and "how well a model captures anything" are two different things. The more flexible a curve we allow, the better it fits — even when there is nothing in the data at all. And picking the model with the nicest number out of the ones on offer is really just picking the luckiest draw.',
+    goalStep1:
+      'Draw the points and fit the straight line we committed to in advance. It finds nothing.',
+    goalStep2:
+      'Then try more flexible curves and keep whichever comes out most convincing. That one looks like a finding.',
+    goalStep3:
+      'Then measure what such a search can do in pure noise, and let the machine draw new points. Nothing of it survives.',
     question: 'Does a straight line describe these points better than chance alone would allow?',
     body3:
       'The answer must be no. Everything interesting that follows comes from how hard we are willing to look afterwards.',
-    trueProcess: 'x uniform, y independent noise around zero. True relationship: none.',
+    trueProcess:
+      'x is drawn uniformly and y is drawn entirely separately, as noise around zero. There is no relationship between x and y — not straight, not curved, none at all.',
     action: 'Draw the sample',
   },
   experiment: {
@@ -17,6 +27,11 @@ const bestline = {
       'Here is one sample. The points wander, as points do, and the straight line fixed in advance runs through them without finding anything: the small amount of variation it reproduces is what a line reproduces in noise.',
     body2:
       'Change the sample size or the seed and watch the line move around. None of that movement means anything — there is nothing for it to mean.',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'R² says how much of the variation in y the curve accounts for. Zero means the curve helps not at all — you would do just as well guessing the average. One means it passes exactly through every point. The thing to notice is that a more flexible curve always has a higher R², even when there is nothing in the data: on its own, that number is evidence of nothing.',
+    numbersBody2:
+      'The p-value answers a different question: if there were no relationship between x and y, how often would a curve come out at least this well anyway? Unlike R² it charges for every extra parameter, so flexibility alone does not fool it. But it too is only valid for a model chosen in advance — which is exactly what we are about to play with.',
     action: 'Now look for a model that fits',
   },
   controls: {

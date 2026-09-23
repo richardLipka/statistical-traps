@@ -2,13 +2,23 @@ const dartboard = {
   intro: {
     heading: 'A target fixed in advance',
     body1:
-      'A machine throws darts at a square board completely at random. Every position is equally likely: there is no aim, no skill, no preferred spot. We know this because we wrote the generator — the true effect here is exactly zero.',
+      'A machine throws darts at a square board completely at random. Every position is equally likely: there is no aim, no skill, no preferred spot. We know this because we wrote the generator — no place on the board is any better for the machine than any other.',
     body2:
       'Before the first throw we declare one target: the blue circle in the middle. We also declare the question we are going to ask about it.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That drawing the target after the darts have landed is enough to turn completely random throws into a "finding". The machine is not aiming — we simply change the question, and we change it once we already know the answer.',
+    goalStep1:
+      'The machine throws, and we test the blue target we fixed in advance. It finds nothing.',
+    goalStep2:
+      'Then we move the red circle ourselves to wherever the darts are densest, and apply exactly the same test. That one looks like a finding.',
+    goalStep3:
+      'Then we measure what such a search can do in purely random data, and let the machine throw again. Nothing of it survives.',
     question: 'Does the machine hit this circle more often than chance alone would explain?',
     body3:
       'Nothing that follows can change the truth about the machine. Everything that follows changes only how we look at its output.',
-    trueProcess: 'Uniform random position over the whole board. True effect = 0.',
+    trueProcess:
+      'Every dart’s position is drawn uniformly across the whole board, independently of every other. No place is favoured: the true effect of anything on the board is exactly zero.',
     action: 'Throw the darts',
   },
   experiment: {
@@ -17,6 +27,11 @@ const dartboard = {
       'There is no pattern in these darts. The blue circle catches a few of them, roughly as many as its area predicts — sometimes a little more, sometimes a little less.',
     body2:
       'Change the settings and watch how the count moves around. That movement is the raw material every trap in this application is built from.',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'The circle covers {{share}} of the board, so random throws put about that same share of the darts inside it — roughly {{expected}} out of {{darts}}. That is the expected number of hits. The actual number wobbles up and down around it, and everything else in this scenario rests on how large that wobble is.',
+    numbersBody2:
+      'When a p-value appears shortly, it will answer one question: if the machine were throwing completely at random, how often would it land at least this many darts in this circle? 0.9 means "this or better happens nine times in ten, nothing unusual". 0.001 means "this would happen about once in a thousand" — and results like that start being called findings. The 0.05 threshold is a convention, not a proof.',
     action: 'Now go looking for a pattern',
   },
   controls: {

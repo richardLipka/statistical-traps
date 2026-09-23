@@ -5,11 +5,20 @@ const interestingregion = {
       'Stroj zaznamenává jednu hodnotu za období. V každém období se hodnota posune nahoru nebo dolů o nezávislou náhodnou veličinu — hod mincí, který má navíc velikost, losovaný pokaždé znovu a nezávisle na všem, co bylo předtím. Není tu žádný trend, žádný cyklus, žádný zlom ani zajímavé období, protože generátor jsme napsali my a nic takového jsme do něj nedali.',
     body2:
       'Stroj ale neukazuje jednotlivé kroky, nýbrž jejich průběžný součet, a v tom je celá potíž. Každá hodnota v sobě nese celou historii těch předchozích, takže záznam stoupá, zastavuje se a obrací. Vypadá to, že se s ním něco děje.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že záznam, ve kterém se každé číslo losuje nezávisle na předchozím, stejně vypadá, jako by měl období vzestupu a propadu. A že když si z něj vyberete ten nejnápadnější úsek, dostanete „nález“ — prostě proto, že úseků je na výběr několik tisíc.',
+    goalStep1:
+      'Necháme stroj běžet a otestujeme úsek, který jsme určili předem. Nic nenajde.',
+    goalStep2:
+      'Pak si v záznamu sami vyznačíme úsek, který vypadá nejvýrazněji, a použijeme na něj stejný test. Ten už jako nález vypadá.',
+    goalStep3:
+      'Nakonec spočítáme, co takové hledání umí v záznamu bez trendu, a necháme stroj běžet znovu. Nezbude z toho nic.',
     question: 'Změnila se hodnota za prostřední třetinu záznamu víc, než dovoluje náhoda?',
     body3:
       'Prostřední třetinu určujeme teď, ještě než se stroj zapne, takže nic z dat nemohlo tuto volbu ovlivnit. Jedině díky tomu je otázka zodpověditelná.',
     trueProcess:
-      'Každé období: nezávislý krok z normálního rozdělení se střední hodnotou 0 a směrodatnou odchylkou {{sd}}. Graf ukazuje průběžný součet těchto kroků. Skutečný trend: žádný, a to nikde v záznamu.',
+      'Každé období se hodnota posune o nezávisle losovaný krok: v průměru nulový, obvykle o velikost kolem {{sd}}, stejně často nahoru jako dolů. Graf ukazuje průběžný součet těchto kroků. Skutečný trend: žádný, a to nikde v záznamu.',
     action: 'Spustit stroj',
   },
   experiment: {
@@ -18,6 +27,11 @@ const interestingregion = {
       'Tady je jeden celý záznam. Úsek určený předem je vyznačen a test se ho ptá na to nasnadě ležící: je změna za tato období větší, než by nezávislé kroky věrohodně vytvořily?',
     body2:
       'Není. Změňte délku záznamu nebo semínko a sledujte, jak odpověď zůstává nezajímavá — ve stroji není nic, co by test mohl najít.',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'Změna za úsek je prostě rozdíl hodnot na jeho koncích — o kolik hodnota za ten úsek celkem povyrostla nebo spadla. Sama o sobě nic neříká: za delší úsek se nasčítá víc kroků, takže i čistě náhodná změna bývá větší.',
+    numbersBody2:
+      'Proto se počítá z. To je změna přepočtená na to, kolikrát je větší než náhodné kolísání, které se dá za takto dlouhý úsek čekat: z kolem nuly znamená obyčejný úsek, z kolem tří úsek, který z šumu vyčnívá. P-hodnota pak říká, jak často by tak velké z vyšlo u úseku určeného předem — a hodnota 0,05 je jen dohoda, ne důkaz.',
     action: 'Teď hledejte zajímavé období',
   },
   controls: {

@@ -4,11 +4,21 @@ const bestline = {
     body1:
       'Stroj vytváří dvojice čísel. Obě souřadnice vznikají nezávisle na sobě: y je čistý šum, který nemá s x vůbec nic společného. Stejně jako v prvním scénáři to víme jistě, protože generátor jsme napsali sami — žádný skutečný vztah neexistuje.',
     body2:
-      'Ještě než uvidíme jediný bod, zavazujeme se k jedné analýze: proložit vzorkem jednu přímku a zeptat se, zda vysvětlí více než vodorovná čára.',
+      'Ještě než uvidíme jediný bod, zavazujeme se k jedné analýze: proložit vzorkem jednu přímku a zeptat se, jestli body sleduje o tolik lépe než obyčejná vodorovná čára, že už to náhoda sama nevysvětlí.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že „jak dobře model sedí na datech“ a „jak dobře model něco vystihuje“ jsou dvě různé věci. Čím ohebnější křivku dovolíme, tím líp sedne — i když v datech není vůbec nic. A když si pak z nabídnutých modelů vybereme ten s nejhezčím číslem, vybíráme si vlastně jen to nejšťastnější losování.',
+    goalStep1:
+      'Vygenerujeme body a proložíme jimi přímku, ke které jsme se zavázali předem. Nic nenajde.',
+    goalStep2:
+      'Pak zkusíme ohebnější křivky a vybereme tu, která vyjde nejpřesvědčivěji. Ta už jako nález vypadá.',
+    goalStep3:
+      'Nakonec spočítáme, co takové hledání umí v čistém šumu, a necháme stroj vygenerovat nové body. Nezbude z toho nic.',
     question: 'Popisuje přímka tyto body lépe, než dovoluje pouhá náhoda?',
     body3:
       'Odpověď musí znít ne. Všechno zajímavé, co bude následovat, vzejde jen z toho, jak usilovně jsme ochotni hledat.',
-    trueProcess: 'x rovnoměrně, y nezávislý šum kolem nuly. Skutečný vztah: žádný.',
+    trueProcess:
+      'x se losuje rovnoměrně, y se losuje úplně zvlášť jako šum kolem nuly. Mezi x a y není žádný vztah — ani přímý, ani zakřivený, ani žádný jiný.',
     action: 'Vygenerovat vzorek',
   },
   experiment: {
@@ -17,6 +27,11 @@ const bestline = {
       'Tady je jeden vzorek. Body se rozbíhají, jak už to body dělají, a přímka stanovená předem jimi prochází, aniž by cokoli našla: to málo rozptylu, které zachytí, zachytí přímka i v čistém šumu.',
     body2:
       'Změňte velikost vzorku nebo semínko a sledujte, jak se přímka posouvá. Nic z toho nic neznamená — není tu co znamenat.',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'R² říká, jaká část kolísání y je zachycená křivkou. Nula znamená, že křivka nepomáhá vůbec nic — stejně dobře byste hádali průměr. Jednička znamená, že křivka prochází přesně všemi body. Podstatné je, že ohebnější křivka má R² vždycky vyšší, i když v datech nic není: to číslo tedy samo o sobě není důkaz ničeho.',
+    numbersBody2:
+      'P-hodnota odpovídá na jinou otázku: kdyby mezi x a y nebyl žádný vztah, jak často by křivka stejně vyšla aspoň takhle dobře? Na rozdíl od R² si účtuje za každý parametr navíc, takže pouhou ohebností ji neošálíte. Ale i ona platí jen pro model zvolený předem — a právě s tím si za chvíli budeme hrát.',
     action: 'Teď zkuste najít model, který sedí',
   },
   controls: {
@@ -81,8 +96,8 @@ const bestline = {
       'Oba řádky níže byly testovány stejně: standardním F-testem, který se ptá, zda model vysvětlí z y více než vodorovná čára. Jediný rozdíl je v tom, kdy byl model zvolen.',
     naivePValue: 'p-hodnota, jak se běžně uvádí',
     naiveHint: 'Celkový F-test regrese.',
-    verdictNothing: 'Není co hlásit',
-    verdictStriking: 'Vypadá to jako objev',
+    verdictNothing: 'Nic k hlášení',
+    verdictStriking: 'Vypadá to jako nález',
     body2:
       'F-test si účtuje každý parametr, takže samotná pružnost ho neoklame. Oklame ho to, že jsme vyzkoušeli {{count}} modelů a uvedli ten, který vyšel nejlépe.',
     runFirst:

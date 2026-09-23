@@ -5,10 +5,14 @@
 
 export function formatNumber(value: number, locale: string, fractionDigits = 2): string {
   if (!Number.isFinite(value)) return '–'
+  // A value that rounds to zero has no sign: "-0.00" is noise, and in a table
+  // of averages it reads as a direction that is not there.
+  const factor = 10 ** fractionDigits
+  const rounded = Math.round(value * factor) / factor
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
-  }).format(value)
+  }).format(rounded === 0 ? 0 : rounded)
 }
 
 export function formatInteger(value: number, locale: string): string {

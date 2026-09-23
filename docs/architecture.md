@@ -82,8 +82,9 @@ Planned scenarios are listed on the overview and get an honest "not implemented 
 - `hypothesis/binomialTest.ts` — one-sided exact test, returning the observed count, the null probability, the expectation and the p-value.
 - `hypothesis/fTest.ts` — overall F-test of a regression, which discounts every fitted parameter.
 - `hypothesis/riskAdjustedTest.ts` — observed events against what these particular individuals' own risks predicted, with an exact Poisson-binomial p-value.
+- `hypothesis/correlationTest.ts` — the exact test that a Pearson correlation is zero, and the critical correlation for a given sample size.
 - `hypothesis/tTest.ts` — Welch's two-sample t-test, with a group summary and a 95% interval.
-- `hypothesis/multiplicity.ts` — Bonferroni and Holm adjustments, for the scenarios that want to show the textbook correction beside the simulated one.
+- `hypothesis/multiplicity.ts` — Bonferroni, Holm and Benjamini-Hochberg adjustments, for the scenarios that want to show the textbook correction beside the simulated one.
 - `hypothesis/zTest.ts` — two-sided test of a sum for a known standard deviation. Exact rather than asymptotic, because the simulation chooses the standard deviation.
 - `regression/leastSquares.ts` — Householder QR least squares and polynomial fitting. Not the normal equations: a degree-9 Vandermonde matrix is badly conditioned, and squaring it would leave a reported R² at the mercy of rounding error.
 - `regression/goodnessOfFit.ts` — R² (negative out of sample when a model predicts worse than the mean), RMSE, correlation.
@@ -133,8 +134,11 @@ What is covered today:
 - the normal distribution and the z-test against tabulated values, including tail accuracy where `1 - erf` has run out of digits;
 - the Poisson-binomial distribution against an exhaustive enumeration of every outcome, and against the binomial when every risk is equal;
 - the t distribution against tabulated critical values, Welch's test against a worked example, and Holm against Bonferroni;
+- the correlation test against its own t statistic and the false discovery rate against a worked example, including that it is never more severe than the family-wise corrections;
+- scenario 06 model, data-generating process, and analysis — including that the columns really are independent, that the p-values of the whole sweep are flat, that nothing survives at a 5% false discovery rate, and that the discovered pair predicts new rows worse than the mean does;
 - scenario 05 model, data-generating process, and analysis — including that both arms are generated identically, that the outcomes correlate as designed while staying marginally standard normal, and that the simulated correction comes out milder than Bonferroni;
 - scenario 04 model, data-generating process, and analysis — including that doctors differ in case mix but not in skill, that the search flags somebody in most hospitals where no doctor differs, and that the flagged doctor returns to a ratio of 1 on later years;
+- number formatting, including that a value which rounds to zero never prints as a negative zero;
 - application-level walkthroughs of every implemented scenario in both languages;
 - that no interpolation placeholder reaches the screen unfilled, including in the panels that only appear once a simulation has finished.
 

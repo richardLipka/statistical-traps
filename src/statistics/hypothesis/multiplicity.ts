@@ -37,3 +37,36 @@ export function holmAdjusted(pValues: readonly number[]): number[] {
   }
   return adjusted
 }
+
+/**
+ * Benjamini-Hochberg adjusted p-values, which control the false discovery
+ * rate rather than the chance of any false positive at all.
+ *
+ * This is the correction data mining actually uses, and for a good reason:
+ * with thousands of tests, controlling the chance of even one false positive
+ * (what Bonferroni and Holm do) is so strict that nothing real survives
+ * either. FDR accepts that some of what it reports will be wrong, and
+ * bounds the proportion.
+ *
+ * The returned value for each test is the smallest false discovery rate at
+ * which that test would be called a discovery, in the order the p-values
+ * were given.
+ */
+export function benjaminiHochberg(pValues: readonly number[]): number[] {
+  const count = pValues.length
+  if (count === 0) return []
+  const order = pValues
+    .map((pValue, index) => ({ pValue, index }))
+    .sort((a, b) => a.pValue - b.pValue)
+
+  const adjusted = new Array<number>(count)
+  // Walk from the largest p-value down, keeping the running minimum: an
+  // adjusted value never exceeds one belonging to a larger p-value.
+  let running = 1
+  for (let rank = count - 1; rank >= 0; rank -= 1) {
+    const scaled = (order[rank].pValue * count) / (rank + 1)
+    running = Math.min(running, scaled)
+    adjusted[order[rank].index] = running
+  }
+  return adjusted
+}

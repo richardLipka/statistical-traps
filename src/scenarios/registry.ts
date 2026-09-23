@@ -3,6 +3,7 @@ import BestLineScenario from '@/scenarios/02-best-line/Scenario'
 import InterestingRegionScenario from '@/scenarios/03-interesting-region/Scenario'
 import DoctorMortalityScenario from '@/scenarios/04-doctor-mortality/Scenario'
 import MiracleDrugScenario from '@/scenarios/05-miracle-drug/Scenario'
+import MysteriousCorrelationScenario from '@/scenarios/06-mysterious-correlation/Scenario'
 import type { ScenarioDefinition } from '@/scenarios/types'
 
 /**
@@ -87,7 +88,7 @@ export const scenarios: readonly ScenarioDefinition[] = [
   {
     id: '06-mysterious-correlation',
     order: 6,
-    status: 'planned',
+    status: 'available',
     titleKey: 'scenarios.06-mysterious-correlation.title',
     summaryKey: 'scenarios.06-mysterious-correlation.summary',
     conceptKeys: [
@@ -97,7 +98,9 @@ export const scenarios: readonly ScenarioDefinition[] = [
       'replication',
       'predictionVersusExplanation',
     ],
+    namespace: 'mysteriouscorrelation',
     docs: 'docs/scenarios/06-mysterious-correlation.md',
+    component: MysteriousCorrelationScenario,
   },
   {
     id: '07-ai-synthesis',

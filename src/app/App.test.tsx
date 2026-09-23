@@ -8,6 +8,8 @@ import csBestline from '@/i18n/cs/bestline'
 import enBestline from '@/i18n/en/bestline'
 import enCommon from '@/i18n/en/common'
 import enDartboard from '@/i18n/en/dartboard'
+import csSweep from '@/i18n/cs/mysteriouscorrelation'
+import enSweep from '@/i18n/en/mysteriouscorrelation'
 import csDrug from '@/i18n/cs/miracledrug'
 import enDrug from '@/i18n/en/miracledrug'
 import csDoctor from '@/i18n/cs/doctormortality'
@@ -50,13 +52,13 @@ describe('application shell', () => {
   it('lists the planned scenarios as not yet implemented', async () => {
     await setLanguage('en')
     render(<App />)
-    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(2)
-    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(5)
+    expect(screen.getAllByText(enCommon.status.planned)).toHaveLength(1)
+    expect(screen.getAllByText(enCommon.status.available)).toHaveLength(6)
   })
 
   it('shows a notice for a scenario that is only planned', async () => {
     await setLanguage('en')
-    window.location.hash = '#/scenario/06-mysterious-correlation'
+    window.location.hash = '#/scenario/07-ai-synthesis'
     render(<App />)
     expect(screen.getByText(enCommon.scenario.planned.body)).toBeDefined()
   })
@@ -392,4 +394,77 @@ describe('rendered text', () => {
     expect(missingInterpolations).toEqual([])
     expect(document.body.textContent ?? '').not.toContain('{{')
   }, 20_000)
+})
+
+describe('mysterious correlation scenario', () => {
+  it('walks through the lifecycle in both languages', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/06-mysterious-correlation'
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: enSweep.intro.heading })).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.intro.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enSweep.experiment.heading }),
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.experiment.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enSweep.observation.heading }),
+    ).toBeDefined()
+
+    await setLanguage('cs')
+    expect(
+      screen.getByRole('heading', { level: 2, name: csSweep.observation.heading }),
+    ).toBeDefined()
+  })
+
+  it('hides the discoveries until the sweep is run, then requires one to be chosen', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/06-mysterious-correlation'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enSweep.experiment.action }))
+
+    // Nothing to choose from before the analyst has run.
+    expect(screen.queryByText(enSweep.observation.discoveries)).toBeNull()
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.observation.runSweep }))
+    expect(screen.getByText(enSweep.observation.discoveries)).toBeDefined()
+
+    const advance = screen.getByRole('button', { name: enSweep.observation.action })
+    expect(advance.hasAttribute('disabled')).toBe(true)
+
+    // The first row of the ranked list is the strongest pair the sweep found.
+    fireEvent.click(screen.getAllByRole('button', { name: /^Variables \d+ and \d+/ })[0])
+    expect(
+      screen.getByRole('button', { name: enSweep.observation.action }).hasAttribute('disabled'),
+    ).toBe(false)
+    expect(screen.getAllByText(enSweep.analysis.verdictStriking).length).toBeGreaterThan(0)
+  })
+
+  it('shows the whole sweep, not only its winner, and validates on new rows', async () => {
+    await setLanguage('en')
+    window.location.hash = '#/scenario/06-mysterious-correlation'
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.intro.action }))
+    fireEvent.click(screen.getByRole('button', { name: enSweep.experiment.action }))
+    fireEvent.click(screen.getByRole('button', { name: enSweep.observation.runSweep }))
+    fireEvent.click(screen.getAllByRole('button', { name: /^Variables \d+ and \d+/ })[0])
+    fireEvent.click(screen.getByRole('button', { name: enSweep.observation.action }))
+
+    expect(screen.getByText(enSweep.analysis.sweep.heading)).toBeDefined()
+    expect(screen.getByText(enSweep.analysis.selection.heading)).toBeDefined()
+    // The pair named in advance still has nothing to report.
+    expect(screen.getAllByText(enSweep.analysis.verdictNothing).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: enSweep.analysis.action }))
+    expect(
+      screen.getByRole('heading', { level: 2, name: enSweep.validation.heading }),
+    ).toBeDefined()
+    expect(screen.getAllByText(enSweep.validation.freshBatch).length).toBeGreaterThan(0)
+  })
 })

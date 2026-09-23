@@ -347,6 +347,17 @@ export default function AiSynthesisScenario() {
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('intro.heading')}</h2>
               <p className="text-slate-700">{t('intro.body1')}</p>
+              <Card title={t('intro.goalHeading')} tone="preset">
+                <p className="text-sm text-slate-700">{t('intro.goalBody')}</p>
+                <ol className="mt-3 space-y-1.5 text-sm text-slate-700">
+                  {([1, 2, 3] as const).map((step) => (
+                    <li key={step} className="flex gap-2">
+                      <span className="font-semibold tabular-nums text-slate-500">{step}.</span>
+                      <span>{t(`intro.goalStep${step}`)}</span>
+                    </li>
+                  ))}
+                </ol>
+              </Card>
               <p className="text-slate-700">{t('intro.body2')}</p>
               <Card title={t('intro.questionsHeading')} tone="preset">
                 <ol className="space-y-2 text-sm text-slate-700">
@@ -393,6 +404,15 @@ export default function AiSynthesisScenario() {
               <p className="text-slate-700">
                 {t('experiment.body2', { count: significantCount })}
               </p>
+              <ExplanationPanel title={t('experiment.numbersTitle')}>
+                <p>{t('experiment.numbersBody1')}</p>
+                <p>
+                  {t('experiment.numbersBody2', {
+                    candidates: formatInteger(params.candidateCount, locale),
+                    expected: formatNumber(params.candidateCount * ALPHA, locale, 0),
+                  })}
+                </p>
+              </ExplanationPanel>
               <StudyControls
                 params={params}
                 onChange={updateParams}
@@ -536,7 +556,11 @@ export default function AiSynthesisScenario() {
               </Card>
 
               <ExplanationPanel title={t('analysis.explanation.title')}>
-                <p>{t('analysis.explanation.body1')}</p>
+                <p>
+                  {t('analysis.explanation.body1', {
+                    candidates: formatInteger(params.candidateCount, locale),
+                  })}
+                </p>
                 <p>{t('analysis.explanation.body2')}</p>
                 <p>{t('analysis.explanation.body3')}</p>
               </ExplanationPanel>

@@ -3,16 +3,25 @@ const aisynthesis = {
     heading: 'A system is asked what predicts the outcome',
     body1:
       'A table of cases: one outcome to predict, and a few hundred candidate features to predict it from. The table is handed to a system that will score every candidate and return the ones that work best. It will do this correctly — there is no bug to find here, and no naive mistake in the method.',
+    goalHeading: 'What this experiment is meant to show',
+    goalBody:
+      'That this one ends differently from the six before it: this time the search does find something real. And yet the data it searched cannot tell you which of the findings that is — and once you do find out, it still does not follow that you can act on it.',
+    goalStep1:
+      'The system scores every candidate and returns the strongest. We take two of them aside: they look exactly alike.',
+    goalStep2:
+      'We correct their p-values for the fact that a search took place. It rejects both — including the one that is real.',
+    goalStep3:
+      'Only new cases, ones the search never saw, separate the two. And the last question, whether the finding can be acted on, stays unanswered even then.',
     body2:
       'One of the candidates really is connected to the outcome. The rest are unrelated to it entirely. Nothing in the table marks which is which, and the system is not told.',
     questionsHeading: 'Four questions we will ask of whatever comes back',
     body3:
       'They sound like one question, and they have different answers. Separating them is the whole of this last scenario, and it is where the six before it were heading.',
     trueProcess:
-      'An unmeasured variable drives the outcome, and also drives one of the candidate features — so that feature really does correlate with the outcome, at about {{correlation}}. Every other feature is independent noise. No feature causes anything: change one and the outcome does not move, because the outcome depends on the unmeasured variable alone.',
+      'Behind the table there is one quantity nobody measured and nothing recorded. It drives the outcome, and it also drives one of the candidate features — so that feature moves together with the outcome, and their correlation comes out around {{correlation}}. Every other feature is drawn entirely on its own. No feature causes the outcome, though: move one and the outcome does not move, because the outcome depends on that unmeasured quantity alone.',
     fictionHeading: 'Nothing here is real',
     fictionBody:
-      'The table, the outcome and the system are generated in your browser from a seed. No real data set, model or product is involved. The unmeasured variable is visible to the simulation and to nobody in the scenario, exactly as a cause nobody recorded is absent from real data.',
+      'The table, the outcome and the system are generated in your browser from a seed. No real data set, model or product is involved. That unmeasured quantity is visible to the simulation and to nobody in the scenario, exactly as a cause nobody recorded is absent from real data.',
     action: 'Hand over the data',
   },
   experiment: {
@@ -24,6 +33,11 @@ const aisynthesis = {
       'The two the scenario will follow are marked. They are the one the search liked best and one other — which one, and why, is the question.',
     body2:
       '{{count}} candidates cleared 0.05 on their own. Change the number of candidates and watch that count move with it rather than with anything about the world.',
+    numbersTitle: 'What do these numbers mean?',
+    numbersBody1:
+      'The correlation r says how tightly the cases lie around a single straight line: zero is a shapeless cloud, plus one a perfect rise, minus one a perfect fall. The p-value beside it answers a different question: if this feature had nothing to do with the outcome, how often would its correlation come out at least this strong anyway?',
+    numbersBody2:
+      'Both of those are about a feature somebody asked about in advance. The system scored {{candidates}} of them and returns the best ones, which is a different situation: a p-value of 0.05 means “this strong turns up for one feature in twenty” — so out of {{candidates}} unrelated features about {{expected}} clear that bar with nothing behind them at all. That is the number written under the “Below 0.05” tile.',
     action: 'Look at the two finalists',
   },
   controls: {
@@ -118,7 +132,7 @@ const aisynthesis = {
     explanation: {
       title: 'Why can the data not settle it?',
       body1:
-        'Because both explanations fit it equally well. A feature that is genuinely connected to the outcome and the luckiest of two hundred unrelated ones produce the same picture in a table this size: the same correlation, the same p-value, the same plot. There is no statistic computable from these rows that separates them, and looking harder at them will not help.',
+        'Because both explanations fit it equally well. A feature that is genuinely connected to the outcome and the luckiest of {{candidates}} unrelated ones produce the same picture in a table this size: the same correlation, the same p-value, the same plot. There is no statistic computable from these rows that separates them, and looking harder at them will not help.',
       body2:
         'That is not a failure of the search, and it is not a failure of the system that ran it. The search did what it was asked and reported what it found. The information that would separate the two was never in this table — it is in data the search has not seen.',
       body3:

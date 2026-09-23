@@ -3,16 +3,25 @@ const aisynthesis = {
     heading: 'Systém dostane otázku, co předpovídá výsledek',
     body1:
       'Tabulka případů: jeden výsledek, který se má předpovědět, a několik stovek kandidátských příznaků, ze kterých se předpovídat dá. Tabulku dostane systém, který každého kandidáta ohodnotí a vrátí ty, co fungují nejlépe. Udělá to správně — není tu žádná chyba k nalezení ani naivní přešlap v metodě.',
+    goalHeading: 'Co má tento pokus ukázat',
+    goalBody:
+      'Že tenhle pokus dopadne jinak než šest předchozích: hledání tentokrát najde i něco skutečného. A přesto z dat, ve kterých hledalo, nejde poznat, který z nálezů to je — a i když se to nakonec pozná, pořád z toho neplyne, že se podle něj dá jednat.',
+    goalStep1:
+      'Systém ohodnotí všechny kandidáty a vrátí ty nejsilnější. Dva z nich si vezmeme stranou: vypadají úplně stejně.',
+    goalStep2:
+      'Opravíme jejich p-hodnoty o to, že se hledalo. Zamítne to oba — i toho, který je skutečný.',
+    goalStep3:
+      'Teprve nové případy, které hledání nevidělo, ty dva oddělí. A poslední otázka, jestli se podle nálezu dá jednat, zůstane nezodpovězená i pak.',
     body2:
       'Jeden z kandidátů je s výsledkem skutečně spojený. Všichni ostatní s ním nesouvisejí vůbec. Nic v tabulce neoznačuje, který je který, a systému to nikdo neřekne.',
     questionsHeading: 'Čtyři otázky, které položíme tomu, co se vrátí',
     body3:
       'Znějí jako jedna otázka a mají různé odpovědi. Jejich oddělení je celý tento poslední scénář a je to místo, ke kterému šest předchozích mířilo.',
     trueProcess:
-      'Neměřená proměnná určuje výsledek a zároveň určuje jeden z kandidátských příznaků — takže ten příznak s výsledkem opravdu koreluje, zhruba na {{correlation}}. Všechny ostatní příznaky jsou nezávislý šum. Žádný příznak nic nezpůsobuje: když ho změníte, výsledek se nepohne, protože výsledek závisí pouze na té neměřené proměnné.',
+      'V pozadí je jedna veličina, kterou nikdo nezměřil a která se do tabulky nedostala. Určuje výsledek a zároveň určuje jeden z kandidátských příznaků — ten se proto s výsledkem hýbe společně a jejich korelace vychází kolem {{correlation}}. Všechny ostatní příznaky se losují úplně samostatně. Žádný příznak ale výsledek nezpůsobuje: když jím pohnete, výsledek se nepohne, protože ten závisí jedině na té nezměřené veličině.',
     fictionHeading: 'Nic zde není skutečné',
     fictionBody:
-      'Tabulka, výsledek i systém vznikají ve vašem prohlížeči ze semínka. Nejde o žádný skutečný datový soubor, model ani produkt. Neměřená proměnná je viditelná pro simulaci a pro nikoho ve scénáři — přesně jako příčina, kterou nikdo nezaznamenal, chybí ve skutečných datech.',
+      'Tabulka, výsledek i systém vznikají ve vašem prohlížeči ze semínka. Nejde o žádný skutečný datový soubor, model ani produkt. Ta nezměřená veličina je viditelná pro simulaci a pro nikoho ve scénáři — přesně jako příčina, kterou nikdo nezaznamenal, chybí ve skutečných datech.',
     action: 'Předat data',
   },
   experiment: {
@@ -24,6 +33,11 @@ const aisynthesis = {
       'Ti dva, které bude scénář sledovat, jsou vyznačeni. Je to ten, kterého mělo hledání nejraději, a jeden další — a otázka zní, který je který a proč.',
     body2:
       '{{count}} kandidátů samo o sobě překonalo 0,05. Změňte počet kandidátů a sledujte, jak se toto číslo hýbe s ním, a ne s čímkoli ve světě.',
+    numbersTitle: 'Co znamenají tahle čísla?',
+    numbersBody1:
+      'Korelace r říká, jak těsně případy leží kolem jedné přímky: nula je beztvarý mrak, plus jedna dokonalý vzestup, minus jedna dokonalý pokles. P-hodnota vedle ní odpovídá na jinou otázku: kdyby ten příznak s výsledkem vůbec nesouvisel, jak často by jeho korelace i tak vyšla aspoň takhle silná?',
+    numbersBody2:
+      'Obojí ale platí pro příznak, na který se někdo zeptal předem. Systém jich ohodnotil {{candidates}} a vrací z nich ty nejlepší, a to je jiná situace: p-hodnota 0,05 znamená „takhle silné to vyjde u jednoho příznaku z dvaceti“ — takže z {{candidates}} nesouvisejících příznaků jich tuhle laťku asi {{expected}} přeskočí, aniž by za nimi cokoli bylo. To je i to číslo, které stojí pod dlaždicí „Pod 0,05“.',
     action: 'Podívat se na oba finalisty',
   },
   controls: {
@@ -118,7 +132,7 @@ const aisynthesis = {
     explanation: {
       title: 'Proč to data nemohou rozhodnout?',
       body1:
-        'Protože jim obě vysvětlení sedí stejně dobře. Příznak, který je s výsledkem opravdu spojený, a ten nejšťastnější ze dvou stovek nesouvisejících vytvoří v tabulce této velikosti tentýž obrázek: stejnou korelaci, stejnou p-hodnotu, stejný graf. Z těchto řádků nelze spočítat žádnou statistiku, která by je oddělila, a dívat se na ně pozorněji nepomůže.',
+        'Protože jim obě vysvětlení sedí stejně dobře. Příznak, který je s výsledkem opravdu spojený, a ten nejšťastnější z {{candidates}} nesouvisejících vytvoří v tabulce této velikosti tentýž obrázek: stejnou korelaci, stejnou p-hodnotu, stejný graf. Z těchto řádků nelze spočítat žádnou statistiku, která by je oddělila, a dívat se na ně pozorněji nepomůže.',
       body2:
         'Není to selhání hledání ani systému, který ho provedl. Hledání udělalo, oč bylo požádáno, a ohlásilo, co našlo. Informace, která by ty dva oddělila, v této tabulce nikdy nebyla — je v datech, která hledání nevidělo.',
       body3:

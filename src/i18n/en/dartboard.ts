@@ -27,11 +27,15 @@ const dartboard = {
       'There is no pattern in these darts. The blue circle catches a few of them, roughly as many as its area predicts — sometimes a little more, sometimes a little less.',
     body2:
       'Change the settings and watch how the count moves around. That movement is the raw material every trap in this application is built from.',
+    verdictBody:
+      'The blue target got its test and found nothing. That is as it should be, because there is nothing in these darts to find.',
+    verdictBodyHit:
+      'The blue target got its test and came out below 0.05. It is a false alarm: even a target fixed in advance looks like this at most once in twenty. This is the twentieth. Throw again with a different seed and it goes away.',
     numbersTitle: 'What do these numbers mean?',
     numbersBody1:
       'The circle covers {{share}} of the board, so random throws put about that same share of the darts inside it — roughly {{expected}} out of {{darts}}. That is the expected number of hits. The actual number wobbles up and down around it, and everything else in this scenario rests on how large that wobble is.',
     numbersBody2:
-      'When a p-value appears shortly, it will answer one question: if the machine were throwing completely at random, how often would it land at least this many darts in this circle? 0.9 means "this or better happens nine times in ten, nothing unusual". 0.001 means "this would happen about once in a thousand" — and results like that start being called findings. The 0.05 threshold is a convention, not a proof.',
+      'The p-value beside the blue target answers one question: if the machine were throwing completely at random, how often would it land at least this many darts in this circle? 0.9 means "this or better happens nine times in ten, nothing unusual". 0.001 means "this would happen about once in a thousand" — and results like that start being called findings. The 0.05 threshold is a convention, not a proof.',
     action: 'Now go looking for a pattern',
   },
   controls: {
@@ -86,6 +90,8 @@ const dartboard = {
       'Both circles have the same area, so under pure randomness each has the same probability of being hit: {{probability}}. We now ask the identical question about both: how likely is it that chance alone produces at least this many hits?',
     naivePValue: 'p-value as usually reported',
     naiveHint: 'One-sided exact binomial test.',
+    runFirst:
+      'The correction below is the point of this stage: without it, the number in the row above is what would be reported.',
     verdictNothing: 'Nothing to report',
     verdictStriking: 'Looks like a finding',
     body2:

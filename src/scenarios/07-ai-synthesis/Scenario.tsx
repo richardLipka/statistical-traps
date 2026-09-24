@@ -128,6 +128,19 @@ export default function AiSynthesisScenario() {
         : Number.NaN,
     [selectionSearches, pair.second.test.r],
   )
+  /**
+   * Whether the search correction rejected both finalists.
+   *
+   * It does at the default settings, and that is the point the scenario is
+   * built on - but a smaller search charges less, so a strong enough
+   * candidate can come through it. The text says which of the two happened
+   * rather than assuming the default.
+   */
+  const bothRejected =
+    selection !== null &&
+    selection.adjusted.pValue >= ALPHA &&
+    (Number.isNaN(secondAdjusted) || secondAdjusted >= ALPHA)
+
   const selectionBins = useMemo(
     () => (selection ? binValues(selection.absR, HISTOGRAM_BINS) : []),
     [selection],
@@ -533,9 +546,19 @@ export default function AiSynthesisScenario() {
                       ]}
                       caption={t('analysis.selection.tableHint')}
                     />
-                    <p className="text-sm text-slate-700">{t('analysis.selection.bothFail')}</p>
+                    <p className="text-sm text-slate-700">
+                      {t(
+                        bothRejected
+                          ? 'analysis.selection.bothFail'
+                          : 'analysis.selection.oneSurvives',
+                      )}
+                    </p>
                     <p className="text-sm font-medium text-slate-900">
-                      {t('analysis.selection.notFalse')}
+                      {t(
+                        bothRejected
+                          ? 'analysis.selection.notFalse'
+                          : 'analysis.selection.notProven',
+                      )}
                     </p>
                     <div className="border-t border-posthoc/20 pt-3">
                       <h4 className="text-sm font-semibold text-slate-900">

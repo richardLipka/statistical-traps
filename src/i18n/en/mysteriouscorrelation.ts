@@ -30,12 +30,14 @@ const mysteriouscorrelation = {
     body1:
       'The triangle at the top is a map of every pair at once: each cell is one pair of variables, and how strongly it is shaded says how closely that pair moves together. Red means they rise together, blue that one rises as the other falls. It is a field of noise, which is exactly what it should be.',
     body2:
-      'The pair named in advance is outlined in the map and plotted underneath, one dot per case. The dots lie around no line at all, the correlation is near zero, and the test finds nothing — which is correct.',
+      'The pair named in advance is outlined in the map and plotted underneath, one dot per case. The dots lie around no line at all, the correlation is near zero, and the test finds nothing. That is as it should be.',
+    body2Hit:
+      'The pair named in advance is outlined in the map and plotted underneath, one dot per case. This time its p-value came out below 0.05. It is a false alarm: even a pair named in advance looks like this about once in twenty. There is no relationship between those two columns. Draw a new seed and it goes quiet.',
     numbersTitle: 'What do these numbers mean?',
     numbersBody1:
       'The correlation r says how tightly the dots lie around a single straight line. Zero is a shapeless cloud, plus one a perfect rise, minus one a perfect fall. 0.02 is a cloud; −0.57 is a visibly stretched cluster that the eye finishes into a line by itself.',
     numbersBody2:
-      'The p-value answers: if those two variables were unrelated, how often would their correlation come out at least this strong anyway? With a few dozen rows, a correlation of only about 0.3 already reaches 0.05 — which is why that bar is so low, and why so many of thousands of pairs clear it.',
+      'The p-value answers: if those two variables were unrelated, how often would their correlation come out at least this strong anyway? With {{rows}} rows, a correlation of about {{threshold}} already reaches 0.05; that is the number in the "Significance bar" tile. It sits low enough that, across this many pairs, plenty of them clear it.',
     action: 'Now let the analyst loose',
   },
   controls: {
@@ -141,9 +143,9 @@ const mysteriouscorrelation = {
     explanation: {
       title: 'Why does this happen?',
       body1:
-        'A correlation test at the 5% level is wrong one time in twenty, so a sweep of 1,770 pairs is wrong about 88 times. The scenario does not have to arrange this: the expected count and the observed count agree to within a couple of pairs, which is what "nothing is there" looks like when you test everything.',
+        'A correlation test at the 5% level is wrong one time in twenty, so across {{pairs}} pairs it goes wrong about {{expected}} times. The scenario does not have to arrange this: the expected count and the observed count agree to within a couple of pairs, which is what "nothing is there" looks like when you test everything.',
       body2:
-        'Two things make the result persuasive anyway. The first is the plot: forty points with a line through them look like a relationship regardless of what produced them, and the eye does not know how many other plots were rejected to find this one. The second is the name. Real columns have names, and a named pair arrives with a story about why one might drive the other — which is supplied after the fact, and would have been supplied just as readily for any of the other 1,769 pairs.',
+        'Two things make the result persuasive anyway. The first is the plot: {{rows}} points with a line through them look like a relationship regardless of what produced them, and the eye does not know how many other plots were rejected to find this one. The second is the name. Real columns have names, and a named pair arrives with a story about why one might drive the other — which is supplied after the fact, and would have been supplied just as readily for any of the other {{others}} pairs.',
       body3:
         'This is the same mistake as every earlier scenario, and the only thing that has changed is the speed. A person moving a target can try a few dozen positions; a sweep tries every pair in the table before the page finishes loading. The size of a search is the part of a result that never appears in the report.',
     },

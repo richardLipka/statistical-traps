@@ -316,6 +316,16 @@ export default function DartboardScenario() {
                   value={formatPercent(probability, locale)}
                   hint={t('stats.hitProbabilityHint')}
                 />
+                <StatTile
+                  label={t('analysis.naivePValue')}
+                  value={formatPValue(presetEvaluation.test.pValue, locale)}
+                  hint={
+                    presetEvaluation.test.pValue < ALPHA
+                      ? t('analysis.verdictStriking')
+                      : t('analysis.verdictNothing')
+                  }
+                  tone="preset"
+                />
               </dl>
               <ExplanationPanel title={t('experiment.numbersTitle')}>
                 <p>
@@ -327,6 +337,13 @@ export default function DartboardScenario() {
                 </p>
                 <p>{t('experiment.numbersBody2')}</p>
               </ExplanationPanel>
+              <p className="text-slate-700">
+                {t(
+                  presetEvaluation.test.pValue < ALPHA
+                    ? 'experiment.verdictBodyHit'
+                    : 'experiment.verdictBody',
+                )}
+              </p>
               <ExperimentControls
                 params={params}
                 onChange={updateParams}
@@ -430,6 +447,9 @@ export default function DartboardScenario() {
                 />
               </Card>
               <p className="text-slate-700">{t('analysis.body2')}</p>
+              {selection === null ? (
+                <p className="text-sm font-medium text-posthoc">{t('analysis.runFirst')}</p>
+              ) : null}
 
               <Card
                 title={t('analysis.selection.heading')}

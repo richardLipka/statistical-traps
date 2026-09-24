@@ -5,7 +5,7 @@ const aisynthesis = {
       'Tabulka případů: jeden výsledek, který se má předpovědět, a celá řada kandidátských příznaků, ze kterých se předpovídat dá. Tabulku dostane systém, který každého kandidáta ohodnotí a vrátí ty, co fungují nejlépe. Udělá to správně — není tu žádná chyba k nalezení ani naivní přešlap v metodě.',
     goalHeading: 'Co má tento pokus ukázat',
     goalBody:
-      'Že tenhle pokus dopadne jinak než šest předchozích: hledání tentokrát najde i něco skutečného. A přesto z dat, ve kterých hledalo, nejde poznat, který z nálezů to je — a i když se to nakonec pozná, pořád z toho neplyne, že se podle něj dá jednat.',
+      'Že tenhle pokus dopadne jinak než šest předchozích: hledání tentokrát najde i něco skutečného. A přesto z dat, ve kterých hledalo, nejde poznat, který z nálezů to je. A i když se to nakonec pozná, pořád z toho neplyne, že se podle něj dá jednat.',
     goalStep1:
       'Systém ohodnotí všechny kandidáty a vrátí ty nejsilnější. Dva z nich si vezmeme stranou: vypadají úplně stejně.',
     goalStep2:
@@ -30,14 +30,14 @@ const aisynthesis = {
       'Systém ohodnotil všech {{candidates}} kandidátů proti výsledku a seřadil je. Tohle je výstup, jaký takový systém vytváří: užší výběr a čísla, která ho podpírají.',
     shortlist: 'Nejsilnější kandidáti',
     shortlistHint:
-      'Ti dva, které bude scénář sledovat, jsou vyznačeni. Je to ten, kterého mělo hledání nejraději, a jeden další — a otázka zní, který je který a proč.',
+      'Ti dva, které bude scénář sledovat, jsou vyznačeni. Je to ten, kterého mělo hledání nejraději, a jeden další. Otázka zní, který je který a proč.',
     body2:
       '{{count}} kandidátů samo o sobě překonalo 0,05. Změňte počet kandidátů a sledujte, jak se toto číslo hýbe s ním, a ne s čímkoli ve světě.',
     numbersTitle: 'Co znamenají tahle čísla?',
     numbersBody1:
       'Korelace r říká, jak těsně případy leží kolem jedné přímky: nula je beztvarý mrak, plus jedna dokonalý vzestup, minus jedna dokonalý pokles. P-hodnota vedle ní odpovídá na jinou otázku: kdyby ten příznak s výsledkem vůbec nesouvisel, jak často by jeho korelace i tak vyšla aspoň takhle silná?',
     numbersBody2:
-      'Obojí ale platí pro příznak, na který se někdo zeptal předem. Systém jich ohodnotil {{candidates}} a vrací z nich ty nejlepší, a to je jiná situace: p-hodnota 0,05 znamená „takhle silné to vyjde u jednoho příznaku z dvaceti“ — takže z {{candidates}} nesouvisejících příznaků jich tuhle laťku asi {{expected}} přeskočí, aniž by za nimi cokoli bylo. To je i to číslo, které stojí pod dlaždicí „Pod 0,05“.',
+      'Obojí ale platí pro příznak, na který se někdo zeptal předem. Tady systém ohodnotil {{candidates}} kandidátů a vrací z nich ty nejlepší, což je jiná situace. P-hodnota 0,05 znamená „takhle silné to vyjde u jednoho příznaku z dvaceti“. Z {{candidates}} nesouvisejících příznaků jich tedy laťku přeskočí asi {{expected}}, aniž by za nimi cokoli bylo. Stejné číslo stojí pod dlaždicí „Pod 0,05“.',
     action: 'Podívat se na oba finalisty',
   },
   controls: {
@@ -87,7 +87,7 @@ const aisynthesis = {
       'Tady jsou, vedle sebe: stejný počet případů, stejný druh grafu, stejný test. Jeden z nich je s výsledkem spojený a druhý je šum.',
     tableHint: 'Přesný test, že korelace je nulová, pro každého kandidáta zvlášť.',
     body2:
-      'Všechno, co hledání vytvořilo, je na této obrazovce. Zdržte se u toho chvíli, než půjdete dál, protože další krok položí datům těžší otázku a datům docházejí odpovědi.',
+      'Všechno, co hledání vytvořilo, je na této obrazovce. Další krok položí datům těžší otázku a odpovědi jim začnou docházet.',
     guessHeading: 'Který z nich je skutečný?',
     guessBody:
       'Zavažte se k odpovědi. Za omyl není žádný postih a smyslem otázky je to, jaké je rozhodovat se z tohoto podkladu.',
@@ -98,7 +98,7 @@ const aisynthesis = {
   analysis: {
     heading: 'Co tato data mohou a nemohou říct',
     body1:
-      'Oba finalisté jsou významní, oba byli vybráni z dlouhého seznamu a oba byli nalezeni týmž správně provedeným hledáním. První věcí je ocenit to hledání — a potom si všimnout, co nám jeho ocenění neřekne.',
+      'Oba finalisté jsou významní, oba byli vybráni z dlouhého seznamu a oba byli nalezeni týmž správně provedeným hledáním. Nejdřív to hledání oceníme a potom se podíváme, co nám jeho ocenění neřekne.',
     naivePValue: 'p, jak se uvádí',
     verdictNothing: 'Nic k hlášení',
     verdictStriking: 'Vypadá to jako nález',
@@ -117,9 +117,13 @@ const aisynthesis = {
       tableHint:
         'Monte Carlo p-hodnoty: jak často prohledání tabulky, ve které nic není, vytvoří kandidáta aspoň takto silného.',
       bothFail:
-        'Opravu nepřežije ani jeden finalista a jejich opravené hodnoty jsou blízko u sebe. Oprava je nedokáže oddělit, protože to není druh otázky, na který odpovídá: oceňuje hledání, a oba byli nalezeni týmž hledáním.',
+        'Opravu nepřežil ani jeden finalista a jejich opravené hodnoty leží blízko sebe. Oddělit je oprava neumí: měří hledání, a oba vzešli z téhož hledání.',
       notFalse:
-        'Tuhle větu si zapamatujte. Oprava neříká, že nález je nepravdivý — říká, že jej tato data neprokázala. Jeden z těch dvou je skutečný a oprava zamítá oba.',
+        'Oprava neříká, že nález je nepravdivý. Říká, že ho tahle data neprokázala. Jeden z těch dvou je skutečný a oprava zamítá oba.',
+      oneSurvives:
+        'Aspoň jeden finalista opravou prošel; tabulka výše říká který. Skutečný tím není. Oprava měří, kolik se hledalo, a proti tomu vyšel tenhle vztah dost silně.',
+      notProven:
+        'Oprava neříká, že nález je pravdivý. Říká, že ho tahle data unesou. To je něco jiného a který z těch dvou finalistů je ten pravý, se odsud pořád nepozná.',
       gallery: {
         heading: 'Pět nejsilnějších kandidátů, které tyto simulace vytvořily',
         body: 'V každé tabulce níže není s výsledkem spojeno vůbec nic a každý graf je nejlepším kandidátem, jakého její hledání našlo. Postavte je vedle obou finalistů a není z čeho vybírat.',
@@ -132,11 +136,11 @@ const aisynthesis = {
     explanation: {
       title: 'Proč to data nemohou rozhodnout?',
       body1:
-        'Protože jim obě vysvětlení sedí stejně dobře. Příznak, který je s výsledkem opravdu spojený, a ten nejšťastnější z {{candidates}} nesouvisejících vytvoří v tabulce této velikosti tentýž obrázek: stejnou korelaci, stejnou p-hodnotu, stejný graf. Z těchto řádků nelze spočítat žádnou statistiku, která by je oddělila, a dívat se na ně pozorněji nepomůže.',
+        'Protože jim obě vysvětlení sedí stejně dobře. Skutečně spojený příznak a nejšťastnější z {{candidates}} nesouvisejících vytvoří v tabulce této velikosti tentýž obrázek. Stejnou korelaci, stejnou p-hodnotu, stejný graf. Z těchto řádků nelze spočítat žádnou statistiku, která by je oddělila, a dívat se na ně pozorněji nepomůže.',
       body2:
         'Není to selhání hledání ani systému, který ho provedl. Hledání udělalo, oč bylo požádáno, a ohlásilo, co našlo. Informace, která by ty dva oddělila, v této tabulce nikdy nebyla — je v datech, která hledání nevidělo.',
       body3:
-        'K tomuhle šest předchozích scénářů mířilo. Každý z nich ukázal hledání, které z ničeho vytvoří něco přesvědčivého; tenhle přidává případ, kdy má hledání pravdu. Poučení není, že hledání vytváří nepravdy. Je to, že výstupem hledání je seznam hypotéz — a které z nich jsou skutečné, je otázka pro jiná data.',
+        'K tomuhle šest předchozích scénářů mířilo. Každý z nich ukázal hledání, které z ničeho vytvoří něco přesvědčivého; tenhle přidává případ, kdy má hledání pravdu. Poučení není, že hledání vytváří nepravdy. Je to, že výstupem hledání je seznam hypotéz. Které z nich jsou skutečné, je otázka pro jiná data.',
     },
     action: 'Získat nové případy',
   },
@@ -157,11 +161,11 @@ const aisynthesis = {
       note: 'Jeden finalista spadne na nulu a druhý se drží přesně tam, kde byl. Data, která to rozhodla, nebyla lepší — byla to prostě data, která se na volbě ani jednoho z kandidátů nijak nepodílela.',
     },
     guessRight:
-      'Vybrali jste příznak {{feature}} a je to ten spojený. Stojí za povšimnutí, jak málo jste měli k dispozici: oba vypadali stejně, a vypadali stejně proto, že v té tabulce stejní byli.',
+      'Vybrali jste příznak {{feature}} a je to ten spojený. Měli jste k dispozici velmi málo: oba vypadali stejně, protože v té tabulce stejní byli.',
     guessWrong:
-      'Vybrali jste příznak {{feature}} a je to jeden z těch nesouvisejících. Není to selhání úsudku — nic na té obrazovce vám to nemohlo prozradit, a právě proto jsme se ptali.',
+      'Vybrali jste příznak {{feature}} a je to jeden z těch nesouvisejících. Není to selhání úsudku. Nic na té obrazovce vám to nemohlo prozradit, a proto jsme se ptali.',
     body2:
-      'Ten skutečný tedy spolehlivě předpovídá případy, které nikdo neviděl. Tím je otázka tři zodpovězena a tady analýza často končí. Neměla by, protože zbývá ještě jedna otázka — a odpověď se mění.',
+      'Ten skutečný tedy spolehlivě předpovídá případy, které nikdo neviděl. Tím je otázka tři zodpovězena a tady analýza často končí. Neměla by. Zbývá ještě jedna otázka a u té se odpověď mění.',
     intervention: {
       heading: 'Otázka čtyři: změní se něco, když ho změníme?',
       body: 'Každá tabulka se změří dvakrát — jednou tak, jak ji svět vytvoří, a jednou s příznakem nastaveným námi místo toho, aby ho něco způsobilo. Výsledek vzniká v obou případech stejně.',
@@ -191,14 +195,14 @@ const aisynthesis = {
       'Predikce není kauzalita a ta mezera není akademická. Příznak může výsledek předpovídat dokonale a být naprosto nepoužitelný k tomu, aby ho změnil.',
     aiHeading: 'Co z toho plyne pro systémy, které tohle dělají ve velkém',
     aiBody1:
-      'Prohledávat data kvůli vzorům je legitimní a dělat to ve velkém je často jediný způsob, jak získat hypotézy, které stojí za to. Systém, který prozkoumá miliony kandidátů, se tím zkoumáním nedopouští statistické chyby. Chybou je předložit to, co hledání vrátilo, jako by to bylo potvrzené — a měřítko tuhle chybu usnadňuje a zároveň ji činí hůř rozpoznatelnou, protože výstup přichází seřazený, naformátovaný a věrohodný.',
+      'Prohledávat data kvůli vzorům je legitimní a dělat to ve velkém je často jediný způsob, jak získat hypotézy, které stojí za to. Systém, který prozkoumá miliony kandidátů, se tím zkoumáním nedopouští statistické chyby. Chybou je předložit to, co hledání vrátilo, jako by to bylo potvrzené. Ve velkém měřítku se ta chyba dělá snáz a hůř se pozná: výstup přichází seřazený, naformátovaný a věrohodný.',
     aiLine:
       'Schopnost nacházet vzory není totéž co schopnost určit, které vzory jsou skutečné.',
     aiBody2:
       'K tomu druhému jsou potřeba data, kterých se hledání nedotklo, a k tomu, aby se dalo podle vzoru jednat, je potřeba zásah. Ani jedno nedokáže dodat schopnější hledání, protože ani jedno není otázkou o datech, která dostalo.',
     endHeading: 'Konec celé řady',
     endBody:
-      'Terč posunutý až po hodu, model vybraný proto, že nejlépe sedí, období vyznačené na náhodné procházce, nejhorší lékař v tabulce, nejlepší výsledek ve studii, nejsilnější dvojice v prohledávání — a nakonec skutečný nález, který vám stejně neřekne, co dělat. Všemi sedmi prochází táž otázka: jak byl tento vzor nalezen a přežil by odpovídající test na nových datech?',
+      'Terč posunutý až po hodu, model vybraný proto, že nejlépe sedí, období vyznačené na náhodné procházce, nejhorší lékař v tabulce, nejlepší výsledek ve studii, nejsilnější dvojice v prohledávání. A nakonec skutečný nález, který vám stejně neřekne, co dělat. Všemi sedmi prochází táž otázka: jak byl tento vzor nalezen a přežil by odpovídající test na nových datech?',
   },
 }
 

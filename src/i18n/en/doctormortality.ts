@@ -30,7 +30,9 @@ const doctormortality = {
     body1:
       'Here is the year. Each column is one doctor and its height is the share of their patients who died; the dashed line is the hospital as a whole. The columns vary a great deal, which is what counting a few dozen rare events per doctor looks like.',
     body2:
-      'The audited doctor is marked. Their result is compared with what their own patients were expected to produce, and it finds nothing — as it should, because there is nothing there.',
+      'The audited doctor is marked. Their result is compared with what their own patients were expected to produce, and it finds nothing, as it should, because there is nothing there.',
+    body2Hit:
+      'The audited doctor is marked, and this time their result came out below 0.05. It is a false alarm: even a completely average doctor looks like this in about one year in twenty. This is the twentieth. Play the year again with a different seed and the alarm goes away.',
     numbersTitle: 'What do these numbers mean?',
     numbersBody1:
       'A p-value answers one question: if this doctor were entirely average, how often would they end up with at least this many deaths anyway? 0.85 means "this or worse happens in 85% of years, there is nothing unusual here". 0.009 means "this would happen in about one year in a hundred" — which is where results start being called findings. The 0.05 threshold is a convention, not a proof.',
@@ -187,7 +189,7 @@ const doctormortality = {
     point2:
       'Risk adjustment fixes that, and only that. It cannot adjust for risks nobody recorded, and it cannot know that this unit was the most extreme of many.',
     point3:
-      'With enough units, an extreme one is guaranteed. The question is never "is this doctor unusual?" but "is this doctor more unusual than the most unusual of forty ought to be?"',
+      'With enough units, an extreme one is guaranteed. The question is never "is this doctor unusual?" but "is this doctor more unusual than the most unusual of {{doctors}} ought to be?"',
     point4:
       'Being at the bottom of a table is a reason to look, not a conclusion. Here, looking properly finds that there was nothing to find.',
     legitimate: {

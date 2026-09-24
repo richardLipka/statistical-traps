@@ -26,7 +26,9 @@ const interestingregion = {
     body1:
       'Here is one complete record. The stretch fixed in advance is marked, and the test asks the obvious question about it: is the change across those periods larger than independent steps would plausibly produce?',
     body2:
-      'It is not. Change the length of the record or the seed and watch the answer stay uninteresting — there is nothing in the machine for it to find.',
+      'It is not. Change the length of the record or the seed and the answer stays uninteresting, because there is nothing in the machine to find.',
+    body2Hit:
+      'This time it has. It is a false alarm: a test at the 5% level is wrong for about one record in twenty, and this is the twentieth. There is still no trend in the machine. Draw a new seed and see.',
     numbersTitle: 'What do these numbers mean?',
     numbersBody1:
       'The change across a stretch is simply the difference between its two ends — how far the value rose or fell in total. On its own it says nothing: a longer stretch accumulates more steps, so even a purely random change tends to be larger.',

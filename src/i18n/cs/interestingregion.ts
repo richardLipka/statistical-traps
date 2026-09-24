@@ -24,14 +24,16 @@ const interestingregion = {
   experiment: {
     heading: 'Záznam',
     body1:
-      'Tady je jeden celý záznam. Úsek určený předem je vyznačen a test se ho ptá na to nasnadě ležící: je změna za tato období větší, než by nezávislé kroky věrohodně vytvořily?',
+      'Tady je jeden celý záznam. Úsek určený předem je vyznačen a test se ho ptá na to nejjednodušší: je změna za tato období větší, než by nezávislé kroky věrohodně vytvořily?',
     body2:
-      'Není. Změňte délku záznamu nebo semínko a sledujte, jak odpověď zůstává nezajímavá — ve stroji není nic, co by test mohl najít.',
+      'Není. Změňte délku záznamu nebo semínko a odpověď zůstane nezajímavá, protože ve stroji není co najít.',
+    body2Hit:
+      'Tentokrát ano. Je to planý poplach: test na hladině 5 % se mýlí asi u jednoho záznamu z dvaceti a tenhle je ten dvacátý. Trend v tom stroji pořád žádný není. Přelosujte semínko a uvidíte.',
     numbersTitle: 'Co znamenají tahle čísla?',
     numbersBody1:
       'Změna za úsek je prostě rozdíl hodnot na jeho koncích — o kolik hodnota za ten úsek celkem povyrostla nebo spadla. Sama o sobě nic neříká: za delší úsek se nasčítá víc kroků, takže i čistě náhodná změna bývá větší.',
     numbersBody2:
-      'Proto se počítá z. To je změna přepočtená na to, kolikrát je větší než náhodné kolísání, které se dá za takto dlouhý úsek čekat: z kolem nuly znamená obyčejný úsek, z kolem tří úsek, který z šumu vyčnívá. P-hodnota pak říká, jak často by tak velké z vyšlo u úseku určeného předem — a hodnota 0,05 je jen dohoda, ne důkaz.',
+      'Proto se počítá z. To je změna přepočtená na to, kolikrát je větší než náhodné kolísání, které se dá za takto dlouhý úsek čekat: z kolem nuly znamená obyčejný úsek, z kolem tří úsek, který z šumu vyčnívá. P-hodnota pak říká, jak často by tak velké z vyšlo u úseku určeného předem. Hodnota 0,05 je jen dohoda, ne důkaz.',
     action: 'Teď hledejte zajímavé období',
   },
   controls: {
@@ -130,7 +132,7 @@ const interestingregion = {
     body1:
       'Obě období jsou teď zmrazena jako data v kalendáři — tytéž úseky, pojmenované dřív, než tato data vznikla. Stroj vytvoří zcela nový záznam, který se na žádné volbě nepodílel, a obě období se na něm změří.',
     body2:
-      'Období určené předem se chová přesně jako dřív. A stejně tak to vaše, a právě o to jde: na datech, která si nepomohlo vybrat, je to obyčejný úsek obyčejného záznamu. Cokoli je činilo pozoruhodným, patřilo starému záznamu, ne těm datům v kalendáři.',
+      'Období určené předem se chová přesně jako dřív. A stejně tak to vaše. Na datech, která si nepomohlo vybrat, je to obyčejný úsek obyčejného záznamu. Cokoli je činilo pozoruhodným, patřilo starému záznamu, ne těm datům v kalendáři.',
     originalRecord: 'Původní záznam',
     freshChange: 'Změna na novém záznamu',
     freshPValue: 'p-hodnota na novém záznamu',
@@ -145,7 +147,7 @@ const interestingregion = {
       shareSignificant: 'Označeno za významné',
       tableHint:
         'Oba úseky byly určeny dřív, než tyto záznamy vznikly, takže oba by měly být označeny za významné asi v 5 % případů — a oba jsou.',
-      note: 'Když na každém novém záznamu spustíme hledání znovu, vybere v {{share}} případů období, které se s tím vaším ani nepřekrývá, a jeho vítěz má v průměru |z| = {{z}}. Hledání spolehlivě najde něco nápadného — a pokaždé jinde. Přesně to znamená, že je nález výtvorem hledání.',
+      note: 'Když na každém novém záznamu spustíme hledání znovu, vybere v {{share}} případů období, které se s tím vaším ani nepřekrývá, a jeho vítěz má v průměru |z| = {{z}}. Hledání spolehlivě najde něco nápadného a pokaždé jinde. Ten nález tedy vyrobilo hledání, ne stroj.',
     },
     action: 'Co si z toho odnést?',
   },
@@ -161,11 +163,11 @@ const interestingregion = {
       'Období nalezené hledáním je hypotéza o těchto datech v kalendáři. Rozhodnou o ní nové záznamy — a tady rozhodnou proti ní.',
     legitimate: {
       heading: 'Prohledávání dat není ta chyba',
-      body: 'Hledat v záznamu neobvyklé úseky je přesně to, jak má fungovat detekce epidemií, řízení kvality i monitorování, a statistika pro to je dobře propracovaná — skenovací statistiky opravují na celou rodinu prohledávaných oken právě proto, aby se vítěz dal posoudit spravedlivě. Chybou je skenování provést a pak vítěze uvést, jako by to jediné okno bylo určeno předem.',
+      body: 'Na hledání neobvyklých úseků stojí detekce epidemií, řízení kvality i monitorování. Statistika pro to je dobře propracovaná: skenovací statistiky opravují na celou rodinu prohledávaných oken, aby se vítěz dal posoudit spravedlivě. Chybou je skenování provést a pak vítěze uvést, jako by to jediné okno bylo určeno předem.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:
-      'Hledání zatím probíhalo přes polohu, přes model a teď přes úsek času a data byla pokaždé zjevně simulovaná. Další scénář zasadí totéž hledání do situace, kde čísla vypadají, že jsou o lidech — a tam už ta chyba přestává být neškodná.',
+      'Hledání zatím probíhalo přes polohu, přes model a teď přes úsek času a data byla pokaždé zjevně simulovaná. Další scénář zasadí totéž hledání do situace, kde čísla vypadají, že jsou o lidech. Tam už ta chyba přestává být neškodná.',
   },
 }
 

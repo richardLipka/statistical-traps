@@ -28,9 +28,11 @@ const miracledrug = {
   experiment: {
     heading: 'The results are in',
     body1:
-      'Each row is one outcome. The dot is the difference between the treated and untreated arms; the bar around it shows how imprecisely that difference is measured — with sixty patients an arm, the imprecision is large. The vertical line is zero, meaning no difference at all.',
+      'Each row is one outcome. The dot is the difference between the treated and untreated arms; the bar around it shows how imprecisely that difference is measured — with {{perArm}} patients an arm, the imprecision is large. The vertical line is zero, meaning no difference at all.',
     body2:
-      'The registered outcome is marked. Its interval comfortably contains zero and its test finds nothing, which is correct, because there is nothing to find.',
+      'The registered outcome is marked. Its interval comfortably contains zero and the test on it finds nothing. That is as it should be, because there is nothing to find.',
+    body2Hit:
+      'The registered outcome is marked, and this time its p-value came out below 0.05. It is a false alarm: about one trial in twenty ends up like this even when the treatment does nothing at all. This is the twentieth. Run the trial with a different seed and the outcome drops back to nothing.',
     numbersTitle: 'What do these numbers mean?',
     numbersBody1:
       'A p-value answers one question: if the treatment did nothing, how often would this outcome show a difference at least this large anyway? 0.765 means "a difference like this turns up in three quarters of trials by chance alone". 0.004 means "a difference like this turns up by chance in about four trials in a thousand" — which is where numbers start being called findings. The 0.05 threshold is a convention, not a proof.',
@@ -77,7 +79,7 @@ const miracledrug = {
     clickHint:
       'Every outcome is tested exactly as the registered one was — the same two-sample test, the same patients, the same trial. The only thing that changes is which result we decided to talk about.',
     body2:
-      '{{count}} of the {{outcomes}} outcomes came out below 0.05 on their own. In a trial of something that does nothing, that is not a surprise waiting to be explained: with twenty tests at the 5% level, one is wrong on average every time. Here more than one did — and how often a trial looks like this is something we are about to measure.',
+      '{{count}} of the {{outcomes}} outcomes came out below 0.05 on their own. For a treatment that does nothing, that is no surprise: at the 5% level every twentieth test is wrong, so out of {{outcomes}} about {{expected}} go wrong on average. How often a trial ends up with at least one finding is something we are about to measure.',
     autoBest: 'Show me the outcome that worked',
     reset: 'Clear the selection',
     autoBestNote:
@@ -102,7 +104,7 @@ const miracledrug = {
       bonferroniHint: 'The p-value multiplied by {{outcomes}}.',
       holm: 'Holm',
       holmHint: 'A step-down version: never more severe than Bonferroni, often less.',
-      note: 'Multiplying by the number of tests is the right instinct and a crude instrument. It assumes the outcomes were independent chances, and outcomes measured on the same patients never are.',
+      note: 'Multiplying by the number of tests is the right instinct and a crude instrument. It assumes every outcome was a separate chance. Measurements on the same patients are not separate.',
     },
     selection: {
       heading: 'Correction 2: simulate what was actually done',
@@ -119,7 +121,7 @@ const miracledrug = {
       shareSignificant:
         'In {{share}} of the simulated trials at least one outcome came out below 0.05, and on average {{average}} of the {{outcomes}} did — in trials where the treatment does nothing whatsoever.',
       versusBonferroni:
-        'Notice that the simulated correction (p {{simulated}}) is milder than Bonferroni (p {{bonferroni}}). Bonferroni charges for {{outcomes}} independent chances; these outcomes correlate at about {{correlation}}, so the search had fewer genuinely separate chances than that. Simulating the actual procedure prices it correctly instead of guessing.',
+        'Compare the two corrections: the simulated one gives p {{simulated}}, Bonferroni p {{bonferroni}}. Bonferroni charges for {{outcomes}} independent chances, but these outcomes correlate at about {{correlation}}. The search had fewer genuinely separate chances than that, and simulating the actual procedure prices it correctly.',
       conclusion:
         'The same result read two ways: p {{naive}} for an outcome registered in advance, p {{adjusted}} for an outcome found by looking. The patients are the same patients.',
       gallery: {
@@ -171,7 +173,7 @@ const miracledrug = {
   conclusion: {
     heading: 'What this scenario shows',
     point1:
-      'A p-value describes one test specified in advance. Measure twenty outcomes and report the best, and it describes the last step of a search instead.',
+      'A p-value describes one test specified in advance. Measure more of them and report the best, and it describes the last step of a search instead.',
     point2:
       'The panel is part of the result, and the report is where it disappears. A selected outcome looks identical to a registered one on the page.',
     point3:
@@ -180,7 +182,7 @@ const miracledrug = {
       'A replication trial settles it. A treatment that works keeps working on new patients; a selected outcome does not, and moves somewhere else each time.',
     legitimate: {
       heading: 'Measuring many outcomes is not the error',
-      body: 'Trials measure many things for good reasons: safety, side effects, quality of life, and genuine exploration that generates the next hypothesis. That is why registration exists — the primary outcome and the analysis are stated before the data, and everything else is reported as what it is, exploratory. The error is promoting an exploratory outcome to the headline afterwards and not mentioning the other nineteen.',
+      body: 'Trials measure many things for good reasons: safety, side effects, quality of life, and genuine exploration that generates the next hypothesis. That is why registration exists — the primary outcome and the analysis are stated before the data, and everything else is reported as what it is, exploratory. The error is promoting an exploratory outcome to the headline afterwards and not mentioning the rest.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

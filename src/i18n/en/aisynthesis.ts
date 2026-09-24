@@ -117,9 +117,13 @@ const aisynthesis = {
       tableHint:
         'Monte Carlo p-values: how often a search of a table with nothing in it produces a candidate at least this strong.',
       bothFail:
-        'Neither finalist survives the correction, and their adjusted values are close together. The correction cannot separate them, because it is not the kind of question it answers: it prices the search, and both were found by the same search.',
+        'Neither finalist survived the correction, and their adjusted values sit close together. The correction cannot separate them: it measures the search, and both came out of the same search.',
       notFalse:
-        'This is the sentence to keep. The correction does not say a finding is false — it says this data set has not established it. One of these two is real, and the correction rejects both.',
+        'The correction does not say a finding is false. It says this data set has not established it. One of these two is real, and the correction rejects both.',
+      oneSurvives:
+        'At least one finalist came through the correction; the table above says which. That does not make it real. The correction measures how much was searched, and against that this one came out strong.',
+      notProven:
+        'The correction does not say a finding is true. It says this data set can carry it. That is a different thing, and which of the two finalists is the real one still cannot be read off here.',
       gallery: {
         heading: 'The five strongest candidates those simulations produced',
         body: 'Every table below has nothing connected to the outcome at all, and each plot is the best candidate its search could find. Put them beside the two finalists and there is nothing to choose between them.',

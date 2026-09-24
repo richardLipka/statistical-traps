@@ -24,7 +24,9 @@ const bestline = {
   experiment: {
     heading: 'A sample of pure noise',
     body1:
-      'Here is one sample. The points wander, as points do, and the straight line fixed in advance runs through them without finding anything: the small amount of variation it reproduces is what a line reproduces in noise.',
+      'Here is one sample. The points wander, as points do, and the straight line fixed in advance runs through them without finding anything. The little variation it reproduces is what a line reproduces in noise.',
+    body1Hit:
+      'Here is one sample, and this time the line fixed in advance came out below 0.05. It is a false alarm: a test at this level is wrong for about one sample in twenty, and this is the twentieth. There is no relationship in the data. Draw a new seed and the line goes quiet.',
     body2:
       'Change the sample size or the seed and watch the line move around. None of that movement means anything — there is nothing for it to mean.',
     numbersTitle: 'What do these numbers mean?',
@@ -132,7 +134,7 @@ const bestline = {
       body1:
         'Two different things are going on, and they are worth separating. R² rises with flexibility for a purely mechanical reason: a more flexible model contains the simpler one, so it can never fit worse. A high R² on the sample the model was built from is therefore not evidence of anything by itself.',
       body2:
-        'The p-value is not fooled that way — the F-test discounts every parameter. It is fooled by the search. Trying nine models and reporting the best one is nine chances to be unlucky, and the reported p-value describes only the last of them.',
+        'The p-value is not fooled that way — the F-test discounts every parameter. It is fooled by the search. Trying {{count}} models and reporting the best one is {{count}} chances to be unlucky, and the reported p-value describes only the last of them.',
       body3:
         'This is the same move as dragging the target around the darts. The circle became a curve, and the board became a model space, but the mistake is identical: a hypothesis picked out of the data, presented as though it had been fixed before.',
     },

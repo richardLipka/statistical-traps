@@ -368,7 +368,13 @@ export default function BestLineScenario() {
           {stage === 'experiment' ? (
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('experiment.heading')}</h2>
-              <p className="text-slate-700">{t('experiment.body1')}</p>
+              <p className="text-slate-700">
+                {t(
+                  preRegistered.test.pValue < ALPHA
+                    ? 'experiment.body1Hit'
+                    : 'experiment.body1',
+                )}
+              </p>
               <p className="text-slate-700">{t('experiment.body2')}</p>
               <dl className="grid grid-cols-2 gap-2">
                 <StatTile
@@ -577,7 +583,7 @@ export default function BestLineScenario() {
 
               <ExplanationPanel title={t('analysis.explanation.title')}>
                 <p>{t('analysis.explanation.body1')}</p>
-                <p>{t('analysis.explanation.body2')}</p>
+                <p>{t('analysis.explanation.body2', { count: maxDegree })}</p>
                 <p>{t('analysis.explanation.body3')}</p>
               </ExplanationPanel>
 

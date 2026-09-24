@@ -339,8 +339,14 @@ export default function MiracleDrugScenario() {
           {stage === 'experiment' ? (
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('experiment.heading')}</h2>
-              <p className="text-slate-700">{t('experiment.body1')}</p>
-              <p className="text-slate-700">{t('experiment.body2')}</p>
+              <p className="text-slate-700">
+                {t('experiment.body1', { perArm: formatInteger(params.patientsPerArm, locale) })}
+              </p>
+              <p className="text-slate-700">
+                {t(
+                  primary.test.pValue < ALPHA ? 'experiment.body2Hit' : 'experiment.body2',
+                )}
+              </p>
               <Card title={primaryLabel} tone="preset">
                 <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <StatTile
@@ -413,6 +419,7 @@ export default function MiracleDrugScenario() {
               ) : null}
               <p className="text-slate-700">
                 {t('observation.body2', {
+                  expected: formatNumber(params.outcomeCount * ALPHA, locale, 1),
                   count: significantCount,
                   outcomes: params.outcomeCount,
                 })}

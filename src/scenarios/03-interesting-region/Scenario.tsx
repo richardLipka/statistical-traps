@@ -379,7 +379,9 @@ export default function InterestingRegionScenario() {
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('experiment.heading')}</h2>
               <p className="text-slate-700">{t('experiment.body1')}</p>
-              <p className="text-slate-700">{t('experiment.body2')}</p>
+              <p className="text-slate-700">
+                {t(preRegistered.pValue < ALPHA ? 'experiment.body2Hit' : 'experiment.body2')}
+              </p>
               <Card title={declaredLabel} tone="preset">
                 <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <StatTile

@@ -382,7 +382,13 @@ export default function MysteriousCorrelationScenario() {
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">{t('experiment.heading')}</h2>
               <p className="text-slate-700">{t('experiment.body1')}</p>
-              <p className="text-slate-700">{t('experiment.body2')}</p>
+              <p className="text-slate-700">
+                {t(
+                  preRegistered.test.pValue < ALPHA
+                    ? 'experiment.body2Hit'
+                    : 'experiment.body2',
+                )}
+              </p>
               <Card title={preRegisteredLabel} tone="preset">
                 <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <StatTile
@@ -409,7 +415,12 @@ export default function MysteriousCorrelationScenario() {
               </Card>
               <ExplanationPanel title={t('experiment.numbersTitle')}>
                 <p>{t('experiment.numbersBody1')}</p>
-                <p>{t('experiment.numbersBody2')}</p>
+                <p>
+                  {t('experiment.numbersBody2', {
+                    rows: formatInteger(params.observationCount, locale),
+                    threshold: formatNumber(threshold, locale, 2),
+                  })}
+                </p>
               </ExplanationPanel>
               <DatasetControls
                 params={params}
@@ -642,8 +653,18 @@ export default function MysteriousCorrelationScenario() {
               </Card>
 
               <ExplanationPanel title={t('analysis.explanation.title')}>
-                <p>{t('analysis.explanation.body1')}</p>
-                <p>{t('analysis.explanation.body2')}</p>
+                <p>
+                  {t('analysis.explanation.body1', {
+                    pairs: formatInteger(sweep.tested, locale),
+                    expected: formatNumber(sweep.tested * ALPHA, locale, 0),
+                  })}
+                </p>
+                <p>
+                  {t('analysis.explanation.body2', {
+                    rows: formatInteger(params.observationCount, locale),
+                    others: formatInteger(sweep.tested - 1, locale),
+                  })}
+                </p>
                 <p>{t('analysis.explanation.body3')}</p>
               </ExplanationPanel>
 

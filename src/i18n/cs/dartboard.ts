@@ -26,12 +26,16 @@ const dartboard = {
     body1:
       'V těchto šipkách není žádný vzor. Modrý kruh jich několik zachytí, zhruba tolik, kolik odpovídá jeho ploše — někdy o něco více, někdy o něco méně.',
     body2:
-      'Zkuste změnit nastavení a sledujte, jak počet kolísá. Právě z tohoto kolísání je postavena každá past v této aplikaci.',
+      'Zkuste změnit nastavení a sledujte, jak počet kolísá. Z tohoto kolísání je postavená každá past v téhle aplikaci.',
+    verdictBody:
+      'Modrý terč dostal svůj test a nic nenašel. Tak to má být, protože v těch šipkách není co najít.',
+    verdictBodyHit:
+      'Modrý terč dostal svůj test a vyšlo mu p pod 0,05. Je to planý poplach: i terči určenému předem to takhle vyjde nejvýš jednou z dvaceti. Tenhle je ten dvacátý. Hoďte znovu s jiným semínkem a zmizí to.',
     numbersTitle: 'Co znamenají tahle čísla?',
     numbersBody1:
       'Kruh zabírá {{share}} plochy desky, takže při náhodných hodech do něj padne zhruba tentýž podíl šipek — z {{darts}} hodů tedy asi {{expected}}. Tomu se říká očekávaný počet zásahů. Skutečný počet kolem něj kolísá nahoru a dolů, a celý zbytek scénáře stojí na tom, jak velké to kolísání je.',
     numbersBody2:
-      'Až se za chvíli objeví p-hodnota, bude odpovídat na jedinou otázku: kdyby stroj házel úplně náhodně, jak často by do tohoto kruhu trefil aspoň tolik šipek jako teď? Hodnota 0,9 znamená „tohle nebo lepší se stane v devíti případech z deseti, nic zvláštního“. Hodnota 0,001 znamená „tohle by se stalo asi jednou z tisíce“ — a takové výsledky se začnou označovat za nález. Hranice 0,05 je jen dohoda, ne důkaz.',
+      'P-hodnota u modrého terče odpovídá na jedinou otázku: kdyby stroj házel úplně náhodně, jak často by do tohoto kruhu trefil aspoň tolik šipek jako teď? Hodnota 0,9 znamená „tohle nebo lepší se stane v devíti případech z deseti, nic zvláštního“. Hodnota 0,001 znamená „tohle by se stalo asi jednou z tisíce“ — a takové výsledky se začnou označovat za nález. Hranice 0,05 je jen dohoda, ne důkaz.',
     action: 'Teď zkuste najít vzor',
   },
   controls: {
@@ -70,9 +74,9 @@ const dartboard = {
     body1:
       'Přetáhněte červený kruh kamkoli po desce a zachyťte co nejvíce šipek. Je přesně stejně velký jako modrý; jediný rozdíl je v tom, že jeho polohu volíte teď, když už data vidíte.',
     body2:
-      'Není to podvod v žádném zjevném smyslu. Přesně tím totiž v praxi často bývá podskupina, hranice, časové okno nebo „oblast zájmu“: volbou učiněnou až po příchodu dat.',
+      'Není to podvod v žádném zjevném smyslu. Tím v praxi často bývá podskupina, hranice, časové okno nebo „oblast zájmu“: volbou, která padla až po datech.',
     testBody:
-      'Na váš kruh se průběžně počítá úplně stejný test, jaký byl připraven pro ten modrý. Zkuste najít polohu, ve které p-hodnota klesne co nejníže — právě o toto hledání v celém scénáři jde.',
+      'Na váš kruh se průběžně počítá úplně stejný test, jaký byl připraven pro ten modrý. Zkuste najít polohu, ve které p-hodnota klesne co nejníže. O tohle hledání v celém scénáři jde.',
     livePValue: 'p-hodnota vašeho kruhu',
     auto: 'Najít nejlepší polohu automaticky',
     autoHint:
@@ -86,13 +90,15 @@ const dartboard = {
       'Oba kruhy mají stejnou plochu, takže při čisté náhodě je pravděpodobnost jejich zásahu totožná: {{probability}}. U obou se teď zeptáme na stejnou věc: jak pravděpodobné je, že pouhá náhoda vytvoří alespoň tolik zásahů?',
     naivePValue: 'p-hodnota, jak se běžně uvádí',
     naiveHint: 'Jednostranný exaktní binomický test.',
+    runFirst:
+      'Oprava níže je smyslem tohoto kroku: bez ní je číslo v řádku výše tím, co by se uvedlo.',
     verdictNothing: 'Nic k hlášení',
     verdictStriking: 'Vypadá to jako nález',
     body2:
       'Test neví, jak byl kruh zvolen. Odpovídá na otázku, kterou dostal, a odpovídá na ni správně — pro červený kruh je to však špatná otázka.',
     selection: {
       heading: 'Jakou hodnotu má samotné hledání',
-      body: 'Červený kruh nebyl zvolen předem. Byl zvolen proto, že dobře vypadal, a poctivý způsob, jak ho posoudit, je nasimulovat celý tento postup: vygenerovat nové náhodné šipky, stejně důkladně je prohledat a zaznamenat, kolik šipek zachytí nejlepší kruh. A to {{replications}}krát.',
+      body: 'Červený kruh nebyl zvolen předem. Byl zvolen proto, že dobře vypadal. Poctivě se dá posoudit jedině tak, že nasimulujeme celý postup: vygenerovat nové náhodné šipky, stejně důkladně je prohledat a zaznamenat, kolik šipek zachytí nejlepší kruh. A to {{replications}}krát.',
       run: 'Nasimulovat hledání {{replications}}×',
       running: 'Simuluji…',
       histogramTitle: 'Nejlepší kruh nalezený v čistě náhodných šipkách',
@@ -108,7 +114,7 @@ const dartboard = {
         'Při čisté náhodě zachytí nejlepší kruh na této desce v průměru {{mean}} šipky. Vašich {{hits}} je na horní hranici toho, co vytvoří samotné hledání — ale pořád je to jen to, co vytvoří samotné hledání.',
       gallery: {
         heading: 'Pět nejlepších nálezů z těchto simulací',
-        body: 'Každá deska níže obsahuje jinou sadu zcela náhodných šipek a kruh je vždy ten nejlepší, jaký v ní hledání našlo. Test z tabulky výše by u každého z nich hlásil objev — a přitom je ve všech případech skutečný efekt přesně nulový.',
+        body: 'Každá deska níže obsahuje jinou sadu zcela náhodných šipek a kruh je vždy ten nejlepší, jaký v ní hledání našlo. Test z tabulky výše by u každého z nich hlásil objev. Skutečný efekt je přitom ve všech případech přesně nulový.',
         caption: 'Simulace {{index}}',
         item: 'Zásahy: {{hits}}',
         itemPValue: 'p {{p}}',
@@ -142,7 +148,7 @@ const dartboard = {
       running: 'Počítám…',
       meanHits: 'Průměrný počet zásahů',
       significantShare: 'Replikace s p < 0,05',
-      note: 'Oba kruhy se teď chovají stejně a oba překročí hranici 0,05 jen v malém podílu replikací. Přesně tak vypadá správně fungující test na datech, ve kterých není co najít.',
+      note: 'Oba kruhy se teď chovají stejně a oba překročí hranici 0,05 jen v malém podílu replikací. Tak vypadá správně fungující test na datech, ve kterých není co najít.',
     },
     action: 'Co si z toho odnést?',
   },

@@ -4,7 +4,7 @@ const bestline = {
     body1:
       'Stroj vytváří dvojice čísel. Obě souřadnice vznikají nezávisle na sobě: y je čistý šum, který nemá s x vůbec nic společného. Stejně jako v prvním scénáři to víme jistě, protože generátor jsme napsali sami — žádný skutečný vztah neexistuje.',
     body2:
-      'Ještě než uvidíme jediný bod, zavazujeme se k jedné analýze: proložit vzorkem jednu přímku a zeptat se, jestli body sleduje o tolik lépe než obyčejná vodorovná čára, že už to náhoda sama nevysvětlí.',
+      'Ještě než uvidíme jediný bod, zavazujeme se k jedné analýze. Proložíme vzorkem jednu přímku a zeptáme se, jestli body sleduje o tolik lépe než obyčejná vodorovná čára, že už to náhoda nevysvětlí.',
     goalHeading: 'Co má tento pokus ukázat',
     goalBody:
       'Že „jak dobře model sedí na datech“ a „jak dobře model něco vystihuje“ jsou dvě různé věci. Čím ohebnější křivku dovolíme, tím líp sedne — i když v datech není vůbec nic. A když si pak z nabídnutých modelů vybereme ten s nejhezčím číslem, vybíráme si vlastně jen to nejšťastnější losování.',
@@ -24,14 +24,16 @@ const bestline = {
   experiment: {
     heading: 'Vzorek čistého šumu',
     body1:
-      'Tady je jeden vzorek. Body se rozbíhají, jak už to body dělají, a přímka stanovená předem jimi prochází, aniž by cokoli našla: to málo rozptylu, které zachytí, zachytí přímka i v čistém šumu.',
+      'Tady je jeden vzorek. Body se rozbíhají, jak už to body dělají, a přímka stanovená předem jimi prochází, aniž by něco našla. To málo, co zachytí, zachytí i v čistém šumu.',
+    body1Hit:
+      'Tady je jeden vzorek a přímce stanovené předem tentokrát vyšlo p pod 0,05. Je to planý poplach: test na této hladině se mýlí asi u jednoho vzorku z dvaceti a tenhle je ten dvacátý. Žádný vztah v datech není. Přelosujte semínko a přímka zhasne.',
     body2:
       'Změňte velikost vzorku nebo semínko a sledujte, jak se přímka posouvá. Nic z toho nic neznamená — není tu co znamenat.',
     numbersTitle: 'Co znamenají tahle čísla?',
     numbersBody1:
       'R² říká, jaká část kolísání y je zachycená křivkou. Nula znamená, že křivka nepomáhá vůbec nic — stejně dobře byste hádali průměr. Jednička znamená, že křivka prochází přesně všemi body. Podstatné je, že ohebnější křivka má R² vždycky vyšší, i když v datech nic není: to číslo tedy samo o sobě není důkaz ničeho.',
     numbersBody2:
-      'P-hodnota odpovídá na jinou otázku: kdyby mezi x a y nebyl žádný vztah, jak často by křivka stejně vyšla aspoň takhle dobře? Na rozdíl od R² si účtuje za každý parametr navíc, takže pouhou ohebností ji neošálíte. Ale i ona platí jen pro model zvolený předem — a právě s tím si za chvíli budeme hrát.',
+      'P-hodnota odpovídá na jinou otázku: kdyby mezi x a y nebyl žádný vztah, jak často by křivka stejně vyšla aspoň takhle dobře? Na rozdíl od R² si účtuje za každý parametr navíc, takže pouhou ohebností ji neošálíte. Ale i ona platí jen pro model zvolený předem, a s tím si za chvíli pohrajeme.',
     action: 'Teď zkuste najít model, který sedí',
   },
   controls: {
@@ -80,7 +82,7 @@ const bestline = {
       'R² ručně nakreslené přímky může být záporné. Pod nulou předpovídá hůř, než kdybychom prostě použili průměr y.',
     fitLine: 'Proložit nejlepší přímku',
     body2:
-      'Přímka není jediná možnost. Dejte modelu větší pružnost a začne se k bodům ohýbat — a R² přitom může jen růst.',
+      'Přímka není jediná možnost. Dejte modelu větší pružnost a začne se k bodům ohýbat, přičemž R² může jen růst.',
     flexibility: 'Pružnost modelu',
     degreePickerHint:
       'Každý stupeň je proložen metodou nejmenších čtverců a ke každému patří p-hodnota, která by se o něm běžně uvedla. Vyberte si ten, který vypadá nejpřesvědčivěji.',
@@ -132,7 +134,7 @@ const bestline = {
       body1:
         'Dějí se tu dvě různé věci a vyplatí se je oddělit. R² roste s pružností z čistě mechanického důvodu: pružnější model v sobě obsahuje ten jednodušší, takže nemůže sedět hůř. Vysoké R² na vzorku, ze kterého byl model postaven, proto samo o sobě není důkazem ničeho.',
       body2:
-        'p-hodnotu tohle neoklame — F-test si každý parametr odečte. Oklame ji hledání. Vyzkoušet devět modelů a uvést ten nejlepší znamená devět příležitostí mít smůlu, a uvedená p-hodnota popisuje jen tu poslední z nich.',
+        'p-hodnotu tohle neoklame — F-test si každý parametr odečte. Oklame ji hledání. Vyzkoušet {{count}} modelů a uvést ten nejlepší znamená {{count}} příležitostí mít smůlu a uvedená p-hodnota popisuje jen tu poslední.',
       body3:
         'Je to stejný tah jako posunutí terče kolem šipek. Z kruhu se stala křivka a z desky prostor modelů, ale chyba je totožná: hypotéza vybraná z dat, prezentovaná, jako by byla stanovena předem.',
     },
@@ -143,7 +145,7 @@ const bestline = {
     body1:
       'Modely jsou teď zafixované: vodorovná čára, přímka stanovená předem i model, který jste zvolili. Stroj vygeneruje zcela nový vzorek ze stejného procesu a všechny tři mají předpovědět jeho body.',
     body2:
-      'Proložit data je snadné, předpovídat nikoli. Pružný model kopíroval každé zavlnění původního vzorku — a žádné z nich se nevrátilo.',
+      'Proložit data je snadné, předpovídat nikoli. Pružný model kopíroval každé zavlnění původního vzorku. Žádné z nich se nevrátilo.',
     drawFresh: 'Vygenerovat nový nezávislý vzorek',
     originalData: 'Původní vzorek',
     freshData: 'Nový vzorek',
@@ -164,7 +166,7 @@ const bestline = {
       meanRSquared: 'Průměrné R² na nových datech',
       meanRmse: 'Průměrná chyba predikce',
       worseThanFlat: 'Horší než netvrdit nic',
-      note: 'Na datech, která model neviděl, je každý z nich na nule nebo pod ní — v datech prostě není co předpovídat. Zvolený model ale není jen neužitečný: je spolehlivě horší než tvrzení, že žádný vztah neexistuje. A je horší právě proto, že původní vzorek popsal tak dobře.',
+      note: 'Na datech, která model neviděl, je každý z nich na nule nebo pod ní — v datech prostě není co předpovídat. Zvolený model ale není jen neužitečný: je spolehlivě horší než tvrzení, že žádný vztah neexistuje. A je horší proto, že původní vzorek popsal tak dobře.',
     },
     action: 'Co si z toho odnést?',
   },

@@ -27,6 +27,8 @@ export const SEED_ROLE = {
   selectionNull: 2_000_011,
   validation: 8_000_011,
   freshSample: 4_000_019,
+  /** Closing evidence that the generator holds no relationship at all. */
+  nullEvidence: 4_200_023,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

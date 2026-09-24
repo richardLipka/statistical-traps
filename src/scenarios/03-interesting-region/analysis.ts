@@ -200,6 +200,43 @@ function summarize(absZ: number[], absChange: number[], pValues: number[]): Wind
   }
 }
 
+
+export interface NullEvidenceResult {
+  replications: number
+  /** One p-value of the pre-registered test per independent data set. */
+  pValues: number[]
+  shareSignificant: number
+}
+
+/**
+ * Closing evidence that the generator really does contain nothing to find.
+ *
+ * The analysis fixed before the data is run on many independent data sets,
+ * none of which took part in choosing anything. A valid test of a true null
+ * spreads its p-values evenly over the whole interval, so the histogram is
+ * flat and the share below alpha lands near alpha. That flat picture is the
+ * scenario's opening claim made checkable.
+ */
+export function collectNullEvidence(options: {
+  periodCount: number
+  baseSeed: number
+  replications: number
+  window: Window
+  alpha?: number
+}): NullEvidenceResult {
+  const { periodCount, baseSeed, replications, window, alpha = ALPHA } = options
+  const pValues: number[] = []
+  for (let index = 0; index < replications; index += 1) {
+    const series = generateReplicationSeries(periodCount, baseSeed, SEED_ROLE.nullEvidence, index)
+    pValues.push(evaluateWindow(series, window).pValue)
+  }
+  return {
+    replications,
+    pValues,
+    shareSignificant: shareOf(pValues, (value) => value < alpha),
+  }
+}
+
 /**
  * Validation: the two windows are frozen as dates, and the machine produces
  * completely new records that took no part in choosing them.

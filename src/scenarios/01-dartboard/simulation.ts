@@ -33,6 +33,8 @@ export const SEED_ROLE = {
   validation: 7_000_003,
   /** Single fresh throws requested by the user. */
   freshThrow: 3_000_017,
+  /** Closing evidence that the generator really has no favourite place. */
+  nullEvidence: 4_100_019,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

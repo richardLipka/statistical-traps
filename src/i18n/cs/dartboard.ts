@@ -19,6 +19,13 @@ const dartboard = {
       'Nic z toho, co bude následovat, nemůže změnit pravdu o stroji. Mění se jen způsob, jakým se na jeho výsledky díváme.',
     trueProcess:
       'Poloha každé šipky se losuje rovnoměrně po celé desce, nezávisle na všech ostatních. Žádné místo není zvýhodněné: skutečný vliv čehokoli na desce je přesně nulový.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Pro každou šipku se losuje vodorovná poloha: rovnoměrně kdekoli mezi levým a pravým okrajem desky.',
+    recipeStep2:
+      'Stejným losem, nezávisle na tom prvním, se určí svislá poloha. Tím je šipka hotová.',
+    recipeStep3:
+      'To je celý výpočet. Nevstupuje do něj žádný terč, žádné místo ani nic z toho, kam dopadly šipky předtím.',
     action: 'Hodit šipky',
   },
   experiment: {
@@ -165,6 +172,19 @@ const dartboard = {
     legitimate: {
       heading: 'Chyba není v hledání',
       body: 'Hledat v datech vzory je běžné a často nutné. Červený kruh je zcela seriózní hypotéza: tvrdí, že „stroj zvýhodňuje toto místo“, a lze ji teď otestovat na nové sadě hodů. Chyba je až ve zkratce — v tom, že hypotézu vzešlou z dat prezentujeme, jako by už nějakým testem prošla.',
+    },
+    evidence: {
+      heading: 'Důkaz, že v šipkách opravdu nic není',
+      body: 'Zatím jste na to měli jen naše slovo. Necháme stroj hodit {{replications}} úplně nových desek a na každé změříme modrý terč, ten určený předem.',
+      run: 'Hodit {{replications}} nových desek',
+      histogramX: 'Zásahů modrého terče na jedné desce',
+      histogramY: 'Počet desek',
+      marker: 'Kolik čeká plocha',
+      ariaLabel:
+        'Rozdělení počtu zásahů modrého terče na {{replications}} nezávislých deskách, s vyznačeným počtem, který odpovídá jeho ploše.',
+      caption:
+        'Na {{replications}} deskách zachytil modrý kruh v průměru {{mean}} šipky. Jeho plocha předpovídá {{expected}}. Sloupce kolem toho čísla tvoří zvon a nic víc v nich není.',
+      note: 'Pod 0,05 se modrý terč dostal v {{share}} případů. Test slibuje nejvýš 5 % a u počítání zásahů je ještě opatrnější, protože zásahy skáčou po celých šipkách. Na poloze kruhu přitom nezáleží: plocha je všude na desce stejná, takže stejné rozdělení dostanete, ať ho postavíte kamkoli.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:

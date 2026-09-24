@@ -46,6 +46,8 @@ export const SEED_ROLE = {
   selectionNull: 8_000_011,
   validation: 2_000_093,
   freshBatch: 4_000_087,
+  /** Closing evidence that no two columns in the table are related. */
+  nullEvidence: 4_600_067,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

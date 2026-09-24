@@ -8,8 +8,10 @@ import {
   windowsOverlap,
   type Window,
 } from '@/scenarios/03-interesting-region/model'
-import { generateSeries } from '@/scenarios/03-interesting-region/simulation'
+import { binValues } from '@/statistics/monteCarlo'
+import { SEED_ROLE, generateSeries } from '@/scenarios/03-interesting-region/simulation'
 import {
+  collectNullEvidence,
   evaluateWindow,
   replicateOnFreshData,
   scanWindows,
@@ -148,5 +150,47 @@ describe('validating on independent records', () => {
     // The same window, measured on data the search never saw, is unremarkable.
     expect(summary.chosen.meanAbsZ).toBeLessThan(1.5)
     expect(windowsOverlap(chosen, chosen)).toBe(true)
+  })
+})
+
+/**
+ * The closing panel claims the generator holds nothing. These assert the
+ * property the claim rests on rather than one seed's exact number: a valid
+ * test of a true null spreads its p-values evenly, so no tenth of the range
+ * is favoured and the share below alpha sits near alpha.
+ */
+describe('null evidence', () => {
+  const REPLICATIONS = 400
+
+  it('produces p-values that are spread evenly', () => {
+    const result = collectNullEvidence({
+      periodCount: REGION_DEFAULTS.periodCount,
+      baseSeed: REGION_DEFAULTS.seed,
+      replications: REPLICATIONS,
+      window: preRegisteredWindow(REGION_DEFAULTS.periodCount),
+    })
+
+    expect(result.pValues).toHaveLength(REPLICATIONS)
+    for (const pValue of result.pValues) {
+      expect(pValue).toBeGreaterThanOrEqual(0)
+      expect(pValue).toBeLessThanOrEqual(1)
+    }
+    expect(result.shareSignificant).toBeGreaterThan(0.01)
+    expect(result.shareSignificant).toBeLessThan(0.1)
+
+    const bins = binValues(result.pValues, 10, { min: 0, max: 1 })
+    const counts = bins.map((bin) => bin.count)
+    // Even coverage: no tenth of the range is empty, and none holds a fifth
+    // of everything. Both would show up long before the histogram looked flat.
+    for (const count of counts) {
+      expect(count).toBeGreaterThan(0)
+      expect(count).toBeLessThan(REPLICATIONS / 5)
+    }
+  })
+
+  it('draws data no other role has used', () => {
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.validation)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.selectionNull)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.observed)
   })
 })

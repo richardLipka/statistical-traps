@@ -1,8 +1,15 @@
 import { describe, expect, it } from 'vitest'
-import { ALPHA, STUDY_DEFAULTS, trueCorrelation } from '@/scenarios/07-ai-synthesis/model'
-import { generateStudy } from '@/scenarios/07-ai-synthesis/simulation'
+import {
+  ALPHA,
+  CONNECTED_FEATURE,
+  STUDY_DEFAULTS,
+  trueCorrelation,
+} from '@/scenarios/07-ai-synthesis/model'
+import { binValues } from '@/statistics/monteCarlo'
+import { SEED_ROLE, generateStudy } from '@/scenarios/07-ai-synthesis/simulation'
 import {
   candidatePoints,
+  collectNullEvidence,
   countSignificant,
   evaluateCandidate,
   finalists,
@@ -165,5 +172,44 @@ describe('question four: intervention', () => {
     const unconnected = summary.candidates.find((stats) => !stats.connected)!
     expect(Math.abs(unconnected.observedDifference)).toBeLessThan(0.15)
     expect(Math.abs(unconnected.interventionDifference)).toBeLessThan(0.15)
+  })
+})
+
+/**
+ * This scenario is the one that does hold a real relationship, so the
+ * closing panel has to show a contrast rather than a single flat picture.
+ */
+describe('null evidence', () => {
+  const REPLICATIONS = 400
+
+  it('separates the connected feature from an unconnected one', () => {
+    const result = collectNullEvidence({
+      candidateCount,
+      rowCount,
+      baseSeed: seed,
+      replications: REPLICATIONS,
+      unconnected: CONNECTED_FEATURE + 1,
+    })
+
+    expect(result.connectedPValues).toHaveLength(REPLICATIONS)
+    expect(result.unconnectedPValues).toHaveLength(REPLICATIONS)
+
+    // The real relationship is strong enough to be found nearly every time.
+    expect(result.shareConnectedSignificant).toBeGreaterThan(0.9)
+    // The other feature behaves like any true null.
+    expect(result.shareUnconnectedSignificant).toBeGreaterThan(0.01)
+    expect(result.shareUnconnectedSignificant).toBeLessThan(0.1)
+
+    const bins = binValues(result.unconnectedPValues, 10, { min: 0, max: 1 })
+    for (const bin of bins) {
+      expect(bin.count).toBeGreaterThan(0)
+      expect(bin.count).toBeLessThan(REPLICATIONS / 5)
+    }
+  })
+
+  it('draws data no other role has used', () => {
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.validation)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.selectionNull)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.freshStudy)
   })
 })

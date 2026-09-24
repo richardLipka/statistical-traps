@@ -23,6 +23,13 @@ const mysteriouscorrelation = {
     fictionHeading: 'Nic zde není skutečné',
     fictionBody:
       'Tabulka vzniká ve vašem prohlížeči ze semínka. Není to skutečný datový soubor a proměnné nejsou skutečná měření. Jsou číslované, a ne pojmenované, a to je poctivá verze tohoto scénáře: v praxi obě proměnné přicházejí se jmény a vysvětlení se bere ze jmen.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Každá buňka tabulky je samostatný los z téhož rozdělení.',
+    recipeStep2:
+      'Losuje se sloupec po sloupci, řádek po řádku, a žádná hodnota se nepoužije k výpočtu jiné.',
+    recipeStep3:
+      'Tím tabulka končí. Nic v ní není propojené, takže mezi žádnými dvěma sloupci vztah není.',
     action: 'Sebrat data',
   },
   experiment: {
@@ -189,6 +196,24 @@ const mysteriouscorrelation = {
     legitimate: {
       heading: 'Prohledávat data není ta chyba',
       body: 'Prohledávání mnoha proměnných je způsob, jak vznikají hypotézy, a v oborech, kde jdou kandidáti do milionů, je to jediný praktický postup. Tyto obory přesně vědí, co to stojí. Uvádějí celé rozdělení výsledků a kontrolují míru falešných objevů, místo aby předstíraly, že každý test stál sám o sobě. S čímkoli nalezeným zacházejí jako s hypotézou, kterou je teprve třeba potvrdit na nových datech. Chybou je zkratka — uvést vítěze, jako by to byla jediná položená otázka.',
+    },
+    evidence: {
+      heading:
+        'Důkaz, že v tabulce opravdu žádný vztah není',
+      body:
+        'Vytvoříme {{replications}} úplně nových tabulek a v každé změříme tutéž předem určenou dvojici.',
+      run:
+        'Vytvořit {{replications}} tabulek',
+      histogramX:
+        'p-hodnota předem určené dvojice',
+      histogramY:
+        'Počet tabulek',
+      ariaLabel:
+        'Rozdělení p-hodnot předem určené dvojice v {{replications}} nezávislých tabulkách.',
+      caption:
+        'Sloupce jsou stejně vysoké. Je to tentýž plochý tvar jako histogram všech dvojic ve čtvrtém kroku, jen vznikl obráceně: tam jedna tabulka a tisíce dvojic, tady jedna dvojice a tisíc tabulek.',
+      note:
+        'Pod 0,05 se dostalo {{share}} tabulek. Čekaných je pět procent a při {{replications}} tabulkách to kolísá zhruba o procento. Tenhle plochý tvar má smysl hledat i v cizí analýze: když vlevo vyroste špička, kterou zbytek histogramu nevysvětlí, něco v datech je.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:

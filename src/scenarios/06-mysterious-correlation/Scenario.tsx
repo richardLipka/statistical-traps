@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ExplanationPanel } from '@/components/ExplanationPanel'
+import { NullEvidencePanel } from '@/components/NullEvidencePanel'
 import { ReplicationPanel } from '@/components/ReplicationPanel'
 import { ResultTable } from '@/components/ResultTable'
 import { ScenarioShell } from '@/components/ScenarioShell'
@@ -44,6 +45,8 @@ import {
   sweepAllPairs,
   type ReplicationSummary,
   type SelectionSearchResult,
+  collectNullEvidence,
+  type NullEvidenceResult,
 } from '@/scenarios/06-mysterious-correlation/analysis'
 import { CorrelationMatrix } from '@/scenarios/06-mysterious-correlation/components/CorrelationMatrix'
 import { DiscoveryList } from '@/scenarios/06-mysterious-correlation/components/DiscoveryList'
@@ -56,6 +59,7 @@ import {
 
 const SELECTION_REPLICATIONS = 300
 const VALIDATION_REPLICATIONS = 200
+const EVIDENCE_REPLICATIONS = 1000
 const HISTOGRAM_BINS = 20
 const DISCOVERY_COUNT = 10
 
@@ -77,6 +81,7 @@ export default function MysteriousCorrelationScenario() {
   const [selectionProgress, setSelectionProgress] = useState<number | null>(null)
   const [freshIndex, setFreshIndex] = useState(0)
   const [replication, setReplication] = useState<ReplicationSummary | null>(null)
+  const [evidence, setEvidence] = useState<NullEvidenceResult | null>(null)
   const cancelSelection = useRef<(() => void) | null>(null)
 
   useEffect(() => () => cancelSelection.current?.(), [])
@@ -160,6 +165,7 @@ export default function MysteriousCorrelationScenario() {
     setSelectionSearches(null)
     setSelectionProgress(null)
     setReplication(null)
+    setEvidence(null)
     setFreshIndex(0)
   }, [])
 
@@ -214,6 +220,18 @@ export default function MysteriousCorrelationScenario() {
       }),
     )
   }, [params.variableCount, params.observationCount, params.seed, chosenPair, dataset])
+
+  const runEvidence = useCallback(() => {
+    setEvidence(
+      collectNullEvidence({
+        variableCount: params.variableCount,
+        observationCount: params.observationCount,
+        baseSeed: params.seed,
+        replications: EVIDENCE_REPLICATIONS,
+        pair: PRE_REGISTERED_PAIR,
+      }),
+    )
+  }, [params.variableCount, params.observationCount, params.seed])
 
   const restart = useCallback(() => {
     invalidateResults()
@@ -374,6 +392,16 @@ export default function MysteriousCorrelationScenario() {
               <Card title={t('intro.fictionHeading')} tone="fresh">
                 <p className="text-sm text-slate-700">{t('intro.fictionBody')}</p>
               </Card>
+              <ExplanationPanel title={t('intro.recipeTitle')}>
+                <ol className="space-y-2">
+                  {([1, 2, 3] as const).map((step) => (
+                    <li key={step} className="flex gap-2">
+                      <span className="font-semibold tabular-nums text-slate-500">{step}.</span>
+                      <span>{t(`intro.recipeStep${step}`)}</span>
+                    </li>
+                  ))}
+                </ol>
+              </ExplanationPanel>
               <Button onClick={() => goTo('experiment')}>{t('intro.action')}</Button>
             </section>
           ) : null}
@@ -790,6 +818,29 @@ export default function MysteriousCorrelationScenario() {
                   </li>
                 ))}
               </ul>
+              <NullEvidencePanel
+                title={t('conclusion.evidence.heading')}
+                description={t('conclusion.evidence.body', {
+                  replications: formatInteger(EVIDENCE_REPLICATIONS, locale),
+                })}
+                actionLabel={t('conclusion.evidence.run', {
+                  replications: formatInteger(EVIDENCE_REPLICATIONS, locale),
+                })}
+                onRun={runEvidence}
+                values={evidence?.pValues ?? null}
+                scale="unit"
+                formatBinLabel={(value) => formatNumber(value, locale, 1)}
+                histogramX={t('conclusion.evidence.histogramX')}
+                histogramY={t('conclusion.evidence.histogramY')}
+                ariaLabel={t('conclusion.evidence.ariaLabel', {
+                  replications: formatInteger(EVIDENCE_REPLICATIONS, locale),
+                })}
+                caption={t('conclusion.evidence.caption')}
+                note={t('conclusion.evidence.note', {
+                  replications: formatInteger(EVIDENCE_REPLICATIONS, locale),
+                  share: formatPercent(evidence?.shareSignificant ?? 0, locale, 1),
+                })}
+              />
               <Card title={t('conclusion.legitimate.heading')} tone="fresh">
                 <p className="text-sm text-slate-700">{t('conclusion.legitimate.body')}</p>
               </Card>

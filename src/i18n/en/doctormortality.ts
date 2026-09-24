@@ -23,6 +23,13 @@ const doctormortality = {
     fictionHeading: 'Nobody here is real',
     fictionBody:
       'The hospital, the doctors and the patients are generated in your browser from a seed. No real institution, clinician, patient or study is involved, and no real mortality statistic is used or implied. The doctors are numbered rather than named for the same reason.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'Each doctor gets their own mix of patients, and each patient is given their own risk.',
+    recipeStep2:
+      'Each patient then dies independently of the others, with a probability equal to that risk.',
+    recipeStep3:
+      'Who treats the patient never enters that draw. Doctors differ only in which patients came through the door.',
     action: 'Run the year',
   },
   experiment: {
@@ -195,6 +202,24 @@ const doctormortality = {
     legitimate: {
       heading: 'Monitoring is not the error — and neither is investigating',
       body: 'Hospitals should monitor outcomes, and an unusual result should prompt questions: better risk adjustment, a look at the records, a conversation. That is what an alarm is for. The error is treating the alarm as the finding — announcing a conclusion about a person on the strength of a number that was selected for being extreme, and that the next year will not reproduce. Harm here is not abstract: careers and patient trust are real even when the data are simulated.',
+    },
+    evidence: {
+      heading:
+        'Evidence that the doctors really are alike',
+      body:
+        'We play {{replications}} independent years, and in each one measure the same doctor fixed in advance, risk-adjusted against their own patients’ risks.',
+      run:
+        'Play {{replications}} years',
+      histogramX:
+        'p-value of the audited doctor',
+      histogramY:
+        'Number of years',
+      ariaLabel:
+        'Distribution of the audited doctor’s p-values across {{replications}} independent years.',
+      caption:
+        'The bars are about the same height: in no year is this doctor favoured or penalised. The rightmost bar tends to be taller, because deaths come in whole people and on small counts the test returns values close to one.',
+      note:
+        '{{share}} of the years came out below 0.05. Five percent is what to expect, and across {{replications}} years that figure wobbles by about a percentage point. It is this flat only after risk adjustment, though. The raw comparison against the hospital average is not flat, because patients genuinely do differ, and separating those two is what this scenario is about.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

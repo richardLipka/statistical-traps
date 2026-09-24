@@ -92,6 +92,8 @@ export const SEED_ROLE = {
   selectionNull: 4_000_037,
   validation: 6_000_041,
   freshYear: 2_000_029,
+  /** Closing evidence that no doctor in the hospital is better or worse. */
+  nullEvidence: 4_400_041,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

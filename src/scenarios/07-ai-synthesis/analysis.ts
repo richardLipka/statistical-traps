@@ -309,6 +309,58 @@ function splitDifference(study: Study, candidate: number) {
  * outcome is generated from the hidden cause either way, so the second
  * column is the causal claim and the first one is not.
  */
+export interface NullEvidenceResult {
+  replications: number
+  /** The feature the hidden cause really drives. */
+  connectedPValues: number[]
+  /** A second feature, fixed in advance and driven by nothing. */
+  unconnectedPValues: number[]
+  shareConnectedSignificant: number
+  shareUnconnectedSignificant: number
+}
+
+/**
+ * Closing evidence about what the generator actually contains.
+ *
+ * Unlike the six scenarios before it, this one does hold a real
+ * relationship, so the honest demonstration is a contrast: the connected
+ * feature and one unconnected feature, both fixed in advance, measured on
+ * many independent tables. The unconnected one spreads its p-values evenly
+ * like any true null; the connected one lands below the threshold almost
+ * every time. Neither fact is visible inside the single table the search
+ * ran on, which is the point the scenario has been making.
+ */
+export function collectNullEvidence(options: {
+  candidateCount: number
+  rowCount: number
+  baseSeed: number
+  replications: number
+  unconnected: number
+  alpha?: number
+}): NullEvidenceResult {
+  const { candidateCount, rowCount, baseSeed, replications, unconnected, alpha = ALPHA } = options
+  const connectedPValues: number[] = []
+  const unconnectedPValues: number[] = []
+  for (let index = 0; index < replications; index += 1) {
+    const study = generateReplicationStudy({
+      candidateCount,
+      rowCount,
+      baseSeed,
+      role: SEED_ROLE.nullEvidence,
+      index,
+    })
+    connectedPValues.push(evaluateCandidate(study, CONNECTED_FEATURE).test.pValue)
+    unconnectedPValues.push(evaluateCandidate(study, unconnected).test.pValue)
+  }
+  return {
+    replications,
+    connectedPValues,
+    unconnectedPValues,
+    shareConnectedSignificant: shareOf(connectedPValues, (value) => value < alpha),
+    shareUnconnectedSignificant: shareOf(unconnectedPValues, (value) => value < alpha),
+  }
+}
+
 export function replicateIntervention(options: {
   candidateCount: number
   rowCount: number

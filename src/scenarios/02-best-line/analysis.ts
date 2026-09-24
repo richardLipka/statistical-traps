@@ -18,6 +18,7 @@ import {
   isLeastSquares,
   maxDegreeFor,
   predictorsOf,
+  PRE_REGISTERED_DEGREE,
   type ModelSpec,
 } from '@/scenarios/02-best-line/model'
 import { SEED_ROLE, generateReplicationSample } from '@/scenarios/02-best-line/simulation'
@@ -165,6 +166,49 @@ export function simulateSelectionNull(options: {
 }
 
 /** How a frozen model does on data it has never seen. */
+
+export interface NullEvidenceResult {
+  replications: number
+  /** One p-value of the pre-registered test per independent data set. */
+  pValues: number[]
+  shareSignificant: number
+}
+
+/**
+ * Closing evidence that the generator really does contain nothing to find.
+ *
+ * The analysis fixed before the data is run on many independent data sets,
+ * none of which took part in choosing anything. A valid test of a true null
+ * spreads its p-values evenly over the whole interval, so the histogram is
+ * flat and the share below alpha lands near alpha. That flat picture is the
+ * scenario's opening claim made checkable.
+ */
+export function collectNullEvidence(options: {
+  pointCount: number
+  baseSeed: number
+  replications: number
+  alpha?: number
+}): NullEvidenceResult {
+  const { pointCount, baseSeed, replications, alpha = ALPHA } = options
+  const pValues: number[] = []
+  for (let index = 0; index < replications; index += 1) {
+    const points = generateReplicationSample(
+      pointCount,
+      baseSeed,
+      SEED_ROLE.nullEvidence,
+      index,
+    )
+    pValues.push(
+      evaluateSpec(points, { kind: 'fitted', degree: PRE_REGISTERED_DEGREE }).test.pValue,
+    )
+  }
+  return {
+    replications,
+    pValues,
+    shareSignificant: shareOf(pValues, (value) => value < alpha),
+  }
+}
+
 export function evaluateOnSample(model: PolynomialModel, points: readonly DataPoint[]): FitQuality {
   return assessFit(points, (x) => predictPolynomial(model, x))
 }

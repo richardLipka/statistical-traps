@@ -19,6 +19,13 @@ const bestline = {
       'The answer must be no. Everything interesting that follows comes from how hard we are willing to look afterwards.',
     trueProcess:
       'x is drawn uniformly and y is drawn entirely separately, as noise around zero. There is no relationship between x and y — not straight, not curved, none at all.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'For each point an x is drawn: uniformly between the left and right edge of the plot.',
+    recipeStep2:
+      'Separately and independently of that, a y is drawn: a normal distribution centred on zero.',
+    recipeStep3:
+      'The value of x never enters the computation of y. The point is then finished.',
     action: 'Draw the sample',
   },
   experiment: {
@@ -183,6 +190,24 @@ const bestline = {
     legitimate: {
       heading: 'Flexible models are not the error',
       body: 'Flexible models are indispensable, and trying several of them is how model selection works. Done properly the comparison is made on data held out for that purpose, and the winner is reported as the outcome of a search — which is a hypothesis worth testing, not a finding.',
+    },
+    evidence: {
+      heading:
+        'Evidence that there really is no relationship in the points',
+      body:
+        'We draw {{replications}} completely new samples and fit the same line, the one fixed in advance, through each of them. What its p-values look like is the question.',
+      run:
+        'Draw {{replications}} samples',
+      histogramX:
+        'p-value of the line fixed in advance',
+      histogramY:
+        'Number of samples',
+      ariaLabel:
+        'Distribution of the pre-registered line’s p-values across {{replications}} independent samples.',
+      caption:
+        'The bars are the same height: the p-value lands in each tenth of the range about equally often. That is what a test with nothing to find looks like, because no value is favoured.',
+      note:
+        '{{share}} of the samples came out below 0.05. That is what the test promises: being wrong five times in a hundred is its setting, not a fault. Across {{replications}} samples that figure wobbles by about a percentage point on its own.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

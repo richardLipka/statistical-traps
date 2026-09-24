@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { welchTTest } from '@/statistics/hypothesis/tTest'
+import { binValues } from '@/statistics/monteCarlo'
 import { ALPHA, PRIMARY_OUTCOME, TRIAL_DEFAULTS } from '@/scenarios/05-miracle-drug/model'
-import { generateTrial } from '@/scenarios/05-miracle-drug/simulation'
+import { SEED_ROLE, generateTrial } from '@/scenarios/05-miracle-drug/simulation'
 import {
   averageOutcomeCorrelation,
+  collectNullEvidence,
   countSignificant,
   evaluateTrial,
   mostImpressiveOutcome,
@@ -155,5 +157,48 @@ describe('validating in new trials', () => {
 
   it('shows the search landing on a different outcome next time', () => {
     expect(summary.shareDifferentOutcome).toBeGreaterThan(0.7)
+  })
+})
+
+/**
+ * The closing panel claims the generator holds nothing. These assert the
+ * property the claim rests on rather than one seed's exact number: a valid
+ * test of a true null spreads its p-values evenly, so no tenth of the range
+ * is favoured and the share below alpha sits near alpha.
+ */
+describe('null evidence', () => {
+  const REPLICATIONS = 400
+
+  it('produces p-values that are spread evenly', () => {
+    const result = collectNullEvidence({
+      patientsPerArm: TRIAL_DEFAULTS.patientsPerArm,
+      outcomeCount: TRIAL_DEFAULTS.outcomeCount,
+      baseSeed: TRIAL_DEFAULTS.seed,
+      replications: REPLICATIONS,
+      outcome: PRIMARY_OUTCOME,
+    })
+
+    expect(result.pValues).toHaveLength(REPLICATIONS)
+    for (const pValue of result.pValues) {
+      expect(pValue).toBeGreaterThanOrEqual(0)
+      expect(pValue).toBeLessThanOrEqual(1)
+    }
+    expect(result.shareSignificant).toBeGreaterThan(0.01)
+    expect(result.shareSignificant).toBeLessThan(0.1)
+
+    const bins = binValues(result.pValues, 10, { min: 0, max: 1 })
+    const counts = bins.map((bin) => bin.count)
+    // Even coverage: no tenth of the range is empty, and none holds a fifth
+    // of everything. Both would show up long before the histogram looked flat.
+    for (const count of counts) {
+      expect(count).toBeGreaterThan(0)
+      expect(count).toBeLessThan(REPLICATIONS / 5)
+    }
+  })
+
+  it('draws data no other role has used', () => {
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.validation)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.selectionNull)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.observed)
   })
 })

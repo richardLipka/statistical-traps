@@ -64,6 +64,8 @@ export const SEED_ROLE = {
   selectionNull: 7_000_057,
   validation: 1_000_063,
   freshTrial: 5_000_051,
+  /** Closing evidence that the treatment moves no outcome at all. */
+  nullEvidence: 4_500_059,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

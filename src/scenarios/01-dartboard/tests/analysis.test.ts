@@ -8,9 +8,10 @@ import {
   preRegisteredTarget,
   type Dart,
 } from '@/scenarios/01-dartboard/model'
-import { generateDarts } from '@/scenarios/01-dartboard/simulation'
+import { SEED_ROLE, generateDarts } from '@/scenarios/01-dartboard/simulation'
 import {
   SELECTION_GALLERY_SIZE,
+  collectNullEvidence,
   evaluateTarget,
   findBestTarget,
   replicateOnFreshData,
@@ -173,5 +174,39 @@ describe('replicateOnFreshData', () => {
   it('keeps the false positive rate near the nominal level for both targets', () => {
     expect(summary.preRegistered.significantShare).toBeLessThan(0.12)
     expect(summary.postHoc.significantShare).toBeLessThan(0.12)
+  })
+})
+
+/**
+ * The closing panel claims the machine has no favourite place. What carries
+ * that claim is the count of hits matching the circle's area, so these
+ * assert the property rather than one seed's exact number.
+ */
+describe('null evidence', () => {
+  const REPLICATIONS = 400
+
+  it('lands on the count the area predicts', () => {
+    const result = collectNullEvidence({
+      dartCount: DARTBOARD_DEFAULTS.dartCount,
+      baseSeed: DARTBOARD_DEFAULTS.seed,
+      replications: REPLICATIONS,
+      target: preRegisteredTarget(DARTBOARD_DEFAULTS.radius),
+    })
+
+    expect(result.hits).toHaveLength(REPLICATIONS)
+    expect(result.expectedHits).toBeCloseTo(
+      DARTBOARD_DEFAULTS.dartCount * hitProbability(DARTBOARD_DEFAULTS.radius),
+      12,
+    )
+    expect(Math.abs(result.meanHits - result.expectedHits)).toBeLessThan(0.5)
+    // An exact test on counts is conservative: it never exceeds its level.
+    expect(result.shareSignificant).toBeGreaterThan(0)
+    expect(result.shareSignificant).toBeLessThanOrEqual(0.05)
+  })
+
+  it('draws data no other role has used', () => {
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.validation)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.selectionNull)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.observed)
   })
 })

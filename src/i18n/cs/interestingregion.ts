@@ -19,6 +19,13 @@ const interestingregion = {
       'Prostřední třetinu určujeme teď, ještě než se stroj zapne, takže nic z dat nemohlo tuto volbu ovlivnit. Jedině díky tomu je otázka zodpověditelná.',
     trueProcess:
       'Každé období se hodnota posune o nezávisle losovaný krok: v průměru nulový, obvykle o velikost kolem {{sd}}, stejně často nahoru jako dolů. Graf ukazuje průběžný součet těchto kroků. Skutečný trend: žádný, a to nikde v záznamu.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Pro každé období se losuje jeden krok: normální rozdělení se středem v nule a typickou velikostí {{sd}}.',
+    recipeStep2:
+      'Hodnota, kterou vidíte v grafu, je součet všech dosavadních kroků.',
+    recipeStep3:
+      'Do losování kroku nevstupuje ani čas, ani kroky předchozí. Jediné, co drží sousední hodnoty u sebe, je ten součet.',
     action: 'Spustit stroj',
   },
   experiment: {
@@ -164,6 +171,24 @@ const interestingregion = {
     legitimate: {
       heading: 'Prohledávání dat není ta chyba',
       body: 'Na hledání neobvyklých úseků stojí detekce epidemií, řízení kvality i monitorování. Statistika pro to je dobře propracovaná: skenovací statistiky opravují na celou rodinu prohledávaných oken, aby se vítěz dal posoudit spravedlivě. Chybou je skenování provést a pak vítěze uvést, jako by to jediné okno bylo určeno předem.',
+    },
+    evidence: {
+      heading:
+        'Důkaz, že v záznamu opravdu žádný trend není',
+      body:
+        'Necháme stroj vytvořit {{replications}} úplně nových záznamů a na každém změříme tentýž předem určený úsek.',
+      run:
+        'Vytvořit {{replications}} záznamů',
+      histogramX:
+        'p-hodnota předem určeného úseku',
+      histogramY:
+        'Počet záznamů',
+      ariaLabel:
+        'Rozdělení p-hodnot předem určeného úseku na {{replications}} nezávislých záznamech.',
+      caption:
+        'Sloupce jsou stejně vysoké: žádná p-hodnota není zvýhodněná. Srovnejte to s histogramem ze čtvrtého kroku. Tam se díváme na vítěze prohledávání, tady na jeden úsek určený předem, a proto to vypadá takhle nudně.',
+      note:
+        'Pod 0,05 se dostalo {{share}} záznamů. Čekaných je pět procent a při {{replications}} záznamech tohle číslo samo kolísá zhruba o procento.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:

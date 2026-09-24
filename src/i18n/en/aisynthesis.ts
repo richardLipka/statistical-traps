@@ -22,6 +22,13 @@ const aisynthesis = {
     fictionHeading: 'Nothing here is real',
     fictionBody:
       'The table, the outcome and the system are generated in your browser from a seed. No real data set, model or product is involved. That unmeasured quantity is visible to the simulation and to nobody in the scenario, exactly as a cause nobody recorded is absent from real data.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'A hidden quantity is drawn first: one number per case, which never reaches the table.',
+    recipeStep2:
+      'The outcome is that hidden quantity plus noise of its own. Feature 1 is made the same way: the same hidden quantity plus different noise. That is why the two move together without either causing the other.',
+    recipeStep3:
+      'Every other feature is drawn on its own and has nothing to do with the hidden quantity.',
     action: 'Hand over the data',
   },
   experiment: {
@@ -193,6 +200,18 @@ const aisynthesis = {
       'Correcting for a search tells you that a result is not established. It does not tell you the result is false — here it rejects the real finding too.',
     point4:
       'Prediction is not causation, and the gap is not academic. A feature can predict an outcome perfectly and be completely useless for changing it.',
+    evidence: {
+      heading: 'Evidence that the data hold exactly one relationship',
+      body: 'We build {{replications}} completely new tables and measure two features fixed in advance in each of them: number 1, the connected one, and number 2, which is not.',
+      run: 'Build {{replications}} tables',
+      histogramX: 'p-value of feature 2',
+      histogramY: 'Number of tables',
+      ariaLabel:
+        'Distribution of the unconnected feature 2’s p-values across {{replications}} independent tables.',
+      caption:
+        'This is feature 2. The bars are the same height, so it behaves like the overwhelming majority of the others: unrelated to the outcome.',
+      note: 'Feature 1, meanwhile, came out below 0.05 in {{connected}} of the tables and feature 2 in {{unconnected}}. That is the difference between a real relationship and noise, measured by a test fixed in advance on data nobody chose. Inside the single table a search is picking from, that difference is not visible.',
+    },
     aiHeading: 'What this means for systems that do this at scale',
     aiBody1:
       'Searching data for patterns is legitimate, and doing it at scale is often the only way to generate hypotheses worth having. A system that examines millions of candidates is not making a statistical error by examining them. The error is presenting what the search returned as though it had been confirmed — and the scale makes that error easier to make and harder to notice, because the output arrives ranked, formatted and plausible.',

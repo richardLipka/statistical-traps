@@ -94,6 +94,8 @@ export const SEED_ROLE = {
   validation: 3_000_089,
   freshStudy: 6_000_073,
   intervention: 1_000_081,
+  /** Closing evidence about which feature is connected and which is not. */
+  nullEvidence: 4_700_079,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

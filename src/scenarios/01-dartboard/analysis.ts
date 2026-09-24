@@ -284,6 +284,57 @@ function summarize(hits: number[], pValues: number[], alpha: number): Replicatio
   }
 }
 
+export interface NullEvidenceResult {
+  replications: number
+  /** Hits of the pre-registered circle, one per independent board. */
+  hits: number[]
+  pValues: number[]
+  meanHits: number
+  /** What the circle's area alone predicts, identical on every board. */
+  expectedHits: number
+  shareSignificant: number
+}
+
+/**
+ * Closing evidence that the machine really does throw at random.
+ *
+ * The pre-registered target is tested on many independent boards, none of
+ * which took part in choosing anything. A valid test of a true null spreads
+ * its p-values evenly, so the histogram is flat and the share below alpha
+ * comes out near alpha - which is what the scenario has been claiming about
+ * the generator since the first screen.
+ *
+ * The count of hits is a discrete statistic, so the exact binomial test can
+ * only return a handful of distinct p-values. The bars are therefore ragged
+ * and the share below 0.05 lands under 5%: an exact test on counts is
+ * conservative, never anti-conservative, and the interface says so.
+ */
+export function collectNullEvidence(options: {
+  dartCount: number
+  baseSeed: number
+  replications: number
+  target: Target
+  alpha?: number
+}): NullEvidenceResult {
+  const { dartCount, baseSeed, replications, target, alpha = ALPHA } = options
+  const hits: number[] = []
+  const pValues: number[] = []
+  for (let index = 0; index < replications; index += 1) {
+    const darts = generateReplicationDarts(dartCount, baseSeed, SEED_ROLE.nullEvidence, index)
+    const evaluation = evaluateTarget(darts, target)
+    hits.push(evaluation.hits)
+    pValues.push(evaluation.test.pValue)
+  }
+  return {
+    replications,
+    hits,
+    pValues,
+    meanHits: mean(hits),
+    expectedHits: dartCount * hitProbability(target.radius),
+    shareSignificant: shareOf(pValues, (value) => value < alpha),
+  }
+}
+
 /**
  * Validation: both targets are frozen and evaluated on independent data sets
  * that were never used to choose anything.

@@ -19,6 +19,13 @@ const dartboard = {
       'Nothing that follows can change the truth about the machine. Everything that follows changes only how we look at its output.',
     trueProcess:
       'Every dart’s position is drawn uniformly across the whole board, independently of every other. No place is favoured: the true effect of anything on the board is exactly zero.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'For each dart, a horizontal position is drawn: uniformly anywhere between the left and right edge of the board.',
+    recipeStep2:
+      'The same draw, independent of the first, gives the vertical position. The dart is then finished.',
+    recipeStep3:
+      'That is the whole computation. No target enters it, no location does, and neither does where any earlier dart landed.',
     action: 'Throw the darts',
   },
   experiment: {
@@ -165,6 +172,19 @@ const dartboard = {
     legitimate: {
       heading: 'Exploration is not the error',
       body: 'Searching data for patterns is normal and often necessary. The red circle is a perfectly respectable hypothesis: it says "the machine favours this spot", and it can now be tested on a new set of throws. The error is only in the shortcut — presenting a hypothesis that came out of the data as if it had already survived a test.',
+    },
+    evidence: {
+      heading: 'Evidence that there really is nothing in the darts',
+      body: 'So far you have had only our word for it. The machine throws {{replications}} completely new boards, and on each one we measure the blue target, the one fixed in advance.',
+      run: 'Throw {{replications}} new boards',
+      histogramX: 'Hits of the blue target on one board',
+      histogramY: 'Number of boards',
+      marker: 'What the area predicts',
+      ariaLabel:
+        'Distribution of the blue target’s hits across {{replications}} independent boards, with the count its area predicts marked.',
+      caption:
+        'Across {{replications}} boards the blue circle caught {{mean}} darts on average. Its area predicts {{expected}}. The bars around that number form a bell and contain nothing else.',
+      note: 'The blue target came out below 0.05 in {{share}} of the boards. The test promises at most 5%, and on counts it is more cautious still, because hits move in whole darts. The position of the circle makes no difference: every part of the board has the same area, so you get the same distribution wherever you put it.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

@@ -7,8 +7,10 @@ import {
   maxDegreeFor,
 } from '@/scenarios/02-best-line/model'
 import { SEED_ROLE, generateReplicationSample, generateSample } from '@/scenarios/02-best-line/simulation'
+import { binValues } from '@/statistics/monteCarlo'
 import {
   SELECTION_GALLERY_SIZE,
+  collectNullEvidence,
   complexityCurve,
   evaluateOnSample,
   evaluateSpec,
@@ -181,5 +183,46 @@ describe('validation on fresh data', () => {
     // The frozen model must give the same prediction wherever it is applied.
     const model = fitPolynomial(points, chosenDegree)
     expect(predictPolynomial(model, 0.42)).toBeCloseTo(predictPolynomial(chosenModel, 0.42), 12)
+  })
+})
+
+/**
+ * The closing panel claims the generator holds nothing. These assert the
+ * property the claim rests on rather than one seed's exact number: a valid
+ * test of a true null spreads its p-values evenly, so no tenth of the range
+ * is favoured and the share below alpha sits near alpha.
+ */
+describe('null evidence', () => {
+  const REPLICATIONS = 400
+
+  it('produces p-values that are spread evenly', () => {
+    const result = collectNullEvidence({
+      pointCount: BESTLINE_DEFAULTS.pointCount,
+      baseSeed: BESTLINE_DEFAULTS.seed,
+      replications: REPLICATIONS,
+    })
+
+    expect(result.pValues).toHaveLength(REPLICATIONS)
+    for (const pValue of result.pValues) {
+      expect(pValue).toBeGreaterThanOrEqual(0)
+      expect(pValue).toBeLessThanOrEqual(1)
+    }
+    expect(result.shareSignificant).toBeGreaterThan(0.01)
+    expect(result.shareSignificant).toBeLessThan(0.1)
+
+    const bins = binValues(result.pValues, 10, { min: 0, max: 1 })
+    const counts = bins.map((bin) => bin.count)
+    // Even coverage: no tenth of the range is empty, and none holds a fifth
+    // of everything. Both would show up long before the histogram looked flat.
+    for (const count of counts) {
+      expect(count).toBeGreaterThan(0)
+      expect(count).toBeLessThan(REPLICATIONS / 5)
+    }
+  })
+
+  it('draws data no other role has used', () => {
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.validation)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.selectionNull)
+    expect(SEED_ROLE.nullEvidence).not.toBe(SEED_ROLE.observed)
   })
 })

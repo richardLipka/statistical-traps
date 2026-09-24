@@ -45,6 +45,8 @@ export const SEED_ROLE = {
   selectionNull: 3_000_017,
   validation: 9_000_017,
   freshSeries: 5_000_023,
+  /** Closing evidence that the walk holds no trend anywhere. */
+  nullEvidence: 4_300_031,
 } as const
 
 export function replicationSeed(baseSeed: number, role: number, index: number): number {

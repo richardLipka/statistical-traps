@@ -19,6 +19,13 @@ const bestline = {
       'Odpověď musí znít ne. Všechno zajímavé, co bude následovat, vzejde jen z toho, jak usilovně jsme ochotni hledat.',
     trueProcess:
       'x se losuje rovnoměrně, y se losuje úplně zvlášť jako šum kolem nuly. Mezi x a y není žádný vztah — ani přímý, ani zakřivený, ani žádný jiný.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Pro každý bod se losuje x: rovnoměrně mezi levým a pravým okrajem grafu.',
+    recipeStep2:
+      'Zvlášť a nezávisle na tom se losuje y: normální rozdělení se středem v nule.',
+    recipeStep3:
+      'Hodnota x se do výpočtu y nikde nedostane. Tím je bod hotový.',
     action: 'Vygenerovat vzorek',
   },
   experiment: {
@@ -183,6 +190,24 @@ const bestline = {
     legitimate: {
       heading: 'Chyba není v pružných modelech',
       body: 'Pružné modely jsou nepostradatelné a zkoušet jich několik je přesně to, čemu se říká výběr modelu. Když se to dělá pořádně, srovnání probíhá na datech k tomu vyčleněných a vítěz se uvádí jako výsledek hledání — tedy jako hypotéza hodná testu, nikoli jako objev.',
+    },
+    evidence: {
+      heading:
+        'Důkaz, že v bodech opravdu žádný vztah není',
+      body:
+        'Vygenerujeme {{replications}} úplně nových vzorků a každým proložíme tutéž přímku stanovenou předem. Zajímá nás, jak vycházejí její p-hodnoty.',
+      run:
+        'Vygenerovat {{replications}} vzorků',
+      histogramX:
+        'p-hodnota přímky stanovené předem',
+      histogramY:
+        'Počet vzorků',
+      ariaLabel:
+        'Rozdělení p-hodnot přímky stanovené předem na {{replications}} nezávislých vzorcích.',
+      caption:
+        'Sloupce jsou stejně vysoké: p-hodnota padne do každého desetinového pásma zhruba stejně často. Tak vypadá test, který nemá co najít, protože žádná hodnota není zvýhodněná.',
+      note:
+        'Pod 0,05 se dostalo {{share}} vzorků. To test slibuje: mýlit se v pěti procentech případů je jeho nastavení, ne porucha. Při {{replications}} vzorcích tohle číslo samo kolísá zhruba o procento.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:

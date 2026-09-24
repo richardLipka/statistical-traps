@@ -22,6 +22,13 @@ const aisynthesis = {
     fictionHeading: 'Nic zde není skutečné',
     fictionBody:
       'Tabulka, výsledek i systém vznikají ve vašem prohlížeči ze semínka. Nejde o žádný skutečný datový soubor, model ani produkt. Ta nezměřená veličina je viditelná pro simulaci a pro nikoho ve scénáři — přesně jako příčina, kterou nikdo nezaznamenal, chybí ve skutečných datech.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Nejdřív se losuje skrytá veličina: jedno číslo na každý případ, které se do tabulky nikdy nedostane.',
+    recipeStep2:
+      'Výsledek je tahle skrytá veličina plus vlastní šum. Příznak č. 1 vzniká stejně: tatáž skrytá veličina plus jiný šum. Proto spolu ty dva souvisejí, aniž by jeden způsoboval druhý.',
+    recipeStep3:
+      'Všechny ostatní příznaky se losují samostatně a se skrytou veličinou nemají nic společného.',
     action: 'Předat data',
   },
   experiment: {
@@ -193,6 +200,18 @@ const aisynthesis = {
       'Oprava na hledání vám řekne, že výsledek není prokázaný. Neřekne vám, že je nepravdivý — tady zamítá i ten skutečný nález.',
     point4:
       'Predikce není kauzalita a ta mezera není akademická. Příznak může výsledek předpovídat dokonale a být naprosto nepoužitelný k tomu, aby ho změnil.',
+    evidence: {
+      heading: 'Důkaz, že v datech je přesně jeden vztah',
+      body: 'Vytvoříme {{replications}} úplně nových tabulek a v každé změříme dva příznaky určené předem: č. 1, ten spojený, a č. 2, který spojený není.',
+      run: 'Vytvořit {{replications}} tabulek',
+      histogramX: 'p-hodnota příznaku č. 2',
+      histogramY: 'Počet tabulek',
+      ariaLabel:
+        'Rozdělení p-hodnot nespojeného příznaku č. 2 v {{replications}} nezávislých tabulkách.',
+      caption:
+        'Tohle je příznak č. 2. Sloupce jsou stejně vysoké, takže se chová jako drtivá většina ostatních: s výsledkem nesouvisí.',
+      note: 'Příznak č. 1 se přitom dostal pod 0,05 v {{connected}} tabulek, příznak č. 2 v {{unconnected}}. Tak vypadá rozdíl mezi skutečným vztahem a šumem, když se oba měří testem určeným předem na datech, která si nikdo nevybral. Uvnitř jedné tabulky, ze které se teprve vybírá, ten rozdíl vidět není.',
+    },
     aiHeading: 'Co z toho plyne pro systémy, které tohle dělají ve velkém',
     aiBody1:
       'Prohledávat data kvůli vzorům je legitimní a dělat to ve velkém je často jediný způsob, jak získat hypotézy, které stojí za to. Systém, který prozkoumá miliony kandidátů, se tím zkoumáním nedopouští statistické chyby. Chybou je předložit to, co hledání vrátilo, jako by to bylo potvrzené. Ve velkém měřítku se ta chyba dělá snáz a hůř se pozná: výstup přichází seřazený, naformátovaný a věrohodný.',

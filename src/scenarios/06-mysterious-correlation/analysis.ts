@@ -188,6 +188,50 @@ export interface SelectionSearchResult {
 
 export const SELECTION_GALLERY_SIZE = 5
 
+
+export interface NullEvidenceResult {
+  replications: number
+  /** One p-value of the pre-registered test per independent data set. */
+  pValues: number[]
+  shareSignificant: number
+}
+
+/**
+ * Closing evidence that the generator really does contain nothing to find.
+ *
+ * The analysis fixed before the data is run on many independent data sets,
+ * none of which took part in choosing anything. A valid test of a true null
+ * spreads its p-values evenly over the whole interval, so the histogram is
+ * flat and the share below alpha lands near alpha. That flat picture is the
+ * scenario's opening claim made checkable.
+ */
+export function collectNullEvidence(options: {
+  variableCount: number
+  observationCount: number
+  baseSeed: number
+  replications: number
+  pair: VariablePair
+  alpha?: number
+}): NullEvidenceResult {
+  const { variableCount, observationCount, baseSeed, replications, pair, alpha = ALPHA } = options
+  const pValues: number[] = []
+  for (let index = 0; index < replications; index += 1) {
+    const dataset = generateReplicationDataset({
+      variableCount,
+      observationCount,
+      baseSeed,
+      role: SEED_ROLE.nullEvidence,
+      index,
+    })
+    pValues.push(evaluatePair(dataset, pair).test.pValue)
+  }
+  return {
+    replications,
+    pValues,
+    shareSignificant: shareOf(pValues, (value) => value < alpha),
+  }
+}
+
 export function selectionNullDataset(options: {
   variableCount: number
   observationCount: number

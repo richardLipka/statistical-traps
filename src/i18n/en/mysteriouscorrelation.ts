@@ -23,6 +23,13 @@ const mysteriouscorrelation = {
     fictionHeading: 'Nothing here is real',
     fictionBody:
       'The table is generated in your browser from a seed. It is not a real data set and the variables are not real measurements. They are numbered rather than named, and that is the honest version of this scenario: in practice the two variables arrive with names, and the names are where the explanation comes from.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'Every cell of the table is a separate draw from the same distribution.',
+    recipeStep2:
+      'They are drawn column by column, row by row, and no value is used to compute another.',
+    recipeStep3:
+      'That is where the table ends. Nothing in it is wired together, so no two columns are related.',
     action: 'Collect the data',
   },
   experiment: {
@@ -189,6 +196,24 @@ const mysteriouscorrelation = {
     legitimate: {
       heading: 'Searching the data is not the error',
       body: 'Sweeping many variables is how hypotheses get generated, and in fields where the candidates run into the millions it is the only practical approach. Those fields know exactly what it costs: they report the whole distribution of results, control the false discovery rate rather than pretending each test stood alone, and treat anything found as something to be confirmed on new data. The error is the shortcut — reporting the winner as though it had been the only question asked.',
+    },
+    evidence: {
+      heading:
+        'Evidence that there really is no relationship in the table',
+      body:
+        'We build {{replications}} completely new tables and measure the same pair, the one named in advance, in each of them.',
+      run:
+        'Build {{replications}} tables',
+      histogramX:
+        'p-value of the pair named in advance',
+      histogramY:
+        'Number of tables',
+      ariaLabel:
+        'Distribution of the pre-registered pair’s p-values across {{replications}} independent tables.',
+      caption:
+        'The bars are the same height. It is the same flat shape as the histogram of every pair in stage four, arrived at from the other side: that one is a thousand pairs in one table, this one is one pair across a thousand tables.',
+      note:
+        '{{share}} of the tables came out below 0.05. Five percent is what to expect, and across {{replications}} tables that figure wobbles by about a percentage point. This flat shape is worth looking for in somebody else’s analysis too: when a spike grows on the left that the rest of the histogram does not account for, something is there.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

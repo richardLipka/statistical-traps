@@ -23,6 +23,13 @@ const doctormortality = {
     fictionHeading: 'Nikdo zde není skutečný',
     fictionBody:
       'Nemocnice, lékaři i pacienti vznikají ve vašem prohlížeči ze semínka. Nejde o žádnou skutečnou instituci, lékaře, pacienta ani studii a nepoužívá se ani nenaznačuje žádná reálná statistika úmrtnosti. Ze stejného důvodu mají lékaři čísla, a ne jména.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Každý lékař dostane svou skladbu pacientů a každému pacientovi se nalosuje vlastní riziko.',
+    recipeStep2:
+      'Každý pacient pak nezávisle na ostatních umírá s pravděpodobností, která se rovná jeho riziku.',
+    recipeStep3:
+      'Do toho losu nevstupuje, kdo pacienta léčí. Lékaři se liší jedině tím, jací pacienti jim přišli.',
     action: 'Spustit rok',
   },
   experiment: {
@@ -195,6 +202,24 @@ const doctormortality = {
     legitimate: {
       heading: 'Monitorování není ta chyba — a prošetření také ne',
       body: 'Nemocnice mají výsledky sledovat a neobvyklý výsledek má vyvolat otázky: lepší rizikovou adjustaci, pohled do dokumentace, rozhovor. Na to poplach je. Chybou je považovat poplach za nález — vyhlásit závěr o člověku na základě čísla, které bylo vybráno právě pro svou krajnost a které příští rok nezopakuje. Škoda tu není abstraktní: kariéry i důvěra pacientů jsou skutečné, i když jsou data simulovaná.',
+    },
+    evidence: {
+      heading:
+        'Důkaz, že se lékaři opravdu neliší',
+      body:
+        'Odehrajeme {{replications}} nezávislých let a v každém změříme téhož předem určeného lékaře, rizikově adjustovaným testem proti rizikům jeho vlastních pacientů.',
+      run:
+        'Odehrát {{replications}} let',
+      histogramX:
+        'p-hodnota auditovaného lékaře',
+      histogramY:
+        'Počet let',
+      ariaLabel:
+        'Rozdělení p-hodnot auditovaného lékaře za {{replications}} nezávislých let.',
+      caption:
+        'Sloupce jsou zhruba stejně vysoké: v žádném roce není tenhle lékař zvýhodněný ani znevýhodněný. Poslední sloupec vpravo bývá vyšší, protože úmrtí se počítají po celých lidech a u malých počtů vrací test hodnoty blízké jedné.',
+      note:
+        'Pod 0,05 padl v {{share}} let. Čekaných je pět procent a při {{replications}} letech to kolísá zhruba o procento. Takhle ploché to je ale jen po rizikové adjustaci. Hrubé porovnání proti průměru nemocnice ploché není, protože pacienti se doopravdy liší; to je ten rozdíl, který scénář odděluje.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:

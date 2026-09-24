@@ -19,6 +19,13 @@ const interestingregion = {
       'The middle third is fixed now, before the machine is switched on, so nothing about the data can have influenced the choice. That is the only thing that makes the question answerable.',
     trueProcess:
       'Each period the value moves by an independently drawn step: zero on average, typically about {{sd}} in size, as often up as down. The chart shows the running total of those steps. True trend: none, anywhere in the record.',
+    recipeTitle: 'Exactly how the data are made',
+    recipeStep1:
+      'For each period one step is drawn: a normal distribution centred on zero, typically about {{sd}} in size.',
+    recipeStep2:
+      'The value you see in the chart is the sum of every step so far.',
+    recipeStep3:
+      'Neither time nor the earlier steps enter that draw. The only thing holding neighbouring values together is the running sum.',
     action: 'Start the machine',
   },
   experiment: {
@@ -164,6 +171,24 @@ const interestingregion = {
     legitimate: {
       heading: 'Scanning data is not the error',
       body: 'Searching a record for unusual stretches is exactly how outbreak detection, quality control and monitoring are supposed to work, and the statistics for it are well developed — scan statistics correct for the family of windows being searched, precisely so that the winner can be judged fairly. The error is running the scan and then reporting the winner as though that single window had been specified in advance.',
+    },
+    evidence: {
+      heading:
+        'Evidence that there really is no trend in the record',
+      body:
+        'The machine produces {{replications}} completely new records, and on each one we measure the same stretch fixed in advance.',
+      run:
+        'Produce {{replications}} records',
+      histogramX:
+        'p-value of the stretch fixed in advance',
+      histogramY:
+        'Number of records',
+      ariaLabel:
+        'Distribution of the pre-registered stretch’s p-values across {{replications}} independent records.',
+      caption:
+        'The bars are the same height: no p-value is favoured. Compare it with the histogram in stage four. That one shows the winner of a search; this one shows a single stretch fixed in advance, which is why it looks this dull.',
+      note:
+        '{{share}} of the records came out below 0.05. Five percent is what to expect, and across {{replications}} records that figure wobbles by about a percentage point on its own.',
     },
     nextHeading: 'Where this goes next',
     nextBody:

@@ -23,6 +23,13 @@ const miracledrug = {
     fictionHeading: 'Nic zde není skutečné',
     fictionBody:
       'Studie, pacienti i měření vznikají ve vašem prohlížeči ze semínka. Nejde o žádnou skutečnou léčbu, diagnózu, studii ani pacienta a nepoužívá se ani nenaznačuje žádná reálná klinická statistika. Ukazatele jsou záměrně číslované, a ne pojmenované: pojmenovaný ukazatel svádí k příběhu a teprve příběh dělá vybraný nález přesvědčivým.',
+    recipeTitle: 'Jak přesně data vznikají',
+    recipeStep1:
+      'Každý pacient dostane jedno sdílené skóre, tedy jak se mu obecně daří.',
+    recipeStep2:
+      'Každý ukazatel je pak tohle skóre plus vlastní nezávislý šum. Proto spolu ukazatele navzájem souvisejí.',
+    recipeStep3:
+      'Obě skupiny vznikají týmž kódem. To, ve které skupině pacient je, se do výpočtu nikde nedostane.',
     action: 'Spustit studii',
   },
   experiment: {
@@ -183,6 +190,24 @@ const miracledrug = {
     legitimate: {
       heading: 'Měřit mnoho ukazatelů není ta chyba',
       body: 'Studie měří spoustu věcí z dobrých důvodů: bezpečnost, nežádoucí účinky, kvalitu života a skutečné hledání, které vygeneruje další hypotézu. Na to je registrace: hlavní ukazatel a způsob vyhodnocení se určí před daty a všechno ostatní se uvádí jako to, čím je, tedy jako hledání. Chybou je povýšit dodatečně nalezený ukazatel na titulek a o zbytku se nezmínit.',
+    },
+    evidence: {
+      heading:
+        'Důkaz, že léčba opravdu nic nedělá',
+      body:
+        'Spustíme {{replications}} nezávislých studií a v každé změříme tentýž registrovaný ukazatel.',
+      run:
+        'Spustit {{replications}} studií',
+      histogramX:
+        'p-hodnota registrovaného ukazatele',
+      histogramY:
+        'Počet studií',
+      ariaLabel:
+        'Rozdělení p-hodnot registrovaného ukazatele v {{replications}} nezávislých studiích.',
+      caption:
+        'Sloupce jsou stejně vysoké: žádná p-hodnota není zvýhodněná. Tak vypadá ukazatel, se kterým léčba nic nedělá.',
+      note:
+        'Pod 0,05 se dostalo {{share}} studií. Čekaných je pět procent a při {{replications}} studiích to kolísá zhruba o procento. Proto jedna studie nestačí. Závislost mezi ukazateli navzájem tím nezmizela: ta v datech je a je tam schválně, jen se netýká léčby.',
     },
     nextHeading: 'Kam to vede dál',
     nextBody:
